@@ -1,0 +1,205 @@
+import { ZodError } from 'zod'
+import {
+	step1Schema,
+	step2Schema,
+	step3Schema,
+	step4Schema,
+} from '@/schema/authSchema.ts'
+import { formatZodError } from '@/utils/convertZodToJson.ts'
+import {
+	useResendOtp,
+	useSendOtp,
+	useValidateEmail,
+	useValidatePassword,
+	useValidatePhone,
+	useValidateUsername,
+	useVerifyOtp,
+} from '@/queries/AuthQueries.tsx'
+
+interface ValidationStepsProps {
+	setApiErrors: (errors: any) => void
+	form: any
+	setStepValidation: (steps: Array<boolean>) => void
+	setIsOtpSent: (sent: boolean) => void
+	stepValidation: Array<boolean>
+	otpValue: string
+}
+
+const ValidationSteps = ({
+	setApiErrors,
+	form,
+	setStepValidation,
+	setIsOtpSent,
+	stepValidation,
+	otpValue,
+}: ValidationStepsProps) => {
+	const validateEmailMutation = useValidateEmail()
+	const validatePasswordMutation = useValidatePassword()
+	const validateUsernameMutation = useValidateUsername()
+	const validatePhoneMutation = useValidatePhone()
+	const sendOtpMutation = useSendOtp()
+	const resendOtpMutation = useResendOtp()
+	const verifyOtpMutation = useVerifyOtp()
+
+	const isLoading =
+		validateEmailMutation.isPending ||
+		validatePasswordMutation.isPending ||
+		validateUsernameMutation.isPending ||
+		validatePhoneMutation.isPending ||
+		sendOtpMutation.isPending ||
+		resendOtpMutation.isPending ||
+		verifyOtpMutation.isPending
+
+	const validateStep1 = async () => {
+		setApiErrors({})
+		try {
+			const email = form.getFieldValue('email')
+			const password = form.getFieldValue('password')
+			const password2 = form.getFieldValue('password2')
+			const step1Data = { email, password, password2 }
+			const result = step1Schema.parse(step1Data)
+			await validateEmailMutation.mutateAsync(result.email)
+			await validatePasswordMutation.mutateAsync(password)
+			const newValidation = [...stepValidation]
+			newValidation[0] = true
+			setStepValidation(newValidation)
+			return true
+		} catch (error: any) {
+			console.error('Step 1 validation error:', error)
+			if (error instanceof ZodError) {
+				setApiErrors(formatZodError(error))
+			} else {
+				setApiErrors(error.message)
+			}
+			return false
+		}
+	}
+
+	const validateStep2 = async () => {
+		setApiErrors({})
+		try {
+			const username = form.getFieldValue('username')
+			const firstName = form.getFieldValue('first_name')
+			const lastName = form.getFieldValue('last_name')
+			const phoneNumber = form.getFieldValue('phone_number')
+			const step2Data = {
+				username,
+				first_name: firstName,
+				last_name: lastName,
+				phone_number: phoneNumber,
+			}
+			const result = step2Schema.parse(step2Data)
+			await validateUsernameMutation.mutateAsync(result.username)
+			await validatePhoneMutation.mutateAsync(result.phone_number)
+			const otpResponse = await sendOtpMutation.mutateAsync(phoneNumber)
+			if (!otpResponse.success) {
+				setApiErrors((prev: any) => ({
+					...prev,
+					phone_number: otpResponse.message,
+				}))
+				return false
+			}
+			setIsOtpSent(true)
+			const newValidation = [...stepValidation]
+			newValidation[1] = true
+			setStepValidation(newValidation)
+			return true
+		} catch (error: any) {
+			console.error('Step 2 validation error:', error)
+			if (error instanceof ZodError) {
+				setApiErrors(formatZodError(error))
+			} else {
+				setApiErrors(error.message)
+			}
+			return false
+		}
+	}
+
+	const validateStep3 = async () => {
+		setApiErrors({})
+		try {
+			step3Schema.parse({ otp: otpValue })
+			const phoneNumber = form.getFieldValue('phone_number')
+			await verifyOtpMutation.mutateAsync({
+				phoneNumber,
+				otp: otpValue,
+			})
+			const newValidation = [...stepValidation]
+			newValidation[2] = true
+			setStepValidation(newValidation)
+			return true
+		} catch (error: any) {
+			console.error('Step 3 validation error:', error)
+			if (error instanceof ZodError) {
+				setApiErrors(formatZodError(error))
+			} else {
+				setApiErrors(error.message)
+			}
+			return false
+		}
+	}
+
+	const validateStep4 = () => {
+		setApiErrors({})
+		try {
+			const agreeToTerms = form.getFieldValue('agreeToTerms')
+			step4Schema.parse({ agreeToTerms })
+			return true
+		} catch (error: any) {
+			console.error('Step 4 validation error:', error)
+			if (error instanceof ZodError) {
+				setApiErrors(formatZodError(error))
+			} else {
+				setApiErrors(error.message)
+			}
+			return false
+		}
+	}
+
+	const handleResendOtp = async () => {
+		setApiErrors({})
+		try {
+			const phoneNumber = form.getFieldValue('phone_number')
+			await resendOtpMutation.mutateAsync(phoneNumber)
+		} catch (error: any) {
+			console.error('OTP resend error:', error)
+			setApiErrors(error.message)
+		}
+	}
+
+	const handleNextClick = async (step: number) => {
+		switch (step) {
+			case 1:
+				return await validateStep1()
+			case 2:
+				return await validateStep2()
+			case 3:
+				return await validateStep3()
+			case 4:
+				return validateStep4()
+			default:
+				return true
+		}
+	}
+
+	const steps = [
+		{ label: 'Account' },
+		{ label: 'Profile' },
+		{ label: 'Verify' },
+		{ label: 'Complete' },
+		{ label: 'Completed' },
+	]
+
+	return {
+		validateStep1,
+		validateStep2,
+		validateStep3,
+		validateStep4,
+		handleResendOtp,
+		handleNextClick,
+		steps,
+		isLoading,
+	}
+}
+
+export default ValidationSteps
