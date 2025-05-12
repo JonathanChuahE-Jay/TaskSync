@@ -10,16 +10,15 @@ from django.contrib.auth import get_user_model
 from .serializers import (
     UserSerializer, RegisterSerializer, EmailValidationSerializer,
     PasswordValidationSerializer, UsernameValidationSerializer,
-    PhoneValidationSerializer, SendOtpSerializer, VerifyOtpSerializer
+    PhoneValidationSerializer, SendOtpSerializer, VerifyOtpSerializer, CustomTokenObtainPairSerializer
 )
 from .models import OtpVerification
 import re
 from django.utils import timezone
 
 User = get_user_model()
-
-
 class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
     def post(self, request: Request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
         if response.status_code == 200:
@@ -78,7 +77,7 @@ class CookieTokenRefreshView(TokenRefreshView):
                     secure=settings.SIMPLE_JWT["COOKIE_SECURE"],
                     samesite=settings.SIMPLE_JWT["COOKIE_SAMESITE"],
                 )
-                response.data = {"detail": "Token refreshed successfully"}
+                response.data = {"message": "Token refreshed successfully"}
             return response
         except (InvalidToken, TokenError) as e:
             response = Response({"Error": str(e)}, status=status.HTTP_401_UNAUTHORIZED)

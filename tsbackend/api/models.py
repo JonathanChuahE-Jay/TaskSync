@@ -45,21 +45,16 @@ class OtpVerification(models.Model):
     expires_at = models.DateTimeField()
 
     def save(self, *args, **kwargs):
-        # Set expiry time if it's a new record
         if not self.pk:
-            # Use timezone-aware datetime
             self.expires_at = timezone.now() + timedelta(minutes=10)
         return super().save(*args, **kwargs)
 
     @classmethod
     def generate_otp(cls):
-        """Generate a 6-digit OTP"""
         return str(random.randint(100000, 999999))
 
     @classmethod
     def create_otp_for_phone(cls, phone_number):
-        """Create and save a new OTP for the given phone number"""
-        # Invalidate any existing OTPs
         cls.objects.filter(phone_number=phone_number, is_used=False).update(is_used=True)
 
         otp = cls.generate_otp()
@@ -73,7 +68,6 @@ class OtpVerification(models.Model):
         return otp_record
 
     def is_valid(self):
-        """Check if OTP is still valid"""
         return (
                 not self.is_used and
                 timezone.now() < self.expires_at  # Use timezone.now()

@@ -59,7 +59,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
-    'COOKIE_SECURE': True,
+    'COOKIE_SECURE': False,
     'COOKIE_HTTP_ONLY': True,
     'COOKIE_SAMESITE': 'Lax',
     'AUTH_HEADER_TYPES': ('Bearer',),
@@ -68,11 +68,10 @@ SIMPLE_JWT = {
     'USER_ID_CLAIM': 'user_id',
 }
 
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
-
-CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'backend.urls'
 
