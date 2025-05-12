@@ -82,6 +82,7 @@ const ValidationSteps = ({
 			const firstName = form.getFieldValue('first_name')
 			const lastName = form.getFieldValue('last_name')
 			const phoneNumber = form.getFieldValue('phone_number')
+			const email = form.getFieldValue('email')
 			const step2Data = {
 				username,
 				first_name: firstName,
@@ -90,8 +91,10 @@ const ValidationSteps = ({
 			}
 			const result = step2Schema.parse(step2Data)
 			await validateUsernameMutation.mutateAsync(result.username)
-			await validatePhoneMutation.mutateAsync(result.phone_number)
-			const otpResponse = await sendOtpMutation.mutateAsync(phoneNumber)
+			if (result.phone_number && result.phone_number.length > 0) {
+				await validatePhoneMutation.mutateAsync(result.phone_number)
+			}
+			const otpResponse = await sendOtpMutation.mutateAsync(email)
 			if (!otpResponse.success) {
 				setApiErrors((prev: any) => ({
 					...prev,
@@ -119,9 +122,9 @@ const ValidationSteps = ({
 		setApiErrors({})
 		try {
 			step3Schema.parse({ otp: otpValue })
-			const phoneNumber = form.getFieldValue('phone_number')
+			const email = form.getFieldValue('email')
 			await verifyOtpMutation.mutateAsync({
-				phoneNumber,
+				email,
 				otp: otpValue,
 			})
 			const newValidation = [...stepValidation]
@@ -159,8 +162,8 @@ const ValidationSteps = ({
 	const handleResendOtp = async () => {
 		setApiErrors({})
 		try {
-			const phoneNumber = form.getFieldValue('phone_number')
-			await resendOtpMutation.mutateAsync(phoneNumber)
+			const email = form.getFieldValue('email')
+			await resendOtpMutation.mutateAsync(email)
 		} catch (error: any) {
 			console.error('OTP resend error:', error)
 			setApiErrors(error.message)

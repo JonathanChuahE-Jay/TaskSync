@@ -25,6 +25,7 @@ const RegisterProfile = ({
 					>
 						{(state: FormSubscriptionState) => (
 							<Input
+								required
 								label="Username"
 								type="text"
 								placeholder="Choose a unique username"
@@ -59,6 +60,7 @@ const RegisterProfile = ({
 					>
 						{(state: FormSubscriptionState) => (
 							<Input
+								required
 								label="First Name"
 								type="text"
 								placeholder="Enter your first name"
@@ -93,6 +95,7 @@ const RegisterProfile = ({
 					>
 						{(state: FormSubscriptionState) => (
 							<Input
+								required
 								label="Last Name"
 								type="text"
 								placeholder="Enter your last name"

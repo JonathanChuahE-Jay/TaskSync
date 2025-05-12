@@ -41,12 +41,12 @@ export function useResendOtp() {
 export function useVerifyOtp() {
 	return useMutation({
 		mutationFn: ({
-			phoneNumber,
+			email,
 			otp,
 		}: {
-			phoneNumber: string
+			email: string
 			otp: string
-		}) => authApi.verifyOtp(phoneNumber, otp),
+		}) => authApi.verifyOtp(email, otp),
 	})
 }
 

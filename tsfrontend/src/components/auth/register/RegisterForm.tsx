@@ -17,18 +17,14 @@ import RegisterProfile from '@/components/auth/register/stepSections/registerPro
 import RegisterComplete from '@/components/auth/register/stepSections/registerComplete/RegisterComplete.tsx'
 import { registerSchema } from '@/schema/authSchema.ts'
 import { formatZodError } from '@/utils/convertZodToJson.ts'
+import { Role } from '@/types/login.ts'
+import { cleanObject } from '@/utils/removeNullKeys.ts'
 
 const RegisterForm = () => {
 	const [otpValue, setOtpValue] = useState('')
 	const router = useRouter()
 	const [apiErrors, setApiErrors] = useState<ErrorResponse>({})
-	const [stepValidation, setStepValidation] = useState([
-		false,
-		false,
-		false,
-		false,
-		false,
-	])
+	const [stepValidation, setStepValidation] = useState(Array(5).fill(false))
 	const [_, setIsOtpSent] = useState(false)
 	const { currentStep, goToStep } = useStepperStore()
 	const registerMutation = useRegister()
@@ -41,7 +37,7 @@ const RegisterForm = () => {
 			password: '',
 			password2: '',
 			phone_number: '',
-			role: 'MEMBER',
+			role: Role.MEMBER,
 			agreeToTerms: false,
 		},
 		onSubmit: async ({ value }) => {
@@ -53,12 +49,12 @@ const RegisterForm = () => {
 					password2: value.password2,
 					first_name: value.first_name,
 					last_name: value.last_name,
-					phone_number: value.phone_number,
+					phone_number: value.phone_number || '',
 					role: value.role,
+					agreeToTerms: value.agreeToTerms
 				}
 				const user = registerSchema.parse(registrationData)
-				await registerMutation.mutateAsync(user)
-
+				await registerMutation.mutateAsync(cleanObject(user))
 				const newValidation = [...stepValidation]
 				newValidation[3] = true
 				newValidation[4] = true
@@ -80,6 +76,7 @@ const RegisterForm = () => {
 			}
 		},
 	})
+
 	const { steps, handleNextClick, handleResendOtp, isLoading } =
 		ValidationSteps({
 			setApiErrors,

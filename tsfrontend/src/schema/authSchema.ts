@@ -1,4 +1,7 @@
 import { z } from 'zod'
+import { Role } from '@/types/login.ts'
+
+export const roleEnum = z.nativeEnum(Role)
 
 export const emailSchema = z
 	.string()
@@ -28,8 +31,10 @@ export const nameSchema = z
 
 export const phoneSchema = z
 	.string()
-	.min(8, 'Must be a valid phone number')
-	.regex(/^\+?[1-9]\d{1,14}$/, 'Please enter a valid phone number')
+	.optional()
+	.refine((phone) => !phone || /^\+?[1-9]\d{1,14}$/.test(phone), {
+		message: 'Please enter a valid phone number',
+	})
 
 export const otpSchema = z
 	.string()
@@ -59,7 +64,7 @@ export const step3Schema = z.object({
 })
 
 export const step4Schema = z.object({
-	agreeToTerms: z.boolean().refine((val) => val === true, {
+	agreeToTerms: z.boolean().refine((val) => val, {
 		message: 'You must agree to the Terms and Conditions',
 	}),
 })
@@ -73,20 +78,20 @@ export const registerSchema = z
 		first_name: nameSchema,
 		last_name: nameSchema,
 		phone_number: phoneSchema,
-		role: z.string().optional(),
+		role: roleEnum,
 		agreeToTerms: z.boolean(),
 	})
 	.refine((data) => data.password === data.password2, {
 		message: "Passwords don't match",
 		path: ['password2'],
 	})
-	.refine((data) => data.agreeToTerms === true, {
+	.refine((data) => data.agreeToTerms, {
 		message: 'You must agree to the Terms and Conditions',
 		path: ['agreeToTerms'],
 	})
 
 export const loginSchema = z.object({
-	username: usernameSchema,
-	password: passwordSchema,
+	username: z.string().min(1, 'Username must not be empty'),
+	password: z.string().min(1, 'Password must not be empty'),
 	rememberMe: z.boolean().optional(),
 })

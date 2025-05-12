@@ -42,7 +42,7 @@ const RegisterComplete = ({
 				<div className="flex justify-between">
 					<span className="text-gray-500">Phone:</span>
 					<span className="font-medium">
-						{form.getFieldValue('phone_number')}
+						{form.getFieldValue('phone_number').length > 0 ? form.getFieldValue('phone_number') : 'Not Provided'}
 					</span>
 				</div>
 			</div>

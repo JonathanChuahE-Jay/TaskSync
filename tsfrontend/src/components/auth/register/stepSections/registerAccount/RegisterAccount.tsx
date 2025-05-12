@@ -15,9 +15,15 @@ const RegisterAccount = ({
 	setApiErrors,
 	isLoading,
 }: CommonStepSection) => {
-	const [passwordValue, setPasswordValue] = useState('')
+	const [passwordValue, setPasswordValue] = useState({
+		password: '',
+		confirmPassword: '',
+	})
 
-	const validations = usePasswordValidation(passwordValue)
+	const validations = usePasswordValidation(
+		passwordValue.password,
+		passwordValue.confirmPassword,
+	)
 	return (
 		<div className="space-y-5">
 			<form.Field
@@ -26,7 +32,7 @@ const RegisterAccount = ({
 					<form.Subscribe
 						selector={(state: FormSubscriptionState) => ({
 							value: state.values[field.name],
-							error: field.state.meta.errors[0] ||  apiErrors[field.name],
+							error: field.state.meta.errors[0] || apiErrors[field.name],
 						})}
 					>
 						{(state: FormSubscriptionState) => (
@@ -59,7 +65,7 @@ const RegisterAccount = ({
 					<form.Subscribe
 						selector={(state: FormSubscriptionState) => ({
 							value: state.values[field.name],
-							error: field.state.meta.errors[0] ||  apiErrors[field.name],
+							error: field.state.meta.errors[0] || apiErrors[field.name],
 						})}
 					>
 						{(state: FormSubscriptionState) => (
@@ -72,7 +78,10 @@ const RegisterAccount = ({
 								onChange={(e) => {
 									const newValue = e.target.value
 									field.handleChange(newValue)
-									setPasswordValue(newValue)
+									setPasswordValue((prev) => ({
+										...prev,
+										password: newValue,
+									}))
 									if (apiErrors[field.name]) {
 										setApiErrors((prev) => ({
 											...prev,
@@ -94,7 +103,7 @@ const RegisterAccount = ({
 					<form.Subscribe
 						selector={(state: FormSubscriptionState) => ({
 							value: state.values[field.name],
-							error: field.state.meta.errors[0] ||  apiErrors[field.name],
+							error: field.state.meta.errors[0] || apiErrors[field.name],
 						})}
 					>
 						{(state: FormSubscriptionState) => (
@@ -105,7 +114,12 @@ const RegisterAccount = ({
 								icon={<IconLock className="size-5" />}
 								value={state.value}
 								onChange={(e) => {
-									field.handleChange(e.target.value)
+									const newValue = e.target.value
+									field.handleChange(newValue)
+									setPasswordValue((prev) => ({
+										...prev,
+										confirmPassword: newValue,
+									}))
 									if (apiErrors[field.name]) {
 										setApiErrors((prev) => ({
 											...prev,

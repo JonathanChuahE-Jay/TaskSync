@@ -1,8 +1,8 @@
 type Cleanable =
     | {
-          [key: string]: Cleanable | Cleanable[] | any
+          [key: string]: Cleanable | Array<Cleanable> | any
       }
-    | Cleanable[]
+    | Array<Cleanable>
     | any
 
 export function cleanObject<T extends Cleanable>(obj: T): T

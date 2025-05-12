@@ -57,11 +57,11 @@ export const authApi = {
 		}
 	},
 
-	sendOtp: async (phoneNumber: string): Promise<OtpResponse> => {
+	sendOtp: async (email: string): Promise<OtpResponse> => {
 		try {
 			return await kyInstance
 				.post('send-otp/', {
-					json: { phone_number: phoneNumber },
+					json: { email: email },
 				})
 				.json()
 		} catch (err) {
@@ -69,11 +69,11 @@ export const authApi = {
 		}
 	},
 
-	resendOtp: async (phoneNumber: string): Promise<OtpResponse> => {
+	resendOtp: async (email: string): Promise<OtpResponse> => {
 		try {
 			return await kyInstance
 				.post('resend-otp/', {
-					json: { phone_number: phoneNumber },
+					json: { email: email },
 				})
 				.json()
 		} catch (err) {
@@ -82,14 +82,14 @@ export const authApi = {
 	},
 
 	verifyOtp: async (
-		phoneNumber: string,
+		email: string,
 		otp: string,
 	): Promise<ValidationResponse> => {
 		try {
 			return await kyInstance
 				.post('verify-otp/', {
 					json: {
-						phone_number: phoneNumber,
+						email: email,
 						otp,
 					},
 				})

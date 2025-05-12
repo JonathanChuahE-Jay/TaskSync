@@ -57,7 +57,6 @@ const Loader: React.FC<LoaderProps> = ({
 				return <SpinLoader size={size} color={color} />
 		}
 	}
-	console.log(dots)
 	const getLabelSizeClass = () => {
 		switch (labelSize) {
 			case 'lg':

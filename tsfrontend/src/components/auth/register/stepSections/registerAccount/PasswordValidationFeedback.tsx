@@ -5,6 +5,7 @@ interface ValidationState {
 	hasUpperCase: boolean
 	hasNumber: boolean
 	hasMinLength: boolean
+	hasSamePassword: boolean
 	isValid: boolean
 }
 
@@ -40,6 +41,14 @@ const PasswordValidationFeedback: React.FC<PasswordValidationFeedbackProps> = ({
 					<IconX className="text-red-500 size-4" />
 				)}
 				<span>At least one number</span>
+			</div>
+			<div className="flex items-center gap-1">
+				{validations.hasSamePassword ? (
+					<IconCheck className="text-green-500 size-4" />
+				) : (
+					<IconX className="text-red-500 size-4" />
+				)}
+				<span>Passwords match</span>
 			</div>
 		</div>
 	)

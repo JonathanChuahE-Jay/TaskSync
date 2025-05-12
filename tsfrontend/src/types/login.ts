@@ -17,9 +17,8 @@ export interface UserData {
 	email: string
 	first_name: string
 	last_name: string
-	phone_number: string
-	role: string
-	is_phone_verified: boolean
+	phone_number: string | undefined
+	role: Role
 }
 
 export interface RegisterInput {
@@ -29,8 +28,8 @@ export interface RegisterInput {
 	password2: string
 	first_name: string
 	last_name: string
-	phone_number: string
-	role?: string
+	phone_number?: string | undefined
+	role: Role
 	agreeToTerms?: boolean
 }
 
@@ -63,4 +62,10 @@ export interface CommonStepSection {
 	form: any
 	setApiErrors: Dispatch<SetStateAction<ErrorResponse>>
 	isLoading: boolean
+}
+
+export enum Role {
+	MEMBER = 'MEMBER',
+	PROJECT_MANAGER = 'PROJECT_MANAGER',
+	ADMIN = 'ADMIN',
 }
