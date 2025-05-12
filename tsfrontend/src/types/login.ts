@@ -1,4 +1,4 @@
-import type { ErrorApiResponse } from '@/types/errorResponse.ts'
+import type { ErrorResponse } from '@/types/errorResponse.ts'
 import type { Dispatch, SetStateAction } from 'react'
 
 export interface ValidationResponse {
@@ -59,8 +59,8 @@ export interface FormSubscriptionState {
 }
 
 export interface CommonStepSection {
-	apiErrors: ErrorApiResponse
+	apiErrors: ErrorResponse
 	form: any
-	setApiErrors: Dispatch<SetStateAction<ErrorApiResponse>>
+	setApiErrors: Dispatch<SetStateAction<ErrorResponse>>
 	isLoading: boolean
 }

@@ -3,7 +3,7 @@ import { useForm } from '@tanstack/react-form'
 import { motion } from 'framer-motion'
 import { useRouter } from '@tanstack/react-router'
 import { ZodError } from 'zod'
-import type { ErrorApiResponse } from '@/types/errorResponse.ts'
+import type { ErrorResponse } from '@/types/errorResponse.ts'
 import { useStepperStore } from '@/store/useStepperStore'
 import Stepper from '@/components/reusable/Stepper/Stepper.tsx'
 import { useRegister } from '@/queries/AuthQueries.tsx'
@@ -21,7 +21,7 @@ import { formatZodError } from '@/utils/convertZodToJson.ts'
 const RegisterForm = () => {
 	const [otpValue, setOtpValue] = useState('')
 	const router = useRouter()
-	const [apiErrors, setApiErrors] = useState<ErrorApiResponse>({})
+	const [apiErrors, setApiErrors] = useState<ErrorResponse>({})
 	const [stepValidation, setStepValidation] = useState([
 		false,
 		false,

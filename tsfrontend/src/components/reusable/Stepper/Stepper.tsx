@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 import { useStepperStore } from '@/store/useStepperStore'
 import { Step } from '@/components/reusable/Stepper/Step.tsx'
-import { cn } from '@/lib/utils.ts'
+import { cn } from '@/utils/utils.ts'
 import { useClickEnter } from '@/hooks/useClickEnter.tsx'
 
 interface StepperProps {

@@ -1,10 +1,10 @@
 import { useCallback } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
-import type { ErrorApiResponse } from '@/types/errorResponse.ts'
+import type { ErrorResponse } from '@/types/errorResponse.ts'
 
 export const useClearFieldError = (
-	apiErrors: ErrorApiResponse,
-	setApiErrors: Dispatch<SetStateAction<ErrorApiResponse>>,
+	apiErrors: ErrorResponse,
+	setApiErrors: Dispatch<SetStateAction<ErrorResponse>>,
 ) => {
 	return useCallback(
 		(fieldName: string) => {

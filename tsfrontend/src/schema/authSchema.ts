@@ -28,7 +28,7 @@ export const nameSchema = z
 
 export const phoneSchema = z
 	.string()
-	.min(1, 'Phone number is required')
+	.min(8, 'Must be a valid phone number')
 	.regex(/^\+?[1-9]\d{1,14}$/, 'Please enter a valid phone number')
 
 export const otpSchema = z

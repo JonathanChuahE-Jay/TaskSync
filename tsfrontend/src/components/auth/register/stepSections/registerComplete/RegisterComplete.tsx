@@ -6,7 +6,7 @@ import type {
 } from '@/types/login.ts'
 import RegisterCompleteHeader from '@/components/auth/register/stepSections/registerCompleted/RegisterCompleteHeader.tsx'
 import Input from '@/components/reusable/Input.tsx'
-import { cn } from '@/lib/utils.ts'
+import { cn } from '@/utils/utils.ts'
 import Loader from '@/components/reusable/Loaders.tsx'
 
 const RegisterComplete = ({

@@ -1,10 +1,9 @@
-// LoginForm.tsx
 import { useForm } from '@tanstack/react-form'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { IconLock, IconUser } from '@tabler/icons-react'
 import { ZodError } from 'zod'
-import type { ErrorApiResponse } from '@/types/errorResponse.ts'
+import type { ErrorResponse } from '@/types/errorResponse.ts'
 import Input from '@/components/reusable/Input.tsx'
 import Loader from '@/components/reusable/Loaders.tsx'
 import LoginHeader from '@/components/auth/login/LoginHeader.tsx'
@@ -16,13 +15,13 @@ import { useLogin } from '@/queries/AuthQueries.tsx'
 import { loginSchema } from '@/schema/authSchema.ts'
 import { useClickEnter } from '@/hooks/useClickEnter.tsx'
 import { formatZodError } from '@/utils/convertZodToJson.ts'
-import GeneralErrorMessage from '@/components/reusable/GeneralErrorMessage.tsx'
+import ErrorMessage from '@/components/reusable/ErrorMessage.tsx'
 import { useClearFieldError } from '@/hooks/useClearFieldError.tsx'
 
 const LoginForm = () => {
 	const [isLoading, setIsLoading] = useState(false)
 	const mutation = useLogin()
-	const [apiErrors, setApiErrors] = useState<ErrorApiResponse>({})
+	const [apiErrors, setApiErrors] = useState<ErrorResponse>({})
 
 	const clearFieldError = useClearFieldError(apiErrors, setApiErrors)
 
@@ -40,12 +39,13 @@ const LoginForm = () => {
 				await mutation.mutateAsync(user)
 				console.log('Login successful', user)
 				setIsLoading(false)
-			} catch (error: any) {
+			} catch (error) {
 				setIsLoading(false)
 				if (error instanceof ZodError) {
 					setApiErrors(formatZodError(error))
 				} else {
-					setApiErrors({ general: error.data?.detail || error.message })
+					const err = error as Error
+					setApiErrors({ message: err.message || '' })
 				}
 			}
 		},
@@ -155,10 +155,7 @@ const LoginForm = () => {
 						)}
 					</motion.button>
 				</form>
-				<GeneralErrorMessage
-					key={apiErrors.general}
-					apiErrors={apiErrors}
-				/>
+				<ErrorMessage apiErrors={apiErrors} />
 				<LoginHr />
 				<LoginSocialMedia />
 				<LoginSignUpButton />

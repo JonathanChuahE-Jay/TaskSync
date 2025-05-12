@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { env } from '@/env.ts'
 
 const Axios = axios.create({
-	baseURL: 'http://localhost:8000/api',
+	baseURL: env.VITE_BACKEND_URL,
 	headers: {
 		'Content-Type': 'application/json',
 	},

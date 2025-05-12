@@ -1,10 +1,10 @@
-export interface ErrorResponse {
-    code?: Array<string>
-    non_field_errors?: Array<string>
-    [key: string]: any
-}
+import type { ZodError } from 'zod'
 
-export interface ErrorApiResponse {
-	general?: string;
-	[key: string]: string | undefined;
+export interface ErrorResponse {
+	general?: string
+	message?: string
+	detail?: string
+	zodErrors?: ReturnType<ZodError['flatten']>
+
+	[key: string]: any
 }

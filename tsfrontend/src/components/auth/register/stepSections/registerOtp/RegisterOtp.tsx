@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react'
-import type { ErrorApiResponse } from '@/types/errorResponse.ts'
+import type { ErrorResponse } from '@/types/errorResponse.ts'
 import OtpInput from '@/components/reusable/OtpInput.tsx'
 import RegisterOtpHelper from '@/components/auth/register/stepSections/registerOtp/RegisterOTPHelper.tsx'
 import RegisterResetOtp from '@/components/auth/register/stepSections/registerOtp/RegisterResetOTP.tsx'
@@ -18,7 +18,7 @@ const RegisterOtp = ({
 	setOtpValue: Dispatch<SetStateAction<string>>
 	isLoading: boolean
 	handleResendOtp: () => void
-	apiErrors: ErrorApiResponse
+	apiErrors: ErrorResponse
 }) => {
 	return (
 		<div className="space-y-5">
