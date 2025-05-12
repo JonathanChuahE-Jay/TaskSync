@@ -4,6 +4,7 @@ import random
 import uuid
 from django.utils import timezone
 from datetime import timedelta
+from django.core.validators import RegexValidator
 
 
 class User(AbstractUser):
@@ -13,8 +14,16 @@ class User(AbstractUser):
         ('ADMIN', 'System Administrator'),
     )
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='MEMBER')
-    phone_number = models.CharField(max_length=15, unique=True, null=True, blank=True)
-    is_phone_verified = models.BooleanField(default=False)
+
+    phone_number = models.CharField(
+        max_length=15,
+        unique=True,
+        null=True,
+        blank=True,
+        validators=[RegexValidator(regex=r'^\+?1?\d{9,15}$',
+                                   message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")]
+    )
+
     groups = models.ManyToManyField(
         'auth.Group',
         verbose_name='groups',
@@ -23,6 +32,7 @@ class User(AbstractUser):
         related_name='api_user_set',
         related_query_name='api_user',
     )
+
     user_permissions = models.ManyToManyField(
         'auth.Permission',
         verbose_name='user permissions',
@@ -38,7 +48,7 @@ class User(AbstractUser):
 
 class OtpVerification(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    phone_number = models.CharField(max_length=15)
+    email = models.EmailField(null=True, blank=True)
     otp = models.CharField(max_length=6)
     is_used = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -54,24 +64,21 @@ class OtpVerification(models.Model):
         return str(random.randint(100000, 999999))
 
     @classmethod
-    def create_otp_for_phone(cls, phone_number):
-        cls.objects.filter(phone_number=phone_number, is_used=False).update(is_used=True)
+    def create_otp(cls, email):
+        if not email:
+            raise ValueError("Email must be provided.")
 
         otp = cls.generate_otp()
         otp_record = cls.objects.create(
-            phone_number=phone_number,
+            email=email,
             otp=otp,
             is_used=False,
-            expires_at=timezone.now() + timedelta(minutes=10)  # Use timezone.now()
+            expires_at=timezone.now() + timedelta(minutes=10)
         )
-
         return otp_record
 
     def is_valid(self):
-        return (
-                not self.is_used and
-                timezone.now() < self.expires_at  # Use timezone.now()
-        )
+        return not self.is_used and timezone.now() < self.expires_at
 
     class Meta:
         db_table = 'otp_verifications'

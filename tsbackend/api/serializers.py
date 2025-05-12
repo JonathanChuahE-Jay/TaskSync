@@ -1,13 +1,8 @@
-from rest_framework import serializers
-from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.validators import UniqueValidator
-from .models import OtpVerification
-from django.utils import timezone
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
 
@@ -25,17 +20,14 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['email'] = self.user.email
         data['first_name'] = self.user.first_name
         data['last_name'] = self.user.last_name
-        data['phone_number'] = self.user.phone_number
         data['role'] = self.user.role
-        data['is_phone_verified'] = self.user.is_phone_verified
-
         return data
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'phone_number', 'role', 'is_phone_verified']
-        read_only_fields = ['id', 'is_phone_verified']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'phone_number', 'role']
+        read_only_fields = ['id']
 
 
 class EmailValidationSerializer(serializers.Serializer):
@@ -55,11 +47,10 @@ class PhoneValidationSerializer(serializers.Serializer):
 
 
 class SendOtpSerializer(serializers.Serializer):
-    phone_number = serializers.CharField(required=True)
-
+    email = serializers.EmailField(required=True)
 
 class VerifyOtpSerializer(serializers.Serializer):
-    phone_number = serializers.CharField(required=True)
+    email = serializers.EmailField(required=True)
     otp = serializers.CharField(required=True, min_length=6, max_length=6)
 
 
@@ -73,7 +64,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         validators=[UniqueValidator(queryset=User.objects.all())]
     )
     phone_number = serializers.CharField(
-        required=True,
+        required=False,
+        allow_blank=False,
         validators=[UniqueValidator(queryset=User.objects.all())]
     )
     password = serializers.CharField(
@@ -103,9 +95,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
-            phone_number=validated_data['phone_number'],
+            phone_number=validated_data.get('phone_number', None),
             password=validated_data['password'],
-            role=validated_data.get('role', 'MEMBER'),
-            is_phone_verified=False
+            role=validated_data.get('role', 'MEMBER')
         )
         return user

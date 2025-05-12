@@ -17,8 +17,11 @@ import re
 from django.utils import timezone
 
 User = get_user_model()
+
+
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
     def post(self, request: Request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
         if response.status_code == 200:
@@ -99,17 +102,17 @@ class ValidateEmailView(APIView):
         email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
         if not re.match(email_regex, email):
             return Response(
-                {"valid": False, "message": "Invalid email format"},
+                {"success": False, "message": "Invalid email format"},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         if User.objects.filter(email=email).exists():
             return Response(
-                {"valid": False, "message": {"email": "Email is already in use"}},
+                {"success": False, "message": {"email": "Email is already in use"}},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        return Response({"valid": True, "message": {"email": "Email is available"}})
+        return Response({"success": True, "message": {"email": "Email is available"}})
 
 
 class ValidatePasswordView(APIView):
@@ -124,29 +127,29 @@ class ValidatePasswordView(APIView):
 
         if len(password) < 8:
             return Response(
-                {"valid": False, "message": {"password": "Password must be at least 8 characters long"}},
+                {"success": False, "message": {"password": "Password must be at least 8 characters long"}},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         if not re.search(r'[A-Z]', password):
             return Response(
-                {"valid": False, "message": {"password": "Password must contain at least one uppercase letter"}},
+                {"success": False, "message": {"password": "Password must contain at least one uppercase letter"}},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         if not re.search(r'[a-z]', password):
             return Response(
-                {"valid": False, "message": {"password": "Password must contain at least one lowercase letter"}},
+                {"success": False, "message": {"password": "Password must contain at least one lowercase letter"}},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         if not re.search(r'\d', password):
             return Response(
-                {"valid": False, "message": {"password": "Password must contain at least one number"}},
+                {"success": False, "message": {"password": "Password must contain at least one number"}},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        return Response({"valid": True, "message": {"password": "Password meets requirements"}})
+        return Response({"success": True, "message": {"password": "Password meets requirements"}})
 
 
 class ValidateUsernameView(APIView):
@@ -161,7 +164,7 @@ class ValidateUsernameView(APIView):
 
         if not re.match(r'^[a-zA-Z0-9_]{3,20}$', username):
             return Response(
-                {"valid": False,
+                {"success": False,
                  "message": {
                      "username": "Username must be 3-20 characters and contain only letters, numbers, and underscores"}},
                 status=status.HTTP_400_BAD_REQUEST
@@ -169,11 +172,11 @@ class ValidateUsernameView(APIView):
 
         if User.objects.filter(username=username).exists():
             return Response(
-                {"valid": False, "message": {"username": "Username is already taken"}},
+                {"success": False, "message": {"username": "Username is already taken"}},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        return Response({"valid": True, "message": {"username": "Username is available"}})
+        return Response({"success": True, "message": {"username": "Username is available"}})
 
 
 class ValidatePhoneView(APIView):
@@ -188,18 +191,17 @@ class ValidatePhoneView(APIView):
 
         if not re.match(r'^\+?[1-9]\d{1,14}$', phone_number):
             return Response(
-                {"valid": False, "message": {"phone_number": "Invalid phone number format"}},
+                {"success": False, "message": {"phone_number": "Invalid phone number format"}},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         if User.objects.filter(phone_number=phone_number).exists():
             return Response(
-                {"valid": False, "message": {"phone_number": "Phone number is already registered"}},
+                {"success": False, "message": {"phone_number": "Phone number is already registered"}},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        return Response({"valid": True, "message": {"phone_number": "Phone number is valid"}})
-
+        return Response({"success": True, "message": {"phone_number": "Phone number is valid"}})
 
 class SendOtpView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -209,13 +211,13 @@ class SendOtpView(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        phone_number = serializer.validated_data['phone_number']
+        email = serializer.validated_data['email']
 
-        otp_record = OtpVerification.create_otp_for_phone(phone_number)
+        otp_record = OtpVerification.create_otp(email)
 
-        print(f"OTP for {phone_number}: {otp_record.otp}")
+        print(f"OTP for {email}: {otp_record.otp}")
 
-        return Response({"success": True, "message": {"otp": "OTP sent successfully"}})
+        return Response({"success": True, "message": "OTP sent successfully to email"})
 
 
 class VerifyOtpView(APIView):
@@ -226,12 +228,12 @@ class VerifyOtpView(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        phone_number = serializer.validated_data['phone_number']
+        email = serializer.validated_data['email']
         otp = serializer.validated_data['otp']
 
         try:
             otp_record = OtpVerification.objects.filter(
-                phone_number=phone_number,
+                email=email,
                 otp=otp,
                 is_used=False,
                 expires_at__gt=timezone.now()
@@ -245,7 +247,6 @@ class VerifyOtpView(APIView):
 
             otp_record.is_used = True
             otp_record.save()
-
             return Response({"valid": True, "message": {"otp": "OTP verified successfully"}})
 
         except OtpVerification.DoesNotExist:
@@ -254,11 +255,11 @@ class VerifyOtpView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-
 class RegisterView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
+        print(request.data)
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
