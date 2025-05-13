@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import Login from '@/components/auth/login/Login.tsx'
+import StarryNight from '@/components/reusable/StarryNight.tsx'
+import LoginForm from '@/components/auth/login/LoginForm.tsx'
 
 export const Route = createFileRoute('/login')({
 	component: RouteComponent,
@@ -7,8 +8,10 @@ export const Route = createFileRoute('/login')({
 
 function RouteComponent() {
 	return (
-		<div>
-			<Login />
+		<div className="h-[100svh] relative flex items-center justify-center overflow-hidden">
+			<StarryNight />
+			<div className="absolute inset-0 backdrop-blur-[1px]" />
+			<LoginForm />
 		</div>
 	)
 }
