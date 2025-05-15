@@ -17,8 +17,8 @@ import RegisterProfile from '@/components/auth/register/stepSections/registerPro
 import RegisterComplete from '@/components/auth/register/stepSections/registerComplete/RegisterComplete.tsx'
 import { registerSchema } from '@/schema/authSchema.ts'
 import { formatZodError } from '@/utils/convertZodToJson.ts'
-import { Role } from '@/types/login.ts'
 import { cleanObject } from '@/utils/removeNullKeys.ts'
+import { Role } from '@/types/user.ts'
 
 const RegisterForm = () => {
 	const [otpValue, setOtpValue] = useState('')

@@ -2,9 +2,9 @@ import type {
 	LoginInput,
 	OtpResponse,
 	RegisterInput,
-	UserData,
 	ValidationResponse,
 } from '@/types/login.ts'
+import type { UserData } from '@/types/user.ts'
 import { kyInstance } from '@/lib/ky.ts'
 import { handleKyError } from '@/utils/handleKyErrors.ts'
 
@@ -96,6 +96,14 @@ export const authApi = {
 				.json()
 		} catch (err) {
 			return await handleKyError(err)
+		}
+	},
+
+	refreshToken: async (): Promise<void> => {
+		try {
+			await kyInstance.post('refresh/')
+		} catch (err) {
+			await handleKyError(err)
 		}
 	},
 

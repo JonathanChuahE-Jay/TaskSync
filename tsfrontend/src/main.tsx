@@ -12,7 +12,6 @@ import reportWebVitals from './reportWebVitals.ts'
 import { queryClient } from '@/lib/tanstack.ts'
 // eslint-disable-next-line import/order
 import { QueryClientProvider } from '@tanstack/react-query'
-import { AuthProvider } from '@/features/AuthProvider.tsx'
 
 // Create a new router instance
 const router = createRouter({
@@ -41,9 +40,7 @@ if (rootElement && !rootElement.innerHTML) {
 		<StrictMode>
 			<TanstackQuery.Provider>
 				<QueryClientProvider client={queryClient}>
-					<AuthProvider>
-						<RouterProvider router={router} />
-					</AuthProvider>
+					<RouterProvider router={router} />
 				</QueryClientProvider>
 			</TanstackQuery.Provider>
 		</StrictMode>,

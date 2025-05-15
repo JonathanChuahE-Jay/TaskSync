@@ -1,5 +1,6 @@
 import type { ErrorResponse } from '@/types/errorResponse.ts'
 import type { Dispatch, SetStateAction } from 'react'
+import type { Role } from '@/types/user.ts'
 
 export interface ValidationResponse {
 	valid: boolean
@@ -9,16 +10,6 @@ export interface ValidationResponse {
 export interface OtpResponse {
 	success: boolean
 	message: string
-}
-
-export interface UserData {
-	id: number
-	username: string
-	email: string
-	first_name: string
-	last_name: string
-	phone_number: string | undefined
-	role: Role
 }
 
 export interface RegisterInput {
@@ -62,10 +53,4 @@ export interface CommonStepSection {
 	form: any
 	setApiErrors: Dispatch<SetStateAction<ErrorResponse>>
 	isLoading: boolean
-}
-
-export enum Role {
-	MEMBER = 'MEMBER',
-	PROJECT_MANAGER = 'PROJECT_MANAGER',
-	ADMIN = 'ADMIN',
 }

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { Role } from '@/types/login.ts'
+import { Role } from '@/types/user.ts'
 
 export const roleEnum = z.nativeEnum(Role)
 

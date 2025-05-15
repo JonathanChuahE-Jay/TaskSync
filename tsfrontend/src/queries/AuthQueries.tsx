@@ -40,13 +40,8 @@ export function useResendOtp() {
 
 export function useVerifyOtp() {
 	return useMutation({
-		mutationFn: ({
-			email,
-			otp,
-		}: {
-			email: string
-			otp: string
-		}) => authApi.verifyOtp(email, otp),
+		mutationFn: ({ email, otp }: { email: string; otp: string }) =>
+			authApi.verifyOtp(email, otp),
 	})
 }
 
@@ -85,6 +80,18 @@ export function useCurrentUser() {
 		retry: 1,
 		staleTime: 10 * 60 * 1000,
 		gcTime: 15 * 60 * 1000,
+	})
+}
+
+export function useRefreshToken() {
+	return useMutation({
+		mutationFn: authApi.refreshToken,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+		},
+		onError: () => {
+			queryClient.removeQueries({ queryKey: ['currentUser'] })
+		},
 	})
 }
 
