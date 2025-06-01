@@ -1,8 +1,18 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { redirect } from '@tanstack/router-core'
 import StarryNight from '@/components/reusable/StarryNight.tsx'
 import LoginForm from '@/components/auth/login/LoginForm.tsx'
+import { useAuthStore } from '@/store/useAuthStore.tsx'
 
 export const Route = createFileRoute('/login')({
+	beforeLoad: () => {
+		const { isAuthenticated, user } = useAuthStore.getState();
+		if (isAuthenticated && user?.role === 'MEMBER') {
+			throw redirect({
+				to: '/dashboard'
+			})
+		}
+	},
 	component: RouteComponent,
 })
 

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { IconLock, IconUser } from '@tabler/icons-react'
 import { ZodError } from 'zod'
-import { useNavigate } from '@tanstack/react-router'
 import type { ErrorResponse } from '@/types/errorResponse.ts'
 import Loader from '@/components/reusable/Loaders.tsx'
 import LoginHeader from '@/components/auth/login/LoginHeader.tsx'
@@ -22,20 +21,12 @@ const LoginForm = () => {
 	const [isLoading, setIsLoading] = useState(false)
 	const [apiErrors, setApiErrors] = useState<ErrorResponse>({})
 	const clearFieldError = useClearFieldError(apiErrors, setApiErrors)
-	const navigate = useNavigate()
 
 	const {
 		login,
 		error: authError,
-		isAuthenticated,
 		clearError,
 	} = useAuthStore()
-
-	useEffect(() => {
-		if (isAuthenticated) {
-			navigate({ to: '/dashboard', replace: true })
-		}
-	}, [isAuthenticated, navigate])
 
 	useEffect(() => {
 		if (authError) {

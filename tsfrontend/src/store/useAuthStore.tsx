@@ -43,7 +43,6 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 					credentials: 'include',
 				})
 				.json<{ user: UserData }>()
-
 			set({
 				user: response.user,
 				isAuthenticated: true,
@@ -63,7 +62,6 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 					credentials: 'include',
 				})
 				.json<{ user: UserData }>()
-
 			set({
 				user: response.user,
 				isAuthenticated: true,
@@ -92,22 +90,21 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 
 	init: async () => {
 		if (get().isInitialized) return true
-
 		try {
-			const response = await kyInstance
-				.get('user/', { credentials: 'include' })
-				.json<{ user: UserData }>()
+			const userData = await kyInstance
+				.get('me/', { credentials: 'include' })
+				.json<UserData>()
 			set({
-				user: response.user,
+				user: userData,
 				isAuthenticated: true,
 			})
-		} catch {
+		} catch (error) {
+			console.error('Error fetching user data:', error)
 			const refreshed = await get().refresh()
 			if (!refreshed) {
 				get().resetState()
 			}
 		}
-
 		set({ isInitialized: true, isInitializing: false })
 		return get().isAuthenticated
 	},
@@ -133,15 +130,14 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 	decodeUser: (token: string): UserData | null => {
 		try {
 			const decoded: any = jwtDecode(token)
-
 			return {
 				id: decoded.user_id,
 				email: decoded.email,
 				username: decoded.username,
 				role: decoded.role,
 				phone_number: decoded.phone_number,
-				first_name: decoded.first_name,
-				last_name: decoded.last_name,
+				first_name: decoded.first_name || '',
+				last_name: decoded.last_name || '',
 			}
 		} catch {
 			return null
