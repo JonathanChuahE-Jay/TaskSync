@@ -1,31 +1,50 @@
-import { useForm } from '@tanstack/react-form'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { IconLock, IconUser } from '@tabler/icons-react'
 import { ZodError } from 'zod'
+import { useNavigate } from '@tanstack/react-router'
 import type { ErrorResponse } from '@/types/errorResponse.ts'
-import Input from '@/components/reusable/Input.tsx'
 import Loader from '@/components/reusable/Loaders.tsx'
 import LoginHeader from '@/components/auth/login/LoginHeader.tsx'
 import ForgotPasswordLink from '@/components/auth/login/ForgotPasswordLink.tsx'
 import LoginHr from '@/components/auth/login/LoginHr.tsx'
 import LoginSocialMedia from '@/components/auth/login/LoginSocialMedia.tsx'
 import LoginSignUpButton from '@/components/auth/login/LoginSugnUpButton.tsx'
-import { useLogin } from '@/queries/AuthQueries.tsx'
 import { loginSchema } from '@/schema/authSchema.ts'
 import { useClickEnter } from '@/hooks/useClickEnter.tsx'
 import { formatZodError } from '@/utils/convertZodToJson.ts'
 import ErrorMessage from '@/components/reusable/ErrorMessage.tsx'
 import { useClearFieldError } from '@/hooks/useClearFieldError.tsx'
+import { useDefaultAppForm } from '@/components/common/defaultForm/DefaultAppForm.tsx'
+import { useAuthStore } from '@/store/useAuthStore.tsx'
 
 const LoginForm = () => {
 	const [isLoading, setIsLoading] = useState(false)
-	const mutation = useLogin()
 	const [apiErrors, setApiErrors] = useState<ErrorResponse>({})
-
 	const clearFieldError = useClearFieldError(apiErrors, setApiErrors)
+	const navigate = useNavigate()
 
-	const form = useForm({
+	const {
+		login,
+		error: authError,
+		isAuthenticated,
+		clearError,
+	} = useAuthStore()
+
+	useEffect(() => {
+		if (isAuthenticated) {
+			navigate({ to: '/dashboard', replace: true })
+		}
+	}, [isAuthenticated, navigate])
+
+	useEffect(() => {
+		if (authError) {
+			setApiErrors({ message: authError })
+			clearError()
+		}
+	}, [authError, clearError])
+
+	const form = useDefaultAppForm({
 		defaultValues: {
 			username: '',
 			password: '',
@@ -35,9 +54,19 @@ const LoginForm = () => {
 			try {
 				setIsLoading(true)
 				setApiErrors({})
-				const user = loginSchema.parse(value)
-				await mutation.mutateAsync(user)
-				console.log('Login successful', user)
+
+				const userData = loginSchema.parse(value)
+
+				const success = await login(
+					userData.username,
+					userData.password,
+					userData.rememberMe,
+				)
+
+				if (success) {
+					console.log('Login successful')
+				}
+
 				setIsLoading(false)
 			} catch (error) {
 				setIsLoading(false)
@@ -45,7 +74,7 @@ const LoginForm = () => {
 					setApiErrors(formatZodError(error))
 				} else {
 					const err = error as Error
-					setApiErrors({ message: err.message || '' })
+					setApiErrors({ message: err.message || 'Login failed' })
 				}
 			}
 		},
@@ -69,65 +98,43 @@ const LoginForm = () => {
 			>
 				<LoginHeader />
 				<form className="space-y-5">
-					<form.Field
-						name="username"
-						children={(field) => (
-							<Input
+					<form.AppField name="username">
+						{(field) => (
+							<field.InputField
 								label="Username"
-								type="text"
 								placeholder="Enter your username"
-								icon={<IconUser className="size-5" />}
-								value={field.state.value}
-								onChange={(e) => {
-									field.handleChange(e.target.value)
-									clearFieldError(field.name)
-								}}
-								error={
-									field.state.meta.errors[0] || apiErrors[field.name]
-								}
-								id="email"
+								prefix={<IconUser className="size-5" />}
+								clearFieldError={clearFieldError}
+								apiErrors={apiErrors}
 							/>
 						)}
-					/>
-					<form.Field
+					</form.AppField>
+					<form.AppField
 						name="password"
 						children={(field) => (
-							<Input
+							<field.InputField
 								label="Password"
 								type="password"
 								placeholder="•••••••••••••"
-								icon={<IconLock className="size-5" />}
+								prefix={<IconLock className="size-5" />}
 								value={field.state.value}
-								onChange={(e) => {
-									field.handleChange(e.target.value)
-									clearFieldError(field.name)
-								}}
-								error={
-									field.state.meta.errors[0] || apiErrors[field.name]
-								}
-								id="password"
+								clearFieldError={clearFieldError}
+								apiErrors={apiErrors}
 							/>
 						)}
 					/>
 					<div className="flex items-center justify-between pt-1">
-						<form.Field
+						<form.AppField
 							name="rememberMe"
 							children={(field) => (
-								<Input
+								<field.InputField
 									label="Remember me"
 									type="checkbox"
 									placeholder=""
-									icon={null}
+									prefix={null}
 									value={field.state.value}
-									onChange={(e) => {
-										field.handleChange(e.target.checked)
-										clearFieldError(field.name)
-									}}
-									error={
-										field.state.meta.errors[0] ||
-										apiErrors[field.name]
-									}
-									id="remember"
+									clearFieldError={clearFieldError}
+									apiErrors={apiErrors}
 								/>
 							)}
 						/>
@@ -139,8 +146,8 @@ const LoginForm = () => {
 						onClick={form.handleSubmit}
 						disabled={isLoading}
 						className="w-full py-3 px-4 mt-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700
-                  text-white font-medium rounded-xl shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30
-                  transition duration-200 flex justify-center items-center"
+                 text-white font-medium rounded-xl shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30
+                 transition duration-200 flex justify-center items-center"
 						type="button"
 					>
 						{isLoading ? (

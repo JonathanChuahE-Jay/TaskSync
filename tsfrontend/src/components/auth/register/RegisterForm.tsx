@@ -1,13 +1,9 @@
 import { useState } from 'react'
-import { useForm } from '@tanstack/react-form'
 import { motion } from 'framer-motion'
-import { useRouter } from '@tanstack/react-router'
-import { ZodError } from 'zod'
 import type { ErrorResponse } from '@/types/errorResponse.ts'
 import { useStepperStore } from '@/store/useStepperStore'
 import Stepper from '@/components/reusable/Stepper/Stepper.tsx'
-import { useRegister } from '@/queries/AuthQueries.tsx'
-import ValidationSteps from '@/components/auth/register/ValidationSteps.tsx'
+import registerHelpers from '@/components/auth/register/RegisterHelpers.tsx'
 import RegisterAlreadyHaveAccountButton from '@/components/auth/register/RegisterAlreadyHaveAccountButton.tsx'
 import RegisterCompleted from '@/components/auth/register/stepSections/registerCompleted/RegisterCompleted.tsx'
 import RegisterHeader from '@/components/auth/register/RegisterHeader.tsx'
@@ -15,77 +11,27 @@ import RegisterOtp from '@/components/auth/register/stepSections/registerOtp/Reg
 import RegisterAccount from '@/components/auth/register/stepSections/registerAccount/RegisterAccount.tsx'
 import RegisterProfile from '@/components/auth/register/stepSections/registerProfile/RegisterProfile.tsx'
 import RegisterComplete from '@/components/auth/register/stepSections/registerComplete/RegisterComplete.tsx'
-import { registerSchema } from '@/schema/authSchema.ts'
-import { formatZodError } from '@/utils/convertZodToJson.ts'
-import { cleanObject } from '@/utils/removeNullKeys.ts'
-import { Role } from '@/types/user.ts'
 
 const RegisterForm = () => {
 	const [otpValue, setOtpValue] = useState('')
-	const router = useRouter()
 	const [apiErrors, setApiErrors] = useState<ErrorResponse>({})
 	const [stepValidation, setStepValidation] = useState(Array(5).fill(false))
 	const [_, setIsOtpSent] = useState(false)
-	const { currentStep, goToStep } = useStepperStore()
-	const registerMutation = useRegister()
-	const form = useForm({
-		defaultValues: {
-			username: '',
-			first_name: '',
-			last_name: '',
-			email: '',
-			password: '',
-			password2: '',
-			phone_number: '',
-			role: Role.MEMBER,
-			agreeToTerms: false,
-		},
-		onSubmit: async ({ value }) => {
-			try {
-				const registrationData = {
-					username: value.username,
-					email: value.email,
-					password: value.password,
-					password2: value.password2,
-					first_name: value.first_name,
-					last_name: value.last_name,
-					phone_number: value.phone_number || '',
-					role: value.role,
-					agreeToTerms: value.agreeToTerms
-				}
-				const user = registerSchema.parse(registrationData)
-				await registerMutation.mutateAsync(cleanObject(user))
-				const newValidation = [...stepValidation]
-				newValidation[3] = true
-				newValidation[4] = true
-				setStepValidation(newValidation)
-				goToStep(steps.length)
+	const { currentStep } = useStepperStore()
 
-				setTimeout(() => {
-					router.navigate({ to: '/login' })
-					form.reset()
-					setApiErrors({})
-				}, 3000)
-				console.log('Registration successful', user)
-			} catch (error: any) {
-				if (error instanceof ZodError) {
-					setApiErrors(formatZodError(error))
-				} else {
-					setApiErrors(error.message)
-				}
-			}
-		},
+	const {
+		steps,
+		handleNextClick,
+		handleResendOtp,
+		isLoading,
+		form,
+	} = registerHelpers({
+		setApiErrors,
+		setStepValidation,
+		setIsOtpSent,
+		stepValidation,
+		otpValue,
 	})
-
-	const { steps, handleNextClick, handleResendOtp, isLoading } =
-		ValidationSteps({
-			setApiErrors,
-			form,
-			setStepValidation,
-			setIsOtpSent,
-			stepValidation,
-			otpValue,
-		})
 	return (
 		<motion.div
 			initial={{ opacity: 0, y: 20 }}

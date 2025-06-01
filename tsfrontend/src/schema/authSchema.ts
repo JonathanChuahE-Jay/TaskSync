@@ -93,5 +93,5 @@ export const registerSchema = z
 export const loginSchema = z.object({
 	username: z.string().min(1, 'Username must not be empty'),
 	password: z.string().min(1, 'Password must not be empty'),
-	rememberMe: z.boolean().optional(),
+	rememberMe: z.boolean(),
 })

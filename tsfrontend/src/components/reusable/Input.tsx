@@ -6,12 +6,13 @@ type InputProps = {
 	type: string
 	placeholder: string
 	icon: React.ReactNode
-	value: string | boolean
+	value: string | number | ReadonlyArray<string> | boolean
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 	error?: string
 	id?: string
 	required?: boolean
 	disabled?: boolean
+	ref?: React.Ref<HTMLInputElement>
 }
 
 const Input: React.FC<InputProps> = ({

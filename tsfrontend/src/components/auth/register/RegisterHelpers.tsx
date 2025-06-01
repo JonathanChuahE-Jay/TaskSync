@@ -1,5 +1,7 @@
 import { ZodError } from 'zod'
+import { useRouter } from '@tanstack/react-router'
 import {
+	registerSchema,
 	step1Schema,
 	step2Schema,
 	step3Schema,
@@ -7,6 +9,7 @@ import {
 } from '@/schema/authSchema.ts'
 import { formatZodError } from '@/utils/convertZodToJson.ts'
 import {
+	useRegister,
 	useResendOtp,
 	useSendOtp,
 	useValidateEmail,
@@ -15,24 +18,30 @@ import {
 	useValidateUsername,
 	useVerifyOtp,
 } from '@/queries/AuthQueries.tsx'
+import { useDefaultAppForm } from '@/components/common/defaultForm/DefaultAppForm.tsx'
+import { cleanObject } from '@/utils/removeNullKeys.ts'
+import { useStepperStore } from '@/store/useStepperStore.tsx'
+import { registerFormHelper } from '@/components/auth/register/registerFormHelper.tsx'
 
 interface ValidationStepsProps {
 	setApiErrors: (errors: any) => void
-	form: any
 	setStepValidation: (steps: Array<boolean>) => void
 	setIsOtpSent: (sent: boolean) => void
 	stepValidation: Array<boolean>
 	otpValue: string
 }
 
-const ValidationSteps = ({
+const registerHelpers = ({
 	setApiErrors,
-	form,
 	setStepValidation,
 	setIsOtpSent,
 	stepValidation,
 	otpValue,
 }: ValidationStepsProps) => {
+	const router = useRouter()
+	const { goToStep } = useStepperStore()
+	const registerMutation = useRegister()
+
 	const validateEmailMutation = useValidateEmail()
 	const validatePasswordMutation = useValidatePassword()
 	const validateUsernameMutation = useValidateUsername()
@@ -49,6 +58,45 @@ const ValidationSteps = ({
 		sendOtpMutation.isPending ||
 		resendOtpMutation.isPending ||
 		verifyOtpMutation.isPending
+
+	const form = useDefaultAppForm({
+		...registerFormHelper,
+		onSubmit: async ({ value }) => {
+			try {
+				const registrationData = {
+					username: value.username,
+					email: value.email,
+					password: value.password,
+					password2: value.password2,
+					first_name: value.first_name,
+					last_name: value.last_name,
+					phone_number: value.phone_number || '',
+					role: value.role,
+					agreeToTerms: value.agreeToTerms,
+				}
+				const user = registerSchema.parse(registrationData)
+				await registerMutation.mutateAsync(cleanObject(user))
+				const newValidation = [...stepValidation]
+				newValidation[3] = true
+				newValidation[4] = true
+				setStepValidation(newValidation)
+				goToStep(steps.length)
+
+				setTimeout(() => {
+					router.navigate({ to: '/login' })
+					form.reset()
+					setApiErrors({})
+				}, 3000)
+				console.log('Registration successful', user)
+			} catch (error: any) {
+				if (error instanceof ZodError) {
+					setApiErrors(formatZodError(error))
+				} else {
+					setApiErrors(error.message)
+				}
+			}
+		},
+	})
 
 	const validateStep1 = async () => {
 		setApiErrors({})
@@ -194,6 +242,7 @@ const ValidationSteps = ({
 	]
 
 	return {
+		form,
 		validateStep1,
 		validateStep2,
 		validateStep3,
@@ -205,4 +254,4 @@ const ValidationSteps = ({
 	}
 }
 
-export default ValidationSteps
+export default registerHelpers
