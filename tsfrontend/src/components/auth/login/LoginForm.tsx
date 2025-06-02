@@ -50,8 +50,7 @@ const LoginForm = () => {
 
 				const success = await login(
 					userData.username,
-					userData.password,
-					userData.rememberMe,
+					userData.password
 				)
 
 				if (success) {

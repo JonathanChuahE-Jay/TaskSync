@@ -2,6 +2,8 @@ import { create } from 'zustand'
 import { jwtDecode } from 'jwt-decode'
 import type { UserData } from '@/types/user'
 import { kyInstance } from '@/lib/ky'
+import { authApi } from '@/services/authServices'
+import { handleKyError } from '@/utils/handleKyErrors'
 
 interface AuthState {
 	user: UserData | null
@@ -37,20 +39,17 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 	login: async (username, password, rememberMe) => {
 		get().clearError()
 		try {
-			const response = await kyInstance
-				.post('login/', {
-					json: { username, password, remember_me: rememberMe },
-					credentials: 'include',
-				})
-				.json<{ user: UserData }>()
+
+			const response = await authApi.login({
+				username, password
+			})
 			set({
-				user: response.user,
+				user: response,
 				isAuthenticated: true,
 			})
 			return true
 		} catch (error) {
-			get().setError('Login failed')
-			return false
+			throw error
 		}
 	},
 
