@@ -83,6 +83,12 @@ export function useCurrentUser() {
 	})
 }
 
+export function useVerify() {
+	return useMutation({
+		mutationFn: authApi.verify,
+	})
+}
+
 export function useRefreshToken() {
 	return useMutation({
 		mutationFn: authApi.refreshToken,

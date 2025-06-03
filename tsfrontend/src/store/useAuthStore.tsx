@@ -1,9 +1,7 @@
 import { create } from 'zustand'
 import { jwtDecode } from 'jwt-decode'
 import type { UserData } from '@/types/user'
-import { kyInstance } from '@/lib/ky'
 import { authApi } from '@/services/authServices'
-import { handleKyError } from '@/utils/handleKyErrors'
 
 interface AuthState {
 	user: UserData | null
@@ -38,31 +36,25 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 
 	login: async (username, password, rememberMe) => {
 		get().clearError()
-		try {
-
-			const response = await authApi.login({
-				username, password
-			})
-			set({
-				user: response,
-				isAuthenticated: true,
-			})
-			return true
-		} catch (error) {
-			throw error
-		}
+		const response = await authApi.login({
+			username,
+			password,
+			rememberMe,
+		})
+		set({
+			user: response,
+			isAuthenticated: true,
+		})
+		return true
 	},
 
 	refresh: async () => {
 		set({ isRefreshing: true })
 		try {
-			const response = await kyInstance
-				.post('refresh/', {
-					credentials: 'include',
-				})
-				.json<{ user: UserData }>()
+			await authApi.refreshToken()
+			const userData = await authApi.getCurrentUser()
 			set({
-				user: response.user,
+				user: userData,
 				isAuthenticated: true,
 				isRefreshing: false,
 			})
@@ -76,13 +68,8 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 
 	verify: async () => {
 		try {
-			await kyInstance
-				.post('verify/', {
-					credentials: 'include',
-				})
-				.json()
-			return true
-		} catch {
+			return await authApi.verify()
+		} catch (e){
 			return false
 		}
 	},
@@ -90,9 +77,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 	init: async () => {
 		if (get().isInitialized) return true
 		try {
-			const userData = await kyInstance
-				.get('me/', { credentials: 'include' })
-				.json<UserData>()
+			const userData = await authApi.getCurrentUser()
 			set({
 				user: userData,
 				isAuthenticated: true,
@@ -117,9 +102,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 
 	logout: async () => {
 		try {
-			await kyInstance.post('logout/', {
-				credentials: 'include',
-			})
+			await authApi.logout()
 		} catch (error) {
 			console.error('Logout API error:', error)
 		}

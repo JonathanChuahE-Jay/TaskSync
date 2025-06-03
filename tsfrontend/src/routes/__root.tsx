@@ -8,9 +8,26 @@ interface MyRouterContext {
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
 	beforeLoad: async () => {
-		const {init, isInitialized} = useAuthStore.getState()
-		if (!isInitialized) await init();
-	},
+    const { init, verify, refresh, isInitialized, resetState } = useAuthStore.getState()
+
+    if (!isInitialized) {
+        try {
+            const isValid = await verify()
+            if (isValid) {
+                await init()
+            } else {
+                const refreshed = await refresh()
+
+                if (!refreshed) {
+                    resetState()
+                }
+            }
+        } catch (error) {
+            console.error("Auth initialization error:", error)
+            resetState()
+        }
+    }
+},
   component: () => (
     <>
       <Outlet />

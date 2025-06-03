@@ -7,6 +7,7 @@ type InputProps = {
 	placeholder: string
 	icon: React.ReactNode
 	value: string | number | ReadonlyArray<string> | boolean
+	checked?: boolean
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 	error?: string
 	id?: string
@@ -21,6 +22,7 @@ const Input: React.FC<InputProps> = ({
 	placeholder,
 	icon,
 	value,
+	checked,
 	onChange,
 	error,
 	id,
@@ -37,7 +39,7 @@ const Input: React.FC<InputProps> = ({
 					disabled={disabled}
 					id={id || label.toLowerCase().replace(/\s+/g, '-')}
 					type="checkbox"
-					checked={value as boolean}
+					checked={checked}
 					onChange={onChange}
 					className="h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"
 				/>
@@ -68,10 +70,10 @@ const Input: React.FC<InputProps> = ({
 					type={inputType}
 					disabled={disabled}
 					className="w-full px-10 py-3 rounded-xl bg-white/70 backdrop-blur-sm border border-slate-200 shadow-sm
-                   focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-200
-                   hover:border-slate-300"
+                focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-200
+                hover:border-slate-300"
 					placeholder={placeholder}
-					value={value as string}
+					value={typeof value === 'boolean' ? '' : (value as string)}
 					onChange={onChange}
 				/>
 				{type === 'password' && (

@@ -4,7 +4,10 @@ import { useDefaultFieldContext } from './DefaultAppForm'
 import Input from '@/components/reusable/Input'
 
 interface InputFieldProps
-	extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'prefix' | 'value'> {
+	extends Omit<
+		React.InputHTMLAttributes<HTMLInputElement>,
+		'prefix' | 'value'
+	> {
 	label?: string
 	darker?: boolean
 	error?: string | undefined | null
@@ -13,7 +16,7 @@ interface InputFieldProps
 	InputFieldClassName?: string
 	clearFieldError?: (fieldName: string) => void
 	apiErrors?: Record<string, string | undefined>
-	value?: string | number | ReadonlyArray<string> | undefined | boolean;
+	value?: string | number | ReadonlyArray<string> | undefined | boolean
 }
 
 const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
@@ -30,19 +33,28 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
 		},
 		ref,
 	) => {
-		const field = useDefaultFieldContext<string>()
+		const field = useDefaultFieldContext<string | boolean>()
 
 		return (
 			<Input
-				type='text'
+				type={props.type || 'text'}
 				ref={ref}
 				id={field.name}
 				label={label}
 				placeholder={props.placeholder ?? 'Enter your username'}
 				icon={prefix}
 				value={field.state.value}
+				checked={
+					props.type === 'checkbox'
+						? Boolean(field.state.value)
+						: undefined
+				}
 				onChange={(e) => {
-					field.handleChange(e.target.value)
+					if (props.type === 'checkbox') {
+						field.handleChange(e.target.checked)
+					} else {
+						field.handleChange(e.target.value)
+					}
 					clearFieldError(field.name)
 				}}
 				error={field.state.meta.errors[0] || apiErrors[field.name] || error}

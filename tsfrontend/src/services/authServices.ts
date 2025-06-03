@@ -98,12 +98,25 @@ export const authApi = {
 			return await handleKyError(err)
 		}
 	},
+	verify: async (): Promise<boolean> => {
+    try {
+        const cookies = document.cookie;
+        if (!cookies.includes('access_token')) {
+            return false;
+        }
 
+        await kyInstance.post('verify/')
+        return true
+    } catch (err) {
+        console.error('Token verification failed:', err)
+        return await handleKyError(err)
+    }
+},
 	refreshToken: async (): Promise<void> => {
 		try {
 			await kyInstance.post('refresh/')
 		} catch (err) {
-			await handleKyError(err)
+			return await handleKyError(err)
 		}
 	},
 
@@ -143,7 +156,7 @@ export const authApi = {
 
 	getCurrentUser: async (): Promise<UserData> => {
 		try {
-			return await kyInstance.get('me/').json()
+			return await kyInstance.get('me/').json<UserData>()
 		} catch (err) {
 			return await handleKyError(err)
 		}

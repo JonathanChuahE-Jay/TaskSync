@@ -46,11 +46,13 @@ const LoginForm = () => {
 				setIsLoading(true)
 				setApiErrors({})
 
+				console.log(value)
 				const userData = loginSchema.parse(value)
 
 				const success = await login(
 					userData.username,
-					userData.password
+					userData.password,
+					userData.rememberMe
 				)
 
 				if (success) {
@@ -59,6 +61,7 @@ const LoginForm = () => {
 
 				setIsLoading(false)
 			} catch (error) {
+				console.log(error)
 				setIsLoading(false)
 				if (error instanceof ZodError) {
 					setApiErrors(formatZodError(error))
