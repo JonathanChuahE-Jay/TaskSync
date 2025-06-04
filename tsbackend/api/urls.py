@@ -3,7 +3,7 @@ from .views import (
     RegisterView, LogoutView, UserView,
     CustomTokenObtainPairView, CookieTokenRefreshView,
     ValidateEmailView, ValidatePasswordView, ValidateUsernameView,
-    ValidatePhoneView, SendOtpView, VerifyOtpView
+    ValidatePhoneView, SendOtpView, VerifyOtpView, TokenVerifyView
 )
 
 urlpatterns = [
@@ -12,6 +12,7 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('me/', UserView.as_view(), name='user'),
+    path('verify/', TokenVerifyView.as_view(), name='token_verify'),
 
     # Validation endpoints
     path('validate-email/', ValidateEmailView.as_view(), name='validate_email'),

@@ -4,7 +4,7 @@ import StarryNight from '@/components/reusable/StarryNight.tsx'
 import LoginForm from '@/components/auth/login/LoginForm.tsx'
 import { useAuthStore } from '@/store/useAuthStore.tsx'
 
-export const Route = createFileRoute('/login')({
+export const Route = createFileRoute('/(auth)/login')({
 	beforeLoad: () => {
 		const { isAuthenticated, user } = useAuthStore.getState();
 		if (isAuthenticated && user?.role === 'MEMBER') {

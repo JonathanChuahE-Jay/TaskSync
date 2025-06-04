@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import StarryNight from '@/components/reusable/StarryNight.tsx'
 import RegisterForm from '@/components/auth/register/RegisterForm.tsx'
 
-export const Route = createFileRoute('/register')({
+export const Route = createFileRoute('/(auth)/register')({
 	component: RouteComponent,
 })
 

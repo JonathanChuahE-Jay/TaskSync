@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from .serializers import (
@@ -15,30 +15,38 @@ from .serializers import (
 from .models import OtpVerification
 import re
 from django.utils import timezone
-
 User = get_user_model()
-
-
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
     def post(self, request: Request, *args, **kwargs):
+        remember_me = request.data.get("rememberMe", False)
         response = super().post(request, *args, **kwargs)
+
         if response.status_code == 200:
             access_token = response.data["access"]
             refresh_token = response.data["refresh"]
+
+            if remember_me:
+                access_max_age = settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"].total_seconds()
+                refresh_max_age = settings.SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"].total_seconds()
+            else:
+                access_max_age = None
+                refresh_max_age = None
+
             response.set_cookie(
                 'refresh_token',
                 refresh_token,
-                max_age=settings.SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"].total_seconds(),
+                max_age=refresh_max_age,
                 httponly=settings.SIMPLE_JWT["COOKIE_HTTP_ONLY"],
                 secure=settings.SIMPLE_JWT["COOKIE_SECURE"],
                 samesite=settings.SIMPLE_JWT["COOKIE_SAMESITE"],
             )
+
             response.set_cookie(
                 'access_token',
                 access_token,
-                max_age=settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"].total_seconds(),
+                max_age=access_max_age,
                 httponly=settings.SIMPLE_JWT["COOKIE_HTTP_ONLY"],
                 secure=settings.SIMPLE_JWT["COOKIE_SECURE"],
                 samesite=settings.SIMPLE_JWT["COOKIE_SAMESITE"],
@@ -49,9 +57,10 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             user_id = token.payload.get('user_id')
             user = User.objects.get(id=user_id)
             serializer = UserSerializer(user)
-            response.data = serializer.data
-        return response
 
+            response.data = serializer.data
+
+        return response
 
 class CookieTokenRefreshView(TokenRefreshView):
     def post(self, request, *args, **kwargs):
@@ -203,6 +212,7 @@ class ValidatePhoneView(APIView):
 
         return Response({"success": True, "message": {"phone_number": "Phone number is valid"}})
 
+
 class SendOtpView(APIView):
     permission_classes = [permissions.AllowAny]
 
@@ -254,6 +264,7 @@ class VerifyOtpView(APIView):
                 {"valid": False, "message": {"otp": "Invalid OTP. Please check and try again."}},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
 
 class RegisterView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -317,3 +328,19 @@ class UserView(APIView):
     def get(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
+
+
+class TokenVerifyView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        access_token = request.COOKIES.get('access_token')
+
+        if not access_token:
+            return Response({"detail": "No token found"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        try:
+            AccessToken(access_token)
+            return Response({"detail": "Token is valid"}, status=status.HTTP_200_OK)
+        except TokenError:
+            return Response({"detail": "Invalid token"}, status=status.HTTP_401_UNAUTHORIZED)
