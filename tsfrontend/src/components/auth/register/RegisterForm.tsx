@@ -11,6 +11,7 @@ import RegisterOtp from '@/components/auth/register/stepSections/registerOtp/Reg
 import RegisterAccount from '@/components/auth/register/stepSections/registerAccount/RegisterAccount.tsx'
 import RegisterProfile from '@/components/auth/register/stepSections/registerProfile/RegisterProfile.tsx'
 import RegisterComplete from '@/components/auth/register/stepSections/registerComplete/RegisterComplete.tsx'
+import AuthModal from '@/components/common/AuthModal.tsx'
 
 const RegisterForm = () => {
 	const [otpValue, setOtpValue] = useState('')
@@ -19,29 +20,16 @@ const RegisterForm = () => {
 	const [_, setIsOtpSent] = useState(false)
 	const { currentStep } = useStepperStore()
 
-	const {
-		steps,
-		handleNextClick,
-		handleResendOtp,
-		isLoading,
-		form,
-	} = registerHelpers({
-		setApiErrors,
-		setStepValidation,
-		setIsOtpSent,
-		stepValidation,
-		otpValue,
-	})
+	const { steps, handleNextClick, handleResendOtp, isLoading, form } =
+		registerHelpers({
+			setApiErrors,
+			setStepValidation,
+			setIsOtpSent,
+			stepValidation,
+			otpValue,
+		})
 	return (
-		<motion.div
-			initial={{ opacity: 0, y: 20 }}
-			animate={{ opacity: 1, y: 0 }}
-			transition={{ duration: 0.5 }}
-			className="relative z-10 bg-white/40 rounded-2xl shadow-2xl backdrop-blur-xl border border-white/50 p-8 w-[600px] max-w-[90%] overflow-hidden"
-		>
-			<div className="absolute -top-16 -right-16 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl" />
-			<div className="absolute -bottom-16 -left-16 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl" />
-
+		<AuthModal>
 			<motion.div
 				initial={{ scale: 0.9 }}
 				animate={{ scale: 1 }}
@@ -90,7 +78,7 @@ const RegisterForm = () => {
 
 				<RegisterAlreadyHaveAccountButton />
 			</motion.div>
-		</motion.div>
+		</AuthModal>
 	)
 }
 

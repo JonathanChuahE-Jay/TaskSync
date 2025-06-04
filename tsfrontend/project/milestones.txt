@@ -1,0 +1,130 @@
+🧱 Milestone 1: Project and Role Foundation
+Goal: Build the backbone of team collaboration.
+
+Features:
+
+Project CRUD (Create, Read, Update, Delete)
+
+Assign users to projects
+
+Enforce role-based access:
+
+Owners can manage everything
+
+Members can manage tasks
+
+Guests can only view
+
+Stretch/Cool Ideas:
+
+Invite via email to join a project (dummy if Celery not ready)
+
+Basic UI for switching between projects
+
+🗂️ Milestone 2: Task Management & Kanban View
+Goal: Create a Trello-style board with drag-and-drop.
+
+Features:
+
+Tasks: Create, update, delete, assign user, change status
+
+Columns: Todo, In Progress, Done
+
+Drag and drop tasks across columns (e.g., react-beautiful-dnd)
+
+Stretch/Cool Ideas:
+
+Color labels or tags on tasks
+
+Due dates with optional deadline reminders
+
+User avatars on assigned tasks
+
+🔁 Milestone 3: Real-Time Sync (WebSocket)
+Goal: Live updates on task board.
+
+Features:
+
+Connect users via WebSocket (Django Channels + Redis)
+
+Broadcast task updates in real time to all connected users
+
+Sync drag/drop movements
+
+Stretch/Cool Ideas:
+
+Show "Jonathan is editing..." indicators
+
+Live cursor/hover presence like Figma
+
+💬 Milestone 4: Comments & Collaboration
+Goal: Add threaded discussions to tasks.
+
+Features:
+
+Add/remove/edit comments on tasks
+
+Threaded replies
+
+Realtime comment updates (optional)
+
+Stretch/Cool Ideas:
+
+Markdown support for comments
+
+Emoji reactions
+
+🔔 Milestone 5: Notifications System
+Goal: Keep users informed.
+
+Features:
+
+Store in-app notifications in DB
+
+Show unread count and dropdown on UI
+
+Events: task assigned, new comment, deadline today
+
+Stretch/Cool Ideas:
+
+Push email notifications (Celery)
+
+In-app sounds or visual toast alerts
+
+📊 Milestone 6: Dashboard Analytics
+Goal: Visual overview of productivity.
+
+Features:
+
+Chart of completed tasks over time (Chart.js or Recharts)
+
+Top performers / most active users
+
+Tasks per status
+
+Stretch/Cool Ideas:
+
+Weekly activity report emailed to owners
+
+Graph filter by project or user
+
+🧪 Milestone 7: Polish & Production
+Goal: Secure, optimized, and deploy-ready.
+
+Features:
+
+Validate all API and role permissions
+
+Rate limiting, throttling, CSRF, etc.
+
+Unit and integration tests (e.g., pytest, Cypress)
+
+Production build & deploy (e.g., Railway, Fly.io, or VPS)
+
+Stretch/Cool Ideas:
+
+PWA support with offline mode
+
+Theme toggle (light/dark mode)
+
+Keyboard shortcuts for navigation

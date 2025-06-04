@@ -4,7 +4,7 @@ const ForgotPasswordLink = () => {
 	return (
 		<Link
 			to="/"
-			className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+			className="text-sm font-medium link transition-colors"
 		>
 			Forgot password?
 		</Link>

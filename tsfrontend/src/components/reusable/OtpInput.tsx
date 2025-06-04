@@ -161,7 +161,7 @@ const OtpInput: React.FC<OtpInputProps> = ({
 							}}
 							type="text"
 							maxLength={1}
-							className={`w-12 h-14 text-center text-xl font-bold rounded-xl border-2
+							className={`w-12 h-14 text-center text-xl font-bold rounded-xl border-2 text-black
                ${activeIndex === index ? 'border-blue-500 shadow-sm shadow-blue-200' : 'border-gray-200'}
                ${error ? 'border-red-500' : ''}
                ${isLoading ? 'bg-gray-100 opacity-50 cursor-not-allowed' : 'bg-white'} focus:outline-none focus:border-blue-500 transition-all duration-150`}

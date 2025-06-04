@@ -19,7 +19,7 @@ const RegisterComplete = ({
 		<div className="space-y-5">
 			<RegisterCompleteHeader />
 
-			<div className="bg-blue-50 p-4 rounded-lg space-y-3">
+			<div className="bg-blue-50 p-4 rounded-lg space-y-3 text-black">
 				<div className="flex justify-between">
 					<span className="text-gray-500">Email:</span>
 					<span className="font-medium">
@@ -84,7 +84,7 @@ const RegisterComplete = ({
 										onClick={form.handleSubmit}
 										disabled={!form.getFieldValue('agreeToTerms')}
 										className={cn(
-											`w-full py-3 px-4 mt-4 text-white font-medium rounded-xl shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 transition duration-200 flex justify-center items-center`,
+											`w-full py-3 px-4 mt-4 text-white font-medium duration-700 rounded-xl shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 transition flex justify-center items-center`,
 											form.getFieldValue('agreeToTerms')
 												? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'
 												: 'bg-gray-400 cursor-not-allowed',

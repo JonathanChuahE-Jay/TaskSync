@@ -45,7 +45,7 @@ const Input: React.FC<InputProps> = ({
 				/>
 				<label
 					htmlFor={id || label.toLowerCase().replace(/\s+/g, '-')}
-					className="ml-2 block text-sm text-slate-700 hover:text-slate-900 cursor-pointer"
+					className="ml-2 block text-sm text-slate cursor-pointer"
 				>
 					{label}
 				</label>
@@ -57,19 +57,19 @@ const Input: React.FC<InputProps> = ({
 		<div className="relative">
 			<label
 				htmlFor={id || label.toLowerCase().replace(/\s+/g, '-')}
-				className="block text-sm font-medium text-slate-700 mb-1.5"
+				className="block text-sm font-medium text-slate mb-1.5"
 			>
 				{label} {required && <span className="text-rose-500">*</span>}
 			</label>
 			<div className="relative group">
-				<div className="absolute left-3 top-1/2 -translate-y-1/2 text-black">
+				<div className="absolute left-3 top-1/2 -translate-y-1/2 text-black dark:text-white transition duration-700">
 					{icon}
 				</div>
 				<input
 					id={id || label.toLowerCase().replace(/\s+/g, '-')}
 					type={inputType}
 					disabled={disabled}
-					className="w-full px-10 py-3 rounded-xl bg-white/70 backdrop-blur-sm border border-slate-200 shadow-sm
+					className="w-full px-10 py-3 rounded-xl bg-white/70 backdrop-blur-sm border border-slate-200 shadow-sm placeholder:text-gray-500/80 text-black
                 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-200
                 hover:border-slate-300"
 					placeholder={placeholder}

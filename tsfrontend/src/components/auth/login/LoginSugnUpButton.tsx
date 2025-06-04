@@ -6,7 +6,7 @@ const LoginSignUpButton = () => {
 			<span className="text-slate-600">Don't have an account?</span>{' '}
 			<Link
 				to="/register"
-				className="text-blue-600 font-medium hover:text-blue-800 hover:underline transition-colors"
+				className="link font-medium  hover:underline transition-colors"
 			>
 				Sign up now
 			</Link>

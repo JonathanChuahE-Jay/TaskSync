@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow | Member Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .task-card {
+            transition: all 0.3s ease;
+        }
+        .task-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .avatar-stack .avatar {
+            margin-left: -10px;
+            border: 2px solid white;
+        }
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #f00;
+            animation: confetti-fall 5s ease-in-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        .focus-mode {
+            transition: all 0.5s ease;
+        }
+        .task-progress {
+            transition: width 1s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Top Navigation Bar -->
+    <nav class="bg-white shadow-sm px-6 py-3 flex items-center justify-between">
+        <div class="flex items-center">
+            <div class="text-xl font-bold text-indigo-600 mr-8">TaskFlow</div>
+            <div class="hidden md:flex space-x-5">
+                <a href="#" class="font-medium text-indigo-600 hover:text-indigo-700">My Tasks</a>
+                <a href="#" class="font-medium text-gray-500 hover:text-indigo-600">Team</a>
+                <a href="#" class="font-medium text-gray-500 hover:text-indigo-600">Calendar</a>
+                <a href="#" class="font-medium text-gray-500 hover:text-indigo-600">Files</a>
+            </div>
+        </div>
+        <div class="flex items-center space-x-3">
+            <button class="p-2 text-gray-400 hover:text-indigo-600 focus:outline-none relative" title="Search">
+                <i class="fas fa-search"></i>
+            </button>
+            <button class="p-2 text-gray-400 hover:text-indigo-600 focus:outline-none relative" title="Notifications">
+                <i class="fas fa-bell"></i>
+                <span class="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center">2</span>
+            </button>
+            <button class="p-2 text-gray-400 hover:text-indigo-600 focus:outline-none" title="Help">
+                <i class="fas fa-question-circle"></i>
+            </button>
+            <div class="relative group">
+                <button class="flex items-center focus:outline-none">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-8 h-8 rounded-full">
+                    <span class="ml-2 font-medium text-gray-700 hidden md:block">Jason Miller</span>
+                    <i class="fas fa-chevron-down ml-1 text-gray-400"></i>
+                </button>
+                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="container mx-auto px-4 py-6">
+        <!-- Welcome & Focus Section -->
+        <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between">
+                <div>
+                    <h1 class="text-xl font-bold text-gray-800">Good morning, Jason!</h1>
+                    <p class="text-gray-500 mt-1">You have <span class="font-medium text-indigo-600">5 tasks</span> due today</p>
+                </div>
+                <div class="mt-4 md:mt-0 space-x-3">
+                    <button id="focusBtn" class="bg-indigo-50 text-indigo-700 px-4 py-2 rounded-md hover:bg-indigo-100 transition">
+                        <i class="fas fa-brain mr-2"></i> Focus Mode
+                    </button>
+                    <button class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition">
+                        <i class="fas fa-plus mr-2"></i> Add Task
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Main Tasks Column -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- My Tasks Section -->
+                <div class="bg-white rounded-lg shadow-sm p-5">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-medium text-gray-900">My Tasks</h2>
+                        <div class="flex space-x-2">
+                            <button class="text-gray-400 hover:text-indigo-600" title="Filter">
+                                <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="relative">
+                                <select class="appearance-none bg-gray-50 border border-gray-200 text-gray-700 py-1 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 text-sm">
+                                    <option>By Due Date</option>
+                                    <option>By Priority</option>
+                                    <option>By Project</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <i class="fas fa-chevron-down text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Today Section -->
+                    <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">Today</h3>
+                    <div class="space-y-3 mb-6">
+                        <!-- Task 1 -->
+                        <div class="task-card bg-white border border-gray-200 rounded-lg p-3 hover:border-indigo-300">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 pt-1">
+                                    <input type="checkbox" class="h-4 w-4 text-indigo-600 rounded" title="Mark as complete">
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <div class="flex justify-between">
+                                        <h4 class="text-sm font-medium text-gray-900">Complete frontend code review</h4>
+                                        <span class="text-xs font-medium text-red-600">Today, 2PM</span>
+                                    </div>
+                                    <p class="mt-1 text-xs text-gray-500">Review PR #423 for the user authentication module</p>
+                                    <div class="mt-2 flex items-center">
+                                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded">Development</span>
+                                        <span class="bg-red-100 text-red-800 text-xs px-2 py-0.5 rounded ml-2">High</span>
+                                        <span class="ml-auto text-xs text-gray-500">
+                                            <i class="fas fa-comment mr-1"></i> 3
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Task 2 -->
+                        <div class="task-card bg-white border border-gray-200 rounded-lg p-3 hover:border-indigo-300">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 pt-1">
+                                    <input type="checkbox" class="h-4 w-4 text-indigo-600 rounded" title="Mark as complete">
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <div class="flex justify-between">
+                                        <h4 class="text-sm font-medium text-gray-900">Prepare for team demo</h4>
+                                        <span class="text-xs font-medium text-amber-600">Today, 4PM</span>
+                                    </div>
+                                    <p class="mt-1 text-xs text-gray-500">Create slides for the new feature demo</p>
+                                    <div class="mt-2 flex items-center">
+                                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-0.5 rounded">Meeting</span>
+                                        <span class="bg-amber-100 text-amber-800 text-xs px-2 py-0.5 rounded ml-2">Medium</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Task 3 -->
+                        <div class="task-card bg-white border border-gray-200 rounded-lg p-3 hover:border-indigo-300">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 pt-1">
+                                    <input type="checkbox" class="h-4 w-4 text-indigo-600 rounded" title="Mark as complete">
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <div class="flex justify-between">
+                                        <h4 class="text-sm font-medium text-gray-900">Update user documentation</h4>
+                                        <span class="text-xs font-medium text-gray-600">Today, 5PM</span>
+                                    </div>
+                                    <p class="mt-1 text-xs text-gray-500">Add sections for new authentication flow</p>
+                                    <div class="mt-2 flex items-center">
+                                        <span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded">Documentation</span>
+                                        <span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded ml-2">Low</span>
+                                        <div class="ml-auto flex items-center">
+                                            <div class="text-xs text-gray-500 mr-3">
+                                                <i class="fas fa-paperclip mr-1"></i> 2
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tomorrow Section -->
+                    <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">Tomorrow</h3>
+                    <div class="space-y-3">
+                        <!-- Task 4 -->
+                        <div class="task-card bg-white border border-gray-200 rounded-lg p-3 hover:border-indigo-300">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 pt-1">
+                                    <input type="checkbox" class="h-4 w-4 text-indigo-600 rounded" title="Mark as complete">
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <div class="flex justify-between">
+                                        <h4 class="text-sm font-medium text-gray-900">Sprint planning meeting</h4>
+                                        <span class="text-xs font-medium text-gray-600">Tomorrow, 10AM</span>
+                                    </div>
+                                    <p class="mt-1 text-xs text-gray-500">Prepare task estimates for next sprint</p>
+                                    <div class="mt-2 flex items-center">
+                                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-0.5 rounded">Meeting</span>
+                                        <div class="ml-auto flex items-center">
+                                            <div class="avatar-stack flex">
+                                                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="avatar w-5 h-5 rounded-full" alt="User">
+                                                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="avatar w-5 h-5 rounded-full" alt="User">
+                                                <img src="https://randomuser.me/api/portraits/men/86.jpg" class="avatar w-5 h-5 rounded-full" alt="User">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Projects Section -->
+                <div class="bg-white rounded-lg shadow-sm p-5">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-medium text-gray-900">My Projects</h2>
+                        <button class="text-sm text-indigo-600 hover:text-indigo-700">View All</button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <!-- Project 1 -->
+                        <div class="border border-gray-200 rounded-lg p-4 hover:border-indigo-300 transition">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-medium text-gray-900">Mobile App Redesign</h3>
+                                    <p class="text-xs text-gray-500 mt-1">Frontend Development</p>
+                                </div>
+                                <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-lg">Active</span>
+                            </div>
+                            
+                            <div class="mt-3 mb-3">
+                                <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                    <span>Progress (7/12 tasks)</span>
+                                    <span>58%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                    <div class="bg-green-500 h-1.5 rounded-full task-progress" style="width: 58%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-xs">
+                                <div class="text-gray-500">
+                                    <i class="far fa-calendar mr-1"></i> Due Jul 28
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="avatar-stack flex">
+                                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="avatar w-5 h-5 rounded-full" alt="User">
+                                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="avatar w-5 h-5 rounded-full" alt="User">
+                                        <img src="https://randomuser.me/api/portraits/men/86.jpg" class="avatar w-5 h-5 rounded-full" alt="User">
+                                    </div>
+                                    <button class="ml-3 text-indigo-600 hover:text-indigo-800">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Project 2 -->
+                        <div class="border border-gray-200 rounded-lg p-4 hover:border-indigo-300 transition">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-medium text-gray-900">API Documentation</h3>
+                                    <p class="text-xs text-gray-500 mt-1">Technical Writing</p>
+                                </div>
+                                <span class="bg-amber-100 text-amber-700 text-xs px-2 py-0.5 rounded-lg">In Progress</span>
+                            </div>
+                            
+                            <div class="mt-3 mb-3">
+                                <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                    <span>Progress (3/10 tasks)</span>
+                                    <span>30%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                    <div class="bg-amber-500 h-1.5 rounded-full task-progress" style="width: 30%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-xs">
+                                <div class="text-gray-500">
+                                    <i class="far fa-calendar mr-1"></i> Due Aug 15
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="avatar-stack flex">
+                                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="avatar w-5 h-5 rounded-full" alt="User">
+                                        <img src="https://randomuser.me/api/portraits/women/22.jpg" class="avatar w-5 h-5 rounded-full" alt="User">
+                                    </div>
+                                    <button class="ml-3 text-indigo-600 hover:text-indigo-800">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side Column -->
+            <div class="space-y-6">
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-lg shadow-sm p-5">
+                    <h2 class="text-md font-medium text-gray-900 mb-3">Quick Actions</h2>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="flex items-center justify-center bg-gray-50 hover:bg-gray-100 text-gray-700 p-3 rounded-lg transition">
+                            <div class="flex flex-col items-center">
+                                <i class="fas fa-file-alt text-indigo-500 text-lg"></i>
+                                <span class="text-xs mt-1">Start Timer</span>
+                            </div>
+                        </button>
+                        <button class="flex items-center justify-center bg-gray-50 hover:bg-gray-100 text-gray-700 p-3 rounded-lg transition">
+                            <div class="flex flex-col items-center">
+                                <i class="fas fa-comment-alt text-indigo-500 text-lg"></i>
+                                <span class="text-xs mt-1">Message</span>
+                            </div>
+                        </button>
+                        <button class="flex items-center justify-center bg-gray-50 hover:bg-gray-100 text-gray-700 p-3 rounded-lg transition">
+                            <div class="flex flex-col items-center">
+                                <i class="fas fa-file-upload text-indigo-500 text-lg"></i>
+                                <span class="text-xs mt-1">Upload File</span>
+                            </div>
+                        </button>
+                        <button class="flex items-center justify-center bg-gray-50 hover:bg-gray-100 text-gray-700 p-3 rounded-lg transition">
+                            <div class="flex flex-col items-center">
+                                <i class="fas fa-calendar-plus text-indigo-500 text-lg"></i>
+                                <span class="text-xs mt-1">Schedule</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Daily Progress -->
+                <div class="bg-white rounded-lg shadow-sm p-5">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-md font-medium text-gray-900">Today's Progress</h2>
+                        <span class="text-xs text-indigo-600">2/5 completed</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-indigo-600 h-2 rounded-full task-progress" style="width: 40%"></div>
+                    </div>
+                    
+                    <!-- Pomodoro Timer -->
+                    <div class="mt-4 border-t border-gray-100 pt-4">
+                        <div class="text-center">
+                            <h3 class="text-sm font-medium text-gray-900 mb-2">Focus Timer</h3>
+                            <div class="text-3xl font-bold text-gray-800 mb-3">25:00</div>
+                            <div class="flex justify-center space-x-3">
+                                <button class="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700 transition text-sm">
+                                    <i class="fas fa-play mr-1"></i> Start
+                                </button>
+                                <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition text-sm">
+                                    <i class="fas fa-redo-alt mr-1"></i> Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Team Activity -->
+                <div class="bg-white rounded-lg shadow-sm p-5">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-md font-medium text-gray-900">Team Activity</h2>
+                        <button class="text-xs text-indigo-600 hover:text-indigo-700">View All</button>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-8 h-8 rounded-full mr-3" alt="User">
+                            <div>
+                                <p class="text-xs">
+                                    <span class="font-medium text-gray-900">Sarah Chen</span>
+                                    <span class="text-gray-600">completed</span>
+                                    <span class="font-medium text-gray-900">"Fix navigation bug"</span>
+                                </p>
+                                <p class="text-xs text-gray-500 mt-1">35 minutes ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <img src="https://randomuser.me/api/portraits/men/86.jpg" class="w-8 h-8 rounded-full mr-3" alt="User">
+                            <div>
+                                <p class="text-xs">
+                                    <span class="font-medium text-gray-900">Alex Johnson</span>
+                                    <span class="text-gray-600">commented on</span>
+                                    <span class="font-medium text-gray-900">"User authentication"</span>
+                                </p>
+                                <p class="text-xs text-gray-600 mt-1 bg-gray-50 p-1.5 rounded">Let's review this together tomorrow morning.</p>
+                                <p class="text-xs text-gray-500 mt-1">1 hour ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <img src="https://randomuser.me/api/portraits/women/22.jpg" class="w-8 h-8 rounded-full mr-3" alt="User">
+                            <div>
+                                <p class="text-xs">
+                                    <span class="font-medium text-gray-900">Taylor Wong</span>
+                                    <span class="text-gray-600">assigned you to</span>
+                                    <span class="font-medium text-gray-900">"Code review"</span>
+                                </p>
+                                <p class="text-xs text-gray-500 mt-1">2 hours ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Learning Resources -->
+                <div class="bg-white rounded-lg shadow-sm p-5">
+                    <h2 class="text-md font-medium text-gray-900 mb-3">Resources For You</h2>
+                    <div class="space-y-3">
+                        <a href="#" class="block p-3 border border-gray-200 rounded-lg hover:border-indigo-300 transition">
+                            <div class="flex items-center">
+                                <div class="bg-blue-100 p-2 rounded">
+                                    <i class="fas fa-book text-blue-600"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-medium text-gray-900">Frontend Testing Guide</h3>
+                                    <p class="text-xs text-gray-500">Best practices for UI testing</p>
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <a href="#" class="block p-3 border border-gray-200 rounded-lg hover:border-indigo-300 transition">
+                            <div class="flex items-center">
+                                <div class="bg-green-100 p-2 rounded">
+                                    <i class="fas fa-video text-green-600"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-medium text-gray-900">React Performance Tutorial</h3>
+                                    <p class="text-xs text-gray-500">10 min video by DevTeam</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Focus Mode Overlay (hidden by default) -->
+    <div id="focusMode" class="fixed inset-0 bg-gray-800 bg-opacity-95 z-50 flex-col items-center justify-center hidden focus-mode">
+        <div class="text-center p-8 max-w-lg mx-auto">
+            <h2 class="text-white text-2xl font-bold mb-6">Focus Mode</h2>
+            
+            <div class="bg-gray-900 rounded-lg p-6 mb-8">
+                <div class="text-white text-5xl font-bold mb-6">25:00</div>
+                <div class="flex justify-center space-x-4">
+                    <button class="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 transition">
+                        <i class="fas fa-play mr-2"></i> Start
+                    </button>
+                    <button class="bg-gray-700 text-white px-5 py-2 rounded-lg hover:bg-gray-600 transition">
+                        <i class="fas fa-pause mr-2"></i> Pause
+                    </button>
+                </div>
+            </div>
+            
+            <div class="bg-gray-900 rounded-lg p-6 mb-8">
+                <h3 class="text-white text-lg font-medium mb-4">Current Task</h3>
+                <div class="bg-gray-800 p-4 rounded-lg text-left">
+                    <h4 class="text-white font-medium">Complete frontend code review</h4>
+                    <p class="text-gray-400 text-sm mt-1">Review PR #423 for the user authentication module</p>
+                </div>
+            </div>
+            
+            <div class="flex justify-center mb-4">
+                <div class="bg-gray-900 rounded-full px-4 py-2 text-white text-sm">
+                    <i class="fas fa-volume-up mr-2"></i> Ambient Sounds
+                </div>
+            </div>
+            
+            <button id="exitFocusBtn" class="text-gray-400 hover:text-white transition">
+                <i class="fas fa-times mr-2"></i> Exit Focus Mode
+            </button>
+        </div>
+    </div>
+
+    <!-- Quick Add Task Modal (hidden by default) -->
+    <div class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-50 z-40" id="quickAddModal">
+        <div class="bg-white rounded-lg max-w-md w-full mx-4 p-5">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-medium text-gray-900">Add New Task</h3>
+                <button class="text-gray-400 hover:text-gray-500">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Task Name</label>
+                    <input type="text" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="What needs to be done?">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
+                    <textarea class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" rows="2" placeholder="Add details..."></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
+                        <input type="date" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                        <select class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            <option>Low</option>
+                            <option selected>Medium</option>
+                            <option>High</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Project</label>
+                        <select class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            <option>Mobile App Redesign</option>
+                            <option>API Documentation</option>
+                            <option>None</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+                        <input type="text" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Add tags...">
+                    </div>
+                </div>
+            </div>
+            <div class="mt-5 flex justify-end">
+                <button class="mr-3 px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-500">Cancel</button>
+                <button class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700">Create Task</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle Focus Mode
+        const focusBtn = document.getElementById('focusBtn');
+        const focusMode = document.getElementById('focusMode');
+        const exitFocusBtn = document.getElementById('exitFocusBtn');
+        
+        focusBtn.addEventListener('click', () => {
+            focusMode.classList.remove('hidden');
+            focusMode.classList.add('flex');
+        });
+        
+        exitFocusBtn.addEventListener('click', () => {
+            focusMode.classList.add('hidden');
+            focusMode.classList.remove('flex');
+        });
+        
+        // Task completion animation
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if(this.checked) {
+                    // Create confetti effect
+                    const colors = ['#4f46e5', '#818cf8', '#60a5fa', '#34d399', '#fbbf24'];
+                    for(let i = 0; i < 30; i++) {
+                        const confetti = document.createElement('div');
+                        confetti.className = 'confetti';
+                        confetti.style.left = Math.random() * 100 + 'vw';
+                        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                        document.body.appendChild(confetti);
+                        setTimeout(() => confetti.remove(), 5000);
+                    }
+                    
+                    // Fade out task
+                    const taskCard = this.closest('.task-card');
+                    setTimeout(() => {
+                        taskCard.style.opacity = 0.5;
+                        taskCard.style.borderColor = '#d1d5db';
+                    }, 300);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

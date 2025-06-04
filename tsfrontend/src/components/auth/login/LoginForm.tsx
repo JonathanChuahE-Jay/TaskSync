@@ -16,17 +16,14 @@ import ErrorMessage from '@/components/reusable/ErrorMessage.tsx'
 import { useClearFieldError } from '@/hooks/useClearFieldError.tsx'
 import { useDefaultAppForm } from '@/components/common/defaultForm/DefaultAppForm.tsx'
 import { useAuthStore } from '@/store/useAuthStore.tsx'
+import AuthModal from '@/components/common/AuthModal.tsx'
 
 const LoginForm = () => {
 	const [isLoading, setIsLoading] = useState(false)
 	const [apiErrors, setApiErrors] = useState<ErrorResponse>({})
 	const clearFieldError = useClearFieldError(apiErrors, setApiErrors)
 
-	const {
-		login,
-		error: authError,
-		clearError,
-	} = useAuthStore()
+	const { login, error: authError, clearError } = useAuthStore()
 
 	useEffect(() => {
 		if (authError) {
@@ -52,7 +49,7 @@ const LoginForm = () => {
 				const success = await login(
 					userData.username,
 					userData.password,
-					userData.rememberMe
+					userData.rememberMe,
 				)
 
 				if (success) {
@@ -76,14 +73,7 @@ const LoginForm = () => {
 	useClickEnter(form.handleSubmit)
 
 	return (
-		<motion.div
-			initial={{ opacity: 0, y: 20 }}
-			animate={{ opacity: 1, y: 0 }}
-			transition={{ duration: 0.5 }}
-			className="relative z-10 bg-white/40 rounded-2xl shadow-2xl backdrop-blur-xl border border-white/50 p-8 w-[440px] max-w-[90%] overflow-hidden"
-		>
-			<div className="absolute -top-16 -right-16 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl" />
-			<div className="absolute -bottom-16 -left-16 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl" />
+		<AuthModal>
 			<motion.div
 				initial={{ scale: 0.9 }}
 				animate={{ scale: 1 }}
@@ -138,9 +128,16 @@ const LoginForm = () => {
 						whileTap={{ scale: 0.98 }}
 						onClick={form.handleSubmit}
 						disabled={isLoading}
-						className="w-full py-3 px-4 mt-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700
-                 text-white font-medium rounded-xl shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30
-                 transition duration-200 flex justify-center items-center"
+						className="w-full py-3 px-4 mt-4 bg-gradient-to-r 
+						 from-blue-600 to-indigo-600
+						 hover:from-blue-700 hover:to-indigo-700
+						 dark:from-sky-600 dark:to-indigo-700
+						 dark:hover:from-sky-700 dark:hover:to-indigo-800
+						 text-white font-medium rounded-xl
+						 shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30
+						 dark:shadow-blue-900/30 dark:hover:shadow-blue-900/40
+						 disabled:opacity-70 disabled:cursor-not-allowed
+						 transition duration-200 flex justify-center items-center"
 						type="button"
 					>
 						{isLoading ? (
@@ -160,7 +157,7 @@ const LoginForm = () => {
 				<LoginSocialMedia />
 				<LoginSignUpButton />
 			</motion.div>
-		</motion.div>
+		</AuthModal>
 	)
 }
 

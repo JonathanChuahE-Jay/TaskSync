@@ -27,10 +27,10 @@ const RegisterCompleteHeader = () => {
 				</div>
 			</motion.div>
 
-			<h3 className="text-xl font-medium text-gray-800 mb-2">
+			<h3 className="text-xl font-medium mb-2 text-slate">
 				Verification Completed!
 			</h3>
-			<p className="text-gray-600">
+			<p className="text-slate">
 				Your account is ready to be created. Please review the information
 				before submitting.
 			</p>

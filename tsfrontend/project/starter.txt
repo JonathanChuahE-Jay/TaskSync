@@ -1,0 +1,50 @@
+"TaskSync" – A Real-Time Team Task Manager
+🎯 Purpose
+A collaborative task management platform for small teams (like Trello/Asana lite) with real-time updates and role-based access.
+
+🧱 Tech Stack
+Frontend: Next.js (App Router) + React Context / Zustand
+
+Backend: Django REST Framework + Django Channels (for WebSockets)
+
+Database: PostgreSQL
+
+Realtime: Django Channels + Redis
+
+Auth: JWT (HTTP-only cookie) + Role-based permissions
+
+Optional: Email invites + Celery (for email sending or reminders)
+
+🔑 Core Features
+User Auth System
+
+Sign up / login / logout with email + password
+
+Roles: Owner, Member, Guest
+
+Project + Task Boards
+
+Create/edit/delete projects
+
+Drag-and-drop Kanban-style task lists
+
+Assign users to tasks
+
+Status: Todo / In Progress / Done
+
+Real-Time Sync (WebSocket)
+
+When a task is updated, other users in the project see it instantly
+
+Comment System
+
+Threaded comments on tasks (real-time optional)
+
+Notifications
+
+"You were assigned a task", "New comment", etc. (store in DB or send emails)
+
+Dashboard Analytics (optional)
+
+Tasks completed over time, team productivity (use Chart.js or similar)
+
