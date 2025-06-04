@@ -1,22 +1,8 @@
 import { Link, useRouterState } from '@tanstack/react-router'
-import {
-	IconLayoutDashboard,
-	IconReportAnalytics,
-	IconSettings,
-	IconUsers,
-} from '@tabler/icons-react'
 import { cn } from '@/utils/utils.ts'
+import { navItems } from '@/data/navItemsData.tsx'
 
-const navItems = [
-	{
-		name: 'Dashboard',
-		to: '/dashboard',
-		icon: <IconLayoutDashboard size={24} />,
-	},
-	{ name: 'Users', to: '/users', icon: <IconUsers size={24} /> },
-	{ name: 'Reports', to: '/reports', icon: <IconReportAnalytics size={24} /> },
-	{ name: 'Settings', to: '/settings', icon: <IconSettings size={24} /> },
-]
+
 
 const Sidebar = () => {
 	const { location } = useRouterState()

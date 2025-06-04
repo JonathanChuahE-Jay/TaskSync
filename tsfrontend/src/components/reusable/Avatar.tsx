@@ -21,9 +21,11 @@ interface AvatarProps {
 	border?: boolean
 	borderColor?: string
 	borderWidth?: string
+	onClick?: () => void
 }
 
 const Avatar: React.FC<AvatarProps> = ({
+	onClick,
 	src,
 	alt = 'User Avatar',
 	size = 'xl',
@@ -157,7 +159,7 @@ const Avatar: React.FC<AvatarProps> = ({
 	}
 
 	return (
-		<div className={`relative inline-block ${className}`}>
+		<div className={`relative inline-block ${className}`} onClick={onClick}>
 			{renderContent()}
 
 			{status && (
