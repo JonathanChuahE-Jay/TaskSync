@@ -36,7 +36,7 @@ export function SubmitButton({
 						 disabled:opacity-70 disabled:cursor-not-allowed
 						 transition duration-200 flex justify-center items-center"
 					disabled={isSubmitting}
-					type="submit"
+					type="button"
 				>
 					{isSubmitting || isLoading ? (
 						<Loader
