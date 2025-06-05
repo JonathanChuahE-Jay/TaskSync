@@ -3,7 +3,6 @@ import { motion } from 'framer-motion'
 import { IconLock, IconUser } from '@tabler/icons-react'
 import { ZodError } from 'zod'
 import type { ErrorResponse } from '@/types/errorResponse.ts'
-import Loader from '@/components/reusable/Loaders.tsx'
 import LoginHeader from '@/components/auth/login/LoginHeader.tsx'
 import ForgotPasswordLink from '@/components/auth/login/ForgotPasswordLink.tsx'
 import LoginHr from '@/components/auth/login/LoginHr.tsx'
@@ -123,34 +122,16 @@ const LoginForm = () => {
 						/>
 						<ForgotPasswordLink />
 					</div>
-					<motion.button
-						whileHover={{ scale: 1.02 }}
-						whileTap={{ scale: 0.98 }}
-						onClick={form.handleSubmit}
-						disabled={isLoading}
-						className="w-full py-3 px-4 mt-4 bg-gradient-to-r 
-						 from-blue-600 to-indigo-600
-						 hover:from-blue-700 hover:to-indigo-700
-						 dark:from-sky-600 dark:to-indigo-700
-						 dark:hover:from-sky-700 dark:hover:to-indigo-800
-						 text-white font-medium rounded-xl
-						 shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30
-						 dark:shadow-blue-900/30 dark:hover:shadow-blue-900/40
-						 disabled:opacity-70 disabled:cursor-not-allowed
-						 transition duration-200 flex justify-center items-center"
-						type="button"
-					>
-						{isLoading ? (
-							<Loader
-								dynamicText={true}
-								sideBySide={true}
-								label="Signing In"
-								variant="bars"
-							/>
-						) : (
-							'Sign In'
-						)}
-					</motion.button>
+					<form.AppForm>
+						<form.SubmitButton
+							label="Login"
+							loadingLabel="Signing In"
+							dynamicText={true}
+							sideBySide={true}
+							variant="bars"
+							isLoading={isLoading}
+						/>
+					</form.AppForm>
 				</form>
 				<ErrorMessage apiErrors={apiErrors} />
 				<LoginHr />
