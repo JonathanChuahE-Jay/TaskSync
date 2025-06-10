@@ -35,7 +35,6 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 	},
 	component: () => {
 		const { theme } = useUserConfigStore()
-		console.log(theme)
 		return (
 			<div
 				className={cn(

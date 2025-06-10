@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
-import { EditIcon } from 'lucide-react'
 import { cn } from '@/utils/utils.ts'
+import { IconEdit } from '@tabler/icons-react'
 
 interface AvatarProps {
 	src?: string
@@ -22,10 +22,14 @@ interface AvatarProps {
 	borderColor?: string
 	borderWidth?: string
 	onClick?: () => void
+	onMouseLeave?: () => void
+	onMouseEnter?: () => void
 }
 
 const Avatar: React.FC<AvatarProps> = ({
 	onClick,
+	onMouseLeave,
+	onMouseEnter,
 	src,
 	alt = 'User Avatar',
 	size = 'xl',
@@ -159,7 +163,7 @@ const Avatar: React.FC<AvatarProps> = ({
 	}
 
 	return (
-		<div className={`relative inline-block ${className}`} onClick={onClick}>
+		<div className={`relative inline-block ${className}`} onClick={onClick} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
 			{renderContent()}
 
 			{status && (
@@ -181,7 +185,7 @@ const Avatar: React.FC<AvatarProps> = ({
 						)}
 					>
 						{editIcon || (
-							<EditIcon
+							<IconEdit
 								size={editIconSize}
 								className={cn('text-gray-600', editIconClassName)}
 							/>

@@ -1,5 +1,6 @@
 import {
 	IconLayoutDashboard,
+	IconLogout,
 	IconReportAnalytics,
 	IconSettings,
 	IconUsers,
@@ -15,3 +16,16 @@ export const navItems = [
 	{ name: 'Reports', to: '/reports', icon: <IconReportAnalytics size={24} /> },
 	{ name: 'Settings', to: '/settings', icon: <IconSettings size={24} /> },
 ]
+
+export const menuItems = [
+	{
+		label: 'Settings',
+		onClick: () => console.log('Go to Settings'),
+		icon: <IconSettings size={16} />,
+	},
+	{
+		label: 'Logout',
+		onClick: () => console.log('Logging out...'),
+		icon: <IconLogout size={16} />,
+	},
+];
