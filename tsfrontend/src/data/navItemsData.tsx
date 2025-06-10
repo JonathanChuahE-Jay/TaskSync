@@ -17,7 +17,7 @@ export const navItems = [
 	{ name: 'Settings', to: '/settings', icon: <IconSettings size={24} /> },
 ]
 
-export const menuItems = [
+export const createMenuItems = ({ onLogout }: { onLogout: () => void }) => [
 	{
 		label: 'Settings',
 		onClick: () => console.log('Go to Settings'),
@@ -25,7 +25,7 @@ export const menuItems = [
 	},
 	{
 		label: 'Logout',
-		onClick: () => console.log('Logging out...'),
+		onClick: onLogout,
 		icon: <IconLogout size={16} />,
 	},
-];
+]

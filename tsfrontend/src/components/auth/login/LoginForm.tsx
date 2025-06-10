@@ -42,7 +42,6 @@ const LoginForm = () => {
 				setIsLoading(true)
 				setApiErrors({})
 
-				console.log(value)
 				const userData = loginSchema.parse(value)
 
 				const success = await login(

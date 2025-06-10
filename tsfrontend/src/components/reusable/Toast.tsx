@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
 	IconCheck,
 	IconExclamationCircle,
@@ -10,6 +10,13 @@ import {
 export interface ToastContainerProps {
 	toasts: Array<ToastProps>
 	onClose: (id: string) => void
+	direction?:
+		| 'top-left'
+		| 'top-right'
+		| 'bottom-left'
+		| 'bottom-right'
+		| 'top-center'
+		| 'bottom-center'
 }
 
 export interface ToastProps {
@@ -36,34 +43,50 @@ const toastStyles = {
 	info: 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-600',
 }
 
+const progressColors = {
+	success: '#10B981',
+	error: '#EF4444',
+	warning: '#F59E0B',
+	info: '#3B82F6',
+}
+
 export const Toast = ({
 	id,
 	message,
 	type,
-	duration = 5000,
+	duration = 3000,
 	onClose,
 }: ToastProps) => {
 	const [progress, setProgress] = useState(0)
+	const intervalRef = useRef<number | null>(null)
+	const timerRef = useRef<number | null>(null)
 
 	useEffect(() => {
-		const timer = setTimeout(() => {
-			onClose(id)
-		}, duration)
+		if (intervalRef.current) clearInterval(intervalRef.current)
+		if (timerRef.current) clearTimeout(timerRef.current)
 
-		const interval = setInterval(() => {
+		intervalRef.current = window.setInterval(() => {
 			setProgress((prev) => {
-				if (prev < 100) {
-					return prev + 100 / (duration / 100)
-				}
-				return 100
+				const newProgress = prev + 100 / (duration / 100)
+				return newProgress >= 100 ? 100 : newProgress
 			})
 		}, 100)
 
+		timerRef.current = window.setTimeout(() => {
+			onClose(id)
+		}, duration)
+
 		return () => {
-			clearTimeout(timer)
-			clearInterval(interval)
+			if (intervalRef.current) clearInterval(intervalRef.current)
+			if (timerRef.current) clearTimeout(timerRef.current)
 		}
 	}, [duration, id, onClose])
+
+	useEffect(() => {
+		if (progress >= 100) {
+			onClose(id)
+		}
+	}, [progress, id, onClose])
 
 	return (
 		<motion.div
@@ -72,9 +95,10 @@ export const Toast = ({
 			animate={{ opacity: 1, y: 0, scale: 1 }}
 			exit={{ opacity: 0, y: -20, scale: 0.9 }}
 			transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-			className={`max-w-md w-full shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 border ${toastStyles[type]}`}
+			className={`relative overflow-hidden shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 border ${toastStyles[type]}`}
+			style={{ width: 'auto', maxWidth: '24rem' }}
 		>
-			<div className="flex-1 w-0 p-4">
+			<div className="flex-1 p-4">
 				<div className="flex items-start">
 					<div className="flex-shrink-0">{toastIcons[type]}</div>
 					<div className="ml-3 flex-1">
@@ -93,28 +117,66 @@ export const Toast = ({
 				</button>
 			</div>
 			<div
-				className="absolute bottom-0 left-0 h-1 bg-current transition-all duration-100 ease-out"
+				className="absolute bottom-0 left-0 h-1 transition-all duration-100 ease-out"
 				style={{
 					width: `${progress}%`,
-					backgroundColor:
-						type === 'success'
-							? '#10B981'
-							: type === 'error'
-								? '#EF4444'
-								: type === 'warning'
-									? '#F59E0B'
-									: '#3B82F6',
+					backgroundColor: progressColors[type],
 				}}
 			/>
 		</motion.div>
 	)
 }
-export const ToastContainer = ({ toasts, onClose }: ToastContainerProps) => {
+
+export const ToastContainer = ({
+	toasts,
+	onClose,
+	direction = 'top-right',
+}: ToastContainerProps) => {
+	const getPositionClasses = () => {
+		switch (direction) {
+			case 'top-left':
+				return 'top-0 left-0 items-start'
+			case 'top-right':
+				return 'top-0 right-0 items-end'
+			case 'bottom-left':
+				return 'bottom-0 left-0 items-start'
+			case 'bottom-right':
+				return 'bottom-0 right-0 items-end'
+			case 'top-center':
+				return 'top-0 left-1/2 -translate-x-1/2 items-center'
+			case 'bottom-center':
+				return 'bottom-0 left-1/2 -translate-x-1/2 items-center'
+			default:
+				return 'top-0 right-0 items-end'
+		}
+	}
+
+	const getAnimationDirection = () => {
+		if (direction.includes('top')) {
+			return { initial: { y: -20 }, animate: { y: 0 }, exit: { y: -20 } }
+		} else if (direction.includes('bottom')) {
+			return { initial: { y: 20 }, animate: { y: 0 }, exit: { y: 20 } }
+		}
+		return { initial: { y: -20 }, animate: { y: 0 }, exit: { y: -20 } }
+	}
+
+	const animationProps = getAnimationDirection()
+
 	return (
-		<div className="fixed top-0 right-0 p-4 z-50 flex flex-col items-end space-y-2 pointer-events-none">
+		<div
+			className={`fixed p-4 z-50 flex flex-col space-y-2 pointer-events-none ${getPositionClasses()}`}
+		>
 			<AnimatePresence>
 				{toasts.map((toast) => (
-					<Toast key={toast.id} {...toast} onClose={onClose} />
+					<motion.div
+						key={toast.id}
+						initial={animationProps.initial}
+						animate={animationProps.animate}
+						exit={animationProps.exit}
+						transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+					>
+						<Toast {...toast} onClose={onClose} />
+					</motion.div>
 				))}
 			</AnimatePresence>
 		</div>

@@ -2,8 +2,6 @@ import { Link, useRouterState } from '@tanstack/react-router'
 import { cn } from '@/utils/utils.ts'
 import { navItems } from '@/data/navItemsData.tsx'
 
-
-
 const Sidebar = () => {
 	const { location } = useRouterState()
 	return (
