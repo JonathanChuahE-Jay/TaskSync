@@ -5,6 +5,7 @@ import Sidebar from '@/components/root/Navbar/Sidebar.tsx'
 import TopNav from '@/components/root/Navbar/TopNav.tsx'
 import { useUserConfigStore } from '@/store/useUserConfig.ts'
 import { cn } from '@/utils/utils.ts'
+import { redirect } from '@tanstack/router-core'
 
 interface MyRouterContext {
 	queryClient: QueryClient
@@ -12,8 +13,7 @@ interface MyRouterContext {
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
 	beforeLoad: async () => {
-		const { init, verify, refresh, isInitialized, resetState } =
-			useAuthStore.getState()
+		const { init, verify, refresh, isInitialized, resetState, isAuthenticated } = useAuthStore.getState()
 
 		if (!isInitialized) {
 			try {
@@ -31,10 +31,12 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				console.error('Auth initialization error:', error)
 				resetState()
 			}
+			if(!isAuthenticated) throw redirect({ to: '/login' })
 		}
 	},
 	component: () => {
 		const { theme } = useUserConfigStore()
+		const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 		return (
 			<div
 				className={cn(
@@ -42,9 +44,18 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 					theme === 'dark' ? 'dark' : '',
 				)}
 			>
-				<Sidebar />
-				<TopNav />
-				<main className="pt-16 pl-20 group-hover:pl-64 transition-all duration-700 min-h-screen bg-background text-foreground">
+				{isAuthenticated && (
+					<>
+						<Sidebar />
+						<TopNav />
+					</>
+				)}
+				<main
+					className={cn(
+						'group-hover:pl-64 transition-all duration-700 min-h-screen bg-background text-foreground',
+						isAuthenticated && 'pt-16 pl-20 '
+					)}
+				>
 					<Outlet />
 				</main>
 			</div>
