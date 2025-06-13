@@ -19,10 +19,9 @@ const TopNav = () => {
 	const onLogout = async () => {
 		try {
 			await logOut.mutateAsync()
-			navigate({ to: '/' })
+			navigate({ to: '/login' })
 			toast('Logged out!', 'success')
 		} catch (error) {
-			console.log(error)
 			if (error instanceof ZodError) {
 				toast(flattenErrorResponse(formatZodError(error)), 'error', {
 					direction: 'top-center',
