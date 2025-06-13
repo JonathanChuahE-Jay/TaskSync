@@ -68,11 +68,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         allow_blank=False,
         validators=[UniqueValidator(queryset=User.objects.all())]
     )
-    password = serializers.CharField(
-        write_only=True,
-        required=True,
-        validators=[validate_password]
-    )
+    password = serializers.CharField(write_only=True, required=True)
     password2 = serializers.CharField(write_only=True, required=True)
     role = serializers.ChoiceField(choices=User.ROLE_CHOICES, default='MEMBER')
     first_name = serializers.CharField(required=True)
@@ -85,7 +81,9 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Password fields didn't match."})
-
+        password_validation = PasswordValidationSerializer(data={'password': attrs['password']})
+        if not password_validation.is_valid():
+            raise serializers.ValidationError(password_validation.errors)
         attrs.pop('password2', None)
         return attrs
 
