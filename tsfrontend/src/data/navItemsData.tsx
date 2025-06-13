@@ -12,7 +12,7 @@ export const navItems = [
 		to: '/dashboard',
 		icon: <IconLayoutDashboard size={24} />,
 	},
-	{ name: 'Users', to: '/users', icon: <IconUsers size={24} /> },
+	{ name: 'Project Management', to: '/project-management', icon: <IconUsers size={24} /> },
 	{ name: 'Reports', to: '/reports', icon: <IconReportAnalytics size={24} /> },
 	{ name: 'Settings', to: '/settings', icon: <IconSettings size={24} /> },
 ]

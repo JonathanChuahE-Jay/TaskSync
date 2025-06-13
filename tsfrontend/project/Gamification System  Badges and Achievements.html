@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements & Gamification - Unified Task System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-indigo-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="text-xl font-bold">Unified<span class="text-indigo-300">Task</span></span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Dashboard</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Projects</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Tasks</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium bg-indigo-700">Achievements</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-indigo-500 hover:bg-indigo-400 p-2 rounded-full">
+                        <i class="fas fa-bell text-white"></i>
+                        <span class="bg-red-500 text-white text-xs rounded-full px-1 absolute -mt-6 ml-3">3</span>
+                    </button>
+                    <div class="relative">
+                        <img class="h-8 w-8 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/44.jpg" alt="User avatar">
+                        <div class="absolute bottom-0 right-0 bg-green-500 rounded-full h-2.5 w-2.5 border border-white"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="flex-1 min-w-0">
+                    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Your Achievements</h2>
+                </div>
+                <div class="mt-4 flex md:mt-0 md:ml-4">
+                    <button type="button" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-share-alt mr-2"></i>
+                        Share Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats Overview -->
+    <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+            <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow p-5 text-white">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-indigo-100 text-sm">Current Level</p>
+                        <h3 class="text-3xl font-bold mt-1">Gold</h3>
+                        <div class="text-xs mt-2 text-indigo-100">3 weeks at this level</div>
+                    </div>
+                    <div class="bg-white bg-opacity-20 p-2 rounded-lg">
+                        <i class="fas fa-medal text-3xl"></i>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="flex justify-between items-center text-xs mb-1">
+                        <span>Progress to Platinum</span>
+                        <span>72%</span>
+                    </div>
+                    <div class="h-2 w-full bg-white bg-opacity-20 rounded-full">
+                        <div class="h-2 bg-white rounded-full" style="width: 72%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 text-sm">Total Points</p>
+                        <h3 class="text-3xl font-bold text-gray-800 mt-1">8,742</h3>
+                    </div>
+                    <div class="bg-indigo-100 p-2 rounded-lg text-indigo-600">
+                        <i class="fas fa-star text-2xl"></i>
+                    </div>
+                </div>
+                <div class="mt-3 text-green-500 text-sm">
+                    <i class="fas fa-arrow-up"></i> 325 points this week
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 text-sm">Badges Earned</p>
+                        <h3 class="text-3xl font-bold text-gray-800 mt-1">27</h3>
+                    </div>
+                    <div class="bg-blue-100 p-2 rounded-lg text-blue-600">
+                        <i class="fas fa-award text-2xl"></i>
+                    </div>
+                </div>
+                <div class="mt-3 text-blue-500 text-sm">
+                    <i class="fas fa-plus"></i> 3 new badges this month
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 text-sm">Team Ranking</p>
+                        <h3 class="text-3xl font-bold text-gray-800 mt-1">#2</h3>
+                    </div>
+                    <div class="bg-yellow-100 p-2 rounded-lg text-yellow-600">
+                        <i class="fas fa-trophy text-2xl"></i>
+                    </div>
+                </div>
+                <div class="mt-3 text-yellow-500 text-sm">
+                    <i class="fas fa-arrow-up"></i> Up from #4 last week
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Achievements & Badges -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow mb-8">
+                    <div class="px-5 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <h3 class="text-lg font-medium text-gray-900">Recent Achievements</h3>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                            5 new
+                        </span>
+                    </div>
+                    <div class="p-5">
+                        <div class="space-y-5">
+                            <!-- Achievement 1 (New) -->
+                            <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100 relative">
+                                <span class="absolute -top-2 -right-2 px-2 py-0.5 bg-indigo-500 text-white text-xs font-bold rounded-full">
+                                    NEW!
+                                </span>
+                                <div class="flex items-center">
+                                    <div class="h-14 w-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-bolt text-white text-2xl"></i>
+                                    </div>
+                                    <div class="ml-4 flex-1">
+                                        <h4 class="font-medium text-indigo-800 text-lg">Speed Demon</h4>
+                                        <p class="text-sm text-indigo-600 mt-1">Completed 5 tasks ahead of schedule in one week</p>
+                                    </div>
+                                    <div class="ml-4 text-center">
+                                        <div class="text-2xl font-bold text-indigo-800">+150</div>
+                                        <div class="text-xs text-indigo-500">POINTS</div>
+                                    </div>
+                                </div>
+                                <div class="mt-3 text-xs text-indigo-500">
+                                    Earned on May 16, 2023
+                                </div>
+                            </div>
+                            
+                            <!-- Achievement 2 (New) -->
+                            <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100 relative">
+                                <span class="absolute -top-2 -right-2 px-2 py-0.5 bg-indigo-500 text-white text-xs font-bold rounded-full">
+                                    NEW!
+                                </span>
+                                <div class="flex items-center">
+                                    <div class="h-14 w-14 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-users-cog text-white text-2xl"></i>
+                                    </div>
+                                    <div class="ml-4 flex-1">
+                                        <h4 class="font-medium text-indigo-800 text-lg">Team Player</h4>
+                                        <p class="text-sm text-indigo-600 mt-1">Contributed to 10 tasks outside your main assignments</p>
+                                    </div>
+                                    <div class="ml-4 text-center">
+                                        <div class="text-2xl font-bold text-indigo-800">+200</div>
+                                        <div class="text-xs text-indigo-500">POINTS</div>
+                                    </div>
+                                </div>
+                                <div class="mt-3 text-xs text-indigo-500">
+                                    Earned on May 14, 2023
+                                </div>
+                            </div>
+                            
+                            <!-- Achievement 3 -->
+                            <div class="p-4 rounded-lg border border-gray-200">
+                                <div class="flex items-center">
+                                    <div class="h-14 w-14 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-fire text-white text-2xl"></i>
+                                    </div>
+                                    <div class="ml-4 flex-1">
+                                        <h4 class="font-medium text-gray-800 text-lg">Hot Streak</h4>
+                                        <p class="text-sm text-gray-600 mt-1">Completed tasks for 21 consecutive days</p>
+                                    </div>
+                                    <div class="ml-4 text-center">
+                                        <div class="text-2xl font-bold text-gray-800">+300</div>
+                                        <div class="text-xs text-gray-500">POINTS</div>
+                                    </div>
+                                </div>
+                                <div class="mt-3 text-xs text-gray-500">
+                                    Earned on May 5, 2023
+                                </div>
+                            </div>
+                            
+                            <!-- Achievement 4 -->
+                            <div class="p-4 rounded-lg border border-gray-200">
+                                <div class="flex items-center">
+                                    <div class="h-14 w-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-thumbs-up text-white text-2xl"></i>
+                                    </div>
+                                    <div class="ml-4 flex-1">
+                                        <h4 class="font-medium text-gray-800 text-lg">Highly Rated</h4>
+                                        <p class="text-sm text-gray-600 mt-1">Received 5-star reviews on 15 completed tasks</p>
+                                    </div>
+                                    <div class="ml-4 text-center">
+                                        <div class="text-2xl font-bold text-gray-800">+250</div>
+                                        <div class="text-xs text-gray-500">POINTS</div>
+                                    </div>
+                                </div>
+                                <div class="mt-3 text-xs text-gray-500">
+                                    Earned on April 28, 2023
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 text-center">
+                            <button class="text-indigo-600 font-medium hover:text-indigo-500">
+                                View All Achievements
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Badges Collection -->
+                <div class="bg-white rounded-lg shadow">
+                    <div class="px-5 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-medium text-gray-900">Your Badge Collection</h3>
+                    </div>
+                    <div class="p-5">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <!-- Badge 1 (Recent) -->
+                            <div class="p-3 text-center rounded-lg border-2 border-indigo-200 bg-indigo-50 relative">
+                                <span class="absolute -top-2 -right-2 h-4 w-4 bg-indigo-500 rounded-full"></span>
+                                <div class="inline-block p-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full mb-2">
+                                    <i class="fas fa-rocket text-white text-xl"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-800 text-sm">First Milestone</h4>
+                                <p class="text-xs text-gray-500 mt-1">Completed your first project milestone</p>
+                            </div>
+                            
+                            <!-- Badge 2 (Recent) -->
+                            <div class="p-3 text-center rounded-lg border-2 border-indigo-200 bg-indigo-50 relative">
+                                <span class="absolute -top-2 -right-2 h-4 w-4 bg-indigo-500 rounded-full"></span>
+                                <div class="inline-block p-3 bg-gradient-to-br from-green-500 to-teal-600 rounded-full mb-2">
+                                    <i class="fas fa-comments text-white text-xl"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-800 text-sm">Communicator</h4>
+                                <p class="text-xs text-gray-500 mt-1">Posted 50+ comments on tasks</p>
+                            </div>
+                            
+                            <!-- Badge 3 -->
+                            <div class="p-3 text-center rounded-lg border border-gray-200">
+                                <div class="inline-block p-3 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-full mb-2">
+                                    <i class="fas fa-calendar-check text-white text-xl"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-800 text-sm">On Time</h4>
+                                <p class="text-xs text-gray-500 mt-1">Met 25 deadlines consecutively</p>
+                            </div>
+                            
+                            <!-- Badge 4 -->
+                            <div class="p-3 text-center rounded-lg border border-gray-200">
+                                <div class="inline-block p-3 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mb-2">
+                                    <i class="fas fa-brain text-white text-xl"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-800 text-sm">Problem Solver</h4>
+                                <p class="text-xs text-gray-500 mt-1">Resolved 10 blocked tasks</p>
+                            </div>
+                            
+                            <!-- Badge 5 -->
+                            <div class="p-3 text-center rounded-lg border border-gray-200">
+                                <div class="inline-block p-3 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full mb-2">
+                                    <i class="fas fa-palette text-white text-xl"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-800 text-sm">Designer</h4>
+                                <p class="text-xs text-gray-500 mt-1">Completed 15 design tasks</p>
+                            </div>
+                            
+                            <!-- Badge 6 -->
+                            <div class="p-3 text-center rounded-lg border border-gray-200">
+                                <div class="inline-block p-3 bg-gradient-to-br from-red-500 to-pink-600 rounded-full mb-2">
+                                    <i class="fas fa-heart text-white text-xl"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-800 text-sm">Appreciated</h4>
+                                <p class="text-xs text-gray-500 mt-1">Received 20 thank-you notes</p>
+                            </div>
+                            
+                            <!-- Badge 7 -->
+                            <div class="p-3 text-center rounded-lg border border-gray-200">
+                                <div class="inline-block p-3 bg-gradient-to-br from-gray-700 to-gray-900 rounded-full mb-2">
+                                    <i class="fas fa-shield-alt text-white text-xl"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-800 text-sm">Guardian</h4>
+                                <p class="text-xs text-gray-500 mt-1">Helped 5 team members with blockers</p>
+                            </div>
+                            
+                            <!-- Locked Badge -->
+                            <div class="p-3 text-center rounded-lg border border-gray-200 opacity-50 relative">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <i class="fas fa-lock text-gray-400 text-xl"></i>
+                                </div>
+                                <div class="inline-block p-3 bg-gradient-to-br from-gray-400 to-gray-500 rounded-full mb-2 filter grayscale">
+                                    <i class="fas fa-crown text-white text-xl"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-800 text-sm">Team Leader</h4>
+                                <p class="text-xs text-gray-500 mt-1">Lead a project to successful completion</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 text-center">
+                            <button class="text-indigo-600 font-medium hover:text-indigo-500">
+                                View All Badges (27)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column - Leaderboard & Challenge -->
+            <div>
+                <!-- Leaderboard -->
+                <div class="bg-white shadow rounded-lg mb-8">
+                    <div class="px-5 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <h3 class="text-lg font-medium text-gray-900">Team Leaderboard</h3>
+                        <select class="text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                            <option>This Week</option>
+                            <option>This Month</option>
+                            <option>All Time</option>
+                        </select>
+                    </div>
+                    <div class="p-5">
+                        <div class="space-y-2">
+                            <!-- 1st Place -->
+                            <div class="flex items-center p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                                <div class="flex-shrink-0 w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                    1
+                                </div>
+                                <div class="ml-3 flex-1 flex items-center">
+                                    <img class="h-8 w-8 rounded-full" src="https://randomuser.me/api/portraits/men/45.jpg" alt="">
+                                    <div class="ml-3">
+                                        <div class="text-sm font-medium text-gray-900">Michael Rodriguez</div>
+                                        <div class="text-xs text-gray-500">UI Designer</div>
+                                    </div>
+                                    <div class="ml-auto text-lg font-bold text-yellow-600">9,284</div>
+                                </div>
+                            </div>
+                            
+                            <!-- 2nd Place (Current User) -->
+                            <div class="flex items-center p-3 bg-indigo-50 rounded-lg border-2 border-indigo-300">
+                                <div class="flex-shrink-0 w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                    2
+                                </div>
+                                <div class="ml-3 flex-1 flex items-center">
+                                    <img class="h-8 w-8 rounded-full" src="https://randomuser.me/api/portraits/women/44.jpg" alt="">
+                                    <div class="ml-3">
+                                        <div class="text-sm font-medium text-indigo-800">Sarah Johnson (You)</div>
+                                        <div class="text-xs text-indigo-500">Project Manager</div>
+                                    </div>
+                                    <div class="ml-auto text-lg font-bold text-indigo-600">8,742</div>
+                                </div>
+                            </div>
+                            
+                            <!-- 3rd Place -->
+                            <div class="flex items-center p-3 bg-orange-50 rounded-lg border border-orange-200">
+                                <div class="flex-shrink-0 w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                    3
+                                </div>
+                                <div class="ml-3 flex-1 flex items-center">
+                                    <img class="h-8 w-8 rounded-full" src="https://randomuser.me/api/portraits/women/32.jpg" alt="">
+                                    <div class="ml-3">
+                                        <div class="text-sm font-medium text-gray-900">Emily Chen</div>
+                                        <div class="text-xs text-gray-500">UX Designer</div>
+                                    </div>
+                                    <div class="ml-auto text-lg font-bold text-orange-600">8,126</div>
+                                </div>
+                            </div>
+                            
+                            <!-- 4th Place -->
+                            <div class="flex items-center p-3 rounded-lg border border-gray-200">
+                                <div class="flex-shrink-0 w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                    4
+                                </div>
+                                <div class="ml-3 flex-1 flex items-center">
+                                    <img class="h-8 w-8 rounded-full" src="https://randomuser.me/api/portraits/men/41.jpg" alt="">
+                                    <div class="ml-3">
+                                        <div class="text-sm font-medium text-gray-900">Alex Nguyen</div>
+                                        <div class="text-xs text-gray-500">Frontend Developer</div>
+                                    </div>
+                                    <div class="ml-auto text-lg font-bold text-gray-700">7,845</div>
+                                </div>
+                            </div>
+                            
+                            <!-- 5th Place -->
+                            <div class="flex items-center p-3 rounded-lg border border-gray-200">
+                                <div class="flex-shrink-0 w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                    5
+                                </div>
+                                <div class="ml-3 flex-1 flex items-center">
+                                    <img class="h-8 w-8 rounded-full" src="https://randomuser.me/api/portraits/women/67.jpg" alt="">
+                                    <div class="ml-3">
+                                        <div class="text-sm font-medium text-gray-900">Erica Park</div>
+                                        <div class="text-xs text-gray-500">Backend Developer</div>
+                                    </div>
+                                    <div class="ml-auto text-lg font-bold text-gray-700">7,521</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 text-center">
+                            <button class="text-indigo-600 font-medium hover:text-indigo-500">
+                                View Full Leaderboard
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Current Challenges -->
+                <div class="bg-white shadow rounded-lg">
+                    <div class="px-5 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-medium text-gray-900">Active Challenges</h3>
+                    </div>
+                    <div class="p-5">
+                        <!-- Challenge 1 -->
+                        <div class="p-4 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg mb-4 text-white">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h4 class="font-medium text-lg">May Sprint Champion</h4>
+                                    <p class="text-sm text-purple-100">Complete the most tasks in the May development sprint</p>
+                                </div>
+                                <div class="bg-white bg-opacity-20 px-2 py-1 rounded-md">
+                                    <span class="text-xs">5 days left</span>
+                                </div>
+                            </div>
+                            <div class="mt-2 flex justify-between items-center">
+                                <div class="text-sm">
+                                    <span class="font-bold">Prize:</span> 
+                                    <span class="text-purple-100">500 points + Exclusive Badge</span>
+                                </div>
+                                <div class="text-sm">
+                                    <span class="font-bold">Your position:</span>
+                                    <span class="text-purple-100">#2</span>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span>18/25 tasks</span>
+                                    <span>72%</span>
+                                </div>
+                                <div class="w-full bg-white bg-opacity-20 rounded-full h-2">
+                                    <div class="bg-white h-2 rounded-full" style="width: 72%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Challenge 2 -->
+                        <div class="p-4 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg mb-4 text-white">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h4 class="font-medium text-lg">Collaboration Champion</h4>
+                                    <p class="text-sm text-blue-100">Comment on at least 30 tasks of your teammates</p>
+                                </div>
+                                <div class="bg-white bg-opacity-20 px-2 py-1 rounded-md">
+                                    <span class="text-xs">12 days left</span>
+                                </div>
+                            </div>
+                            <div class="mt-2 flex justify-between items-center">
+                                <div class="text-sm">
+                                    <span class="font-bold">Prize:</span> 
+                                    <span class="text-blue-100">250 points + Team Player Badge</span>
+                                </div>
+                                <div class="text-sm">
+                                    <span class="font-bold">Your position:</span>
+                                    <span class="text-blue-100">#5</span>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span>17/30 comments</span>
+                                    <span>57%</span>
+                                </div>
+                                <div class="w-full bg-white bg-opacity-20 rounded-full h-2">
+                                    <div class="bg-white h-2 rounded-full" style="width: 57%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Challenge 3 -->
+                        <div class="p-4 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg text-white">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h4 class="font-medium text-lg">Website Launch Readiness</h4>
+                                    <p class="text-sm text-gray-300">Complete all assigned tasks for website launch by deadline</p>
+                                </div>
+                                <div class="bg-white bg-opacity-20 px-2 py-1 rounded-md">
+                                    <span class="text-xs">Team challenge</span>
+                                </div>
+                            </div>
+                            <div class="mt-2 flex justify-between items-center">
+                                <div class="text-sm">
+                                    <span class="font-bold">Prize:</span> 
+                                    <span class="text-gray-300">1000 points for entire team</span>
+                                </div>
+                                <div class="text-sm">
+                                    <span class="font-bold">Team progress:</span>
+                                    <span class="text-gray-300">65%</span>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span>Team: 65/100 tasks</span>
+                                    <span>You: 12/15 tasks</span>
+                                </div>
+                                <div class="w-full bg-white bg-opacity-20 rounded-full h-2">
+                                    <div class="bg-white h-2 rounded-full" style="width: 65%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 text-center">
+                            <button class="text-indigo-600 font-medium hover:text-indigo-500">
+                                View All Challenges
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Achievement Notification -->
+    <div class="fixed bottom-6 right-6 bg-white rounded-lg shadow-lg p-4 max-w-sm border-l-4 border-indigo-500 flex items-center animate-bounce">
+        <div class="flex-shrink-0 h-10 w-10 bg-indigo-500 rounded-full flex items-center justify-center">
+            <i class="fas fa-award text-white"></i>
+        </div>
+        <div class="ml-4 flex-1">
+            <h4 class="font-medium text-gray-900">New Badge Earned!</h4>
+            <p class="text-sm text-gray-600">You just earned the "Communicator" badge!</p>
+        </div>
+        <button class="ml-4 text-gray-400 hover:text-gray-500">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</body>
+</html>

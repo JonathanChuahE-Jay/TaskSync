@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Assignment - Unified Task System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-indigo-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="text-xl font-bold">Unified<span class="text-indigo-300">Task</span></span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Dashboard</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Projects</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium bg-indigo-700">Tasks</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Calendar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-indigo-500 hover:bg-indigo-400 p-2 rounded-full">
+                        <i class="fas fa-bell text-white"></i>
+                        <span class="bg-red-500 text-white text-xs rounded-full px-1 absolute -mt-6 ml-3">3</span>
+                    </button>
+                    <div class="relative">
+                        <img class="h-8 w-8 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/44.jpg" alt="User avatar">
+                        <div class="absolute bottom-0 right-0 bg-green-500 rounded-full h-2.5 w-2.5 border border-white"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Task Assignment Modal -->
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+            <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                <h2 class="text-xl font-bold text-gray-800">Assign Task: Create mobile responsive layouts</h2>
+                <button class="text-gray-500 hover:text-gray-600 focus:outline-none">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 h-full">
+                    <!-- Left: Team Member Selection -->
+                    <div class="col-span-2 border-r border-gray-200 p-6 overflow-y-auto">
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">Team Member Selection</h3>
+                            <div class="relative">
+                                <input type="text" placeholder="Search team members..." 
+                                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-search text-gray-400"></i>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm font-medium text-gray-700">Suggested Team Members</h4>
+                                    <span class="text-xs text-indigo-600">Based on expertise & availability</span>
+                                </div>
+
+                                <!-- Suggested Team Members -->
+                                <div class="space-y-3">
+                                    <!-- Team Member 1 (Suggested) -->
+                                    <div class="flex items-center p-3 border border-indigo-200 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors cursor-pointer">
+                                        <input type="checkbox" checked class="h-5 w-5 text-indigo-600 rounded-md border-gray-300 focus:ring-indigo-500">
+                                        <div class="ml-3 flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center">
+                                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson" class="h-10 w-10 rounded-full">
+                                                    <div class="ml-3">
+                                                        <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                                                        <div class="text-xs text-gray-500">UI/UX Designer</div>
+                                                    </div>
+                                                </div>
+                                                <div class="text-xs text-indigo-600 font-medium">
+                                                    <i class="fas fa-star text-yellow-400"></i>
+                                                    Top Match
+                                                </div>
+                                            </div>
+                                            <div class="mt-2">
+                                                <div class="flex items-center text-xs">
+                                                    <div class="flex items-center text-green-600 mr-4">
+                                                        <i class="fas fa-check-circle mr-1"></i>
+                                                        <span>12 similar tasks completed</span>
+                                                    </div>
+                                                    <div class="flex items-center text-green-600">
+                                                        <i class="fas fa-clock mr-1"></i>
+                                                        <span>75% availability</span>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center justify-between mt-2">
+                                                    <div class="flex items-center">
+                                                        <span class="text-xs text-gray-500 mr-2">Skills:</span>
+                                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800 mr-1">
+                                                            Responsive Design
+                                                        </span>
+                                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800 mr-1">
+                                                            Layout
+                                                        </span>
+                                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                                                            Frontend
+                                                        </span>
+                                                    </div>
+                                                    <button class="text-xs text-indigo-600 hover:text-indigo-800 font-medium">View Profile</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Team Member 2 (Suggested) -->
+                                    <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                                        <input type="checkbox" class="h-5 w-5 text-indigo-600 rounded-md border-gray-300 focus:ring-indigo-500">
+                                        <div class="ml-3 flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center">
+                                                    <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Alex Nguyen" class="h-10 w-10 rounded-full">
+                                                    <div class="ml-3">
+                                                        <div class="text-sm font-medium text-gray-900">Alex Nguyen</div>
+                                                        <div class="text-xs text-gray-500">Frontend Developer</div>
+                                                    </div>
+                                                </div>
+                                                <div class="text-xs text-indigo-600 font-medium">
+                                                    Good Match
+                                                </div>
+                                            </div>
+                                            <div class="mt-2">
+                                                <div class="flex items-center text-xs">
+                                                    <div class="flex items-center text-green-600 mr-4">
+                                                        <i class="fas fa-check-circle mr-1"></i>
+                                                        <span>8 similar tasks completed</span>
+                                                    </div>
+                                                    <div class="flex items-center text-orange-500">
+                                                        <i class="fas fa-clock mr-1"></i>
+                                                        <span>55% availability</span>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center justify-between mt-2">
+                                                    <div class="flex items-center">
+                                                        <span class="text-xs text-gray-500 mr-2">Skills:</span>
+                                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800 mr-1">
+                                                            Responsive Design
+                                                        </span>
+                                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 mr-1">
+                                                            CSS
+                                                        </span>
+                                                    </div>
+                                                    <button class="text-xs text-indigo-600 hover:text-indigo-800 font-medium">View Profile</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm font-medium text-gray-700">Other Team Members</h4>
+                                    <div>
+                                        <select class="text-xs border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                                            <option>Sort by: Availability</option>
+                                            <option>Sort by: Relevance</option>
+                                            <option>Sort by: Name</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Other Team Members -->
+                                <div class="space-y-3">
+                                    <!-- Team Member 3 -->
+                                    <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                                        <input type="checkbox" class="h-5 w-5 text-indigo-600 rounded-md border-gray-300 focus:ring-indigo-500">
+                                        <div class="ml-3 flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center">
+                                                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Michael Rodriguez" class="h-10 w-10 rounded-full">
+                                                    <div class="ml-3">
+                                                        <div class="text-sm font-medium text-gray-900">Michael Rodriguez</div>
+                                                        <div class="text-xs text-gray-500">UI Designer</div>
+                                                    </div>
+                                                </div>
+                                                <div class="text-xs text-orange-600 font-medium">
+                                                    <i class="fas fa-exclamation-triangle text-orange-400 mr-1"></i>
+                                                    High workload
+                                                </div>
+                                            </div>
+                                            <div class="mt-2">
+                                                <div class="flex items-center text-xs">
+                                                    <div class="flex items-center text-green-600 mr-4">
+                                                        <i class="fas fa-check-circle mr-1"></i>
+                                                        <span>6 similar tasks completed</span>
+                                                    </div>
+                                                    <div class="flex items-center text-red-500">
+                                                        <i class="fas fa-clock mr-1"></i>
+                                                        <span>25% availability</span>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center justify-between mt-2">
+                                                    <div class="flex items-center">
+                                                        <span class="text-xs text-gray-500 mr-2">Skills:</span>
+                                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800 mr-1">
+                                                            Layout
+                                                        </span>
+                                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                                                            UI
+                                                        </span>
+                                                    </div>
+                                                    <button class="text-xs text-indigo-600 hover:text-indigo-800 font-medium">View Profile</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Team Member 4 -->
+                                    <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                                        <input type="checkbox" class="h-5 w-5 text-indigo-600 rounded-md border-gray-300 focus:ring-indigo-500">
+                                        <div class="ml-3 flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center">
+                                                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Emily Chen" class="h-10 w-10 rounded-full">
+                                                    <div class="ml-3">
+                                                        <div class="text-sm font-medium text-gray-900">Emily Chen</div>
+                                                        <div class="text-xs text-gray-500">UX Designer</div>
+                                                    </div>
+                                                </div>
+                                                <div class="text-xs text-indigo-600 font-medium">
+                                                    Available
+                                                </div>
+                                            </div>
+                                            <div class="mt-2">
+                                                <div class="flex items-center text-xs">
+                                                    <div class="flex items-center text-gray-500 mr-4">
+                                                        <i class="fas fa-circle-info mr-1"></i>
+                                                        <span>No similar tasks</span>
+                                                    </div>
+                                                    <div class="flex items-center text-green-600">
+                                                        <i class="fas fa-clock mr-1"></i>
+                                                        <span>90% availability</span>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center justify-between mt-2">
+                                                    <div class="flex items-center">
+                                                        <span class="text-xs text-gray-500 mr-2">Skills:</span>
+                                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 mr-1">
+                                                            UX
+                                                        </span>
+                                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                                                            Prototyping
+                                                        </span>
+                                                    </div>
+                                                    <button class="text-xs text-indigo-600 hover:text-indigo-800 font-medium">View Profile</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Team Member 5 -->
+                                    <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                                        <input type="checkbox" class="h-5 w-5 text-indigo-600 rounded-md border-gray-300 focus:ring-indigo-500">
+                                        <div class="ml-3 flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center">
+                                                    <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Tom Wilson" class="h-10 w-10 rounded-full">
+                                                    <div class="ml-3">
+                                                        <div class="text-sm font-medium text-gray-900">Tom Wilson</div>
+                                                        <div class="text-xs text-gray-500">Content Strategist</div>
+                                                    </div>
+                                                </div>
+                                                <div class="text-xs text-green-600 font-medium">
+                                                    <i class="fas fa-circle text-green-400 mr-1"></i>
+                                                    Fully available
+                                                </div>
+                                            </div>
+                                            <div class="mt-2">
+                                                <div class="flex items-center text-xs">
+                                                    <div class="flex items-center text-gray-500 mr-4">
+                                                        <i class="fas fa-circle-info mr-1"></i>
+                                                        <span>No similar tasks</span>
+                                                    </div>
+                                                    <div class="flex items-center text-green-600">
+                                                        <i class="fas fa-clock mr-1"></i>
+                                                        <span>100% availability</span>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center justify-between mt-2">
+                                                    <div class="flex items-center">
+                                                        <span class="text-xs text-gray-500 mr-2">Skills:</span>
+                                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                                                            Content
+                                                        </span>
+                                                    </div>
+                                                    <button class="text-xs text-indigo-600 hover:text-indigo-800 font-medium">View Profile</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4 text-center">
+                                    <button class="text-sm text-indigo-600 font-medium">Show more team members</button>
+                                </div>
+                            </div>
+
+                            <div class="mt-6">
+                                <div class="flex items-center mt-4">
+                                    <input id="enable-multi-assignee" type="checkbox" class="h-4 w-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
+                                    <label for="enable-multi-assignee" class="ml-2 block text-sm text-gray-700">
+                                        Enable multiple assignees for this task
+                                    </label>
+                                </div>
+                                
+                                <div class="bg-yellow-50 rounded-lg p-3 mt-4 border border-yellow-100">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0">
+                                            <i class="fas fa-lightbulb text-yellow-400"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h3 class="text-sm font-medium text-yellow-800">Multi-Assignee Information</h3>
+                                            <div class="mt-2 text-xs text-yellow-700">
+                                                <p>When multiple people are assigned to a task:</p>
+                                                <ul class="list-disc pl-5 mt-1 space-y-1">
+                                                    <li>All assignees will receive notifications</li>
+                                                    <li>The task is considered complete only when all assignees mark it done</li>
+                                                    <li>Each assignee can track their own progress independently</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Invite External Collaborator</h4>
+                                    <div class="flex">
+                                        <input type="email" placeholder="Enter email address" class="flex-1 border border-gray-300 rounded-l-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                        <button class="inline-flex items-center px-3 py-2 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                            Invite
+                                        </button>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-2">
+                                        Guest collaborators will have limited access to this task only.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Workload Information -->
+                    <div class="p-6 overflow-y-auto">
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Team Workload</h3>
+                            
+                            <!-- Workload Chart -->
+                            <div class="space-y-4">
+                                <!-- Sarah Johnson's Workload -->
+                                <div>
+                                    <div class="flex items-center mb-1">
+                                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson" class="h-6 w-6 rounded-full mr-2">
+                                        <span class="text-sm text-gray-700">Sarah Johnson</span>
+                                        <span class="ml-auto text-xs font-medium text-yellow-600">75% Allocated</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 75%"></div>
+                                    </div>
+                                    <div class="mt-1 grid grid-cols-3 gap-2">
+                                        <div class="text-center">
+                                            <div class="text-xs text-gray-500">Tasks</div>
+                                            <div class="text-sm font-medium">6 active</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-xs text-gray-500">Due This Week</div>
+                                            <div class="text-sm font-medium">4</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-xs text-gray-500">Hours/Week</div>
+                                            <div class="text-sm font-medium">30/40</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Michael Rodriguez's Workload -->
+                                <div>
+                                    <div class="flex items-center mb-1">
+                                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Michael Rodriguez" class="h-6 w-6 rounded-full mr-2">
+                                        <span class="text-sm text-gray-700">Michael Rodriguez</span>
+                                        <span class="ml-auto text-xs font-medium text-red-600">90% Allocated</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div class="bg-red-500 h-2.5 rounded-full" style="width: 90%"></div>
+                                    </div>
+                                    <div class="mt-1 grid grid-cols-3 gap-2">
+                                        <div class="text-center">
+                                            <div class="text-xs text-gray-500">Tasks</div>
+                                            <div class="text-sm font-medium">8 active</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-xs text-gray-500">Due This Week</div>
+                                            <div class="text-sm font-medium">5</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-xs text-gray-500">Hours/Week</div>
+                                            <div class="text-sm font-medium">36/40</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Alex Nguyen's Workload -->
+                                <div>
+                                    <div class="flex items-center mb-1">
+                                        <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Alex Nguyen" class="h-6 w-6 rounded-full mr-2">
+                                        <span class="text-sm text-gray-700">Alex Nguyen</span>
+                                        <span class="ml-auto text-xs font-medium text-yellow-600">55% Allocated</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 55%"></div>
+                                    </div>
+                                    <div class="mt-1 grid grid-cols-3 gap-2">
+                                        <div class="text-center">
+                                            <div class="text-xs text-gray-500">Tasks</div>
+                                            <div class="text-sm font-medium">4 active</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-xs text-gray-500">Due This Week</div>
+                                            <div class="text-sm font-medium">2</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-xs text-gray-500">Hours/Week</div>
+                                            <div class="text-sm font-medium">22/40</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Emily Chen's Workload -->
+                                <div>
+                                    <div class="flex items-center mb-1">
+                                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Emily Chen" class="h-6 w-6 rounded-full mr-2">
+                                        <span class="text-sm text-gray-700">Emily Chen</span>
+                                        <span class="ml-auto text-xs font-medium text-green-600">10% Allocated</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div class="bg-green-500 h-2.5 rounded-full" style="width: 10%"></div>
+                                    </div>
+                                    <div class="mt-1 grid grid-cols-3 gap-2">
+                                        <div class="text-center">
+                                            <div class="text-xs text-gray-500">Tasks</div>
+                                            <div class="text-sm font-medium">1 active</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-xs text-gray-500">Due This Week</div>
+                                            <div class="text-sm font-medium">0</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-xs text-gray-500">Hours/Week</div>
+                                            <div class="text-sm font-medium">4/40</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Task Information</h3>
+                            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                <div class="flex items-center mb-3">
+                                    <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-800 mr-2">WT-096</span>
+                                    <h4 class="text-base font-medium text-gray-900">Create mobile responsive layouts</h4>
+                                </div>
+                                
+                                <div class="text-sm text-gray-600">
+                                    <p>Ensure all pages are fully responsive across all device sizes and orientations.</p>
+                                </div>
+                                
+                                <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <span class="text-gray-500">Project:</span>
+                                        <span class="text-gray-900 ml-1">Website Redesign</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-500">Priority:</span>
+                                        <span class="text-red-600 font-medium ml-1">High</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-500">Due Date:</span>
+                                        <span class="text-gray-900 ml-1">May 18, 2023</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-500">Estimated Hours:</span>
+                                        <span class="text-gray-900 ml-1">8 hours</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4 flex items-center">
+                                    <span class="text-gray-500 text-sm mr-2">Tags:</span>
+                                    <div class="flex space-x-1">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800">
+                                            Responsive Design
+                                        </span>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
+                                            Layout
+                                        </span>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                                            Frontend
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <h4 class="text-sm font-medium text-gray-700 mb-2">Special Instructions</h4>
+                                <textarea placeholder="Add any notes or instructions for the assigned team members..." rows="3" class="block w-full border border-gray-300 rounded-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                                    <span class="ml-2 text-sm text-gray-600">Notify assignees via email</span>
+                                </label>
+                                <label class="flex items-center mt-2">
+                                    <input type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                                    <span class="ml-2 text-sm text-gray-600">Add to assignee's calendar</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-end">
+                <button type="button" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-3">
+                    Cancel
+                </button>
+                <button type="button" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Assign Task
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

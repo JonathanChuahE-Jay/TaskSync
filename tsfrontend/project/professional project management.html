@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Task Management - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-indigo-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="text-xl font-bold">Unified<span class="text-indigo-300">Task</span></span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium bg-indigo-700">Dashboard</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Analytics</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Templates</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Teams</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-indigo-500 hover:bg-indigo-400 p-2 rounded-full">
+                        <i class="fas fa-bell text-white"></i>
+                        <span class="bg-red-500 text-white text-xs rounded-full px-1 absolute -mt-6 ml-3">3</span>
+                    </button>
+                    <div class="relative">
+                        <img class="h-8 w-8 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/44.jpg" alt="User avatar">
+                        <div class="absolute bottom-0 right-0 bg-green-500 rounded-full h-2.5 w-2.5 border border-white"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <!-- Header with Actions -->
+        <div class="px-4 py-5 sm:px-6 flex flex-wrap justify-between items-center bg-white shadow rounded-lg mb-5">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Projects</h1>
+                <p class="mt-1 text-sm text-gray-500">Manage all your team's work in one place</p>
+            </div>
+            <div class="flex space-x-3 mt-3 sm:mt-0">
+                <div class="relative">
+                    <input type="text" placeholder="Search projects..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                </div>
+                <button class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <i class="fas fa-plus mr-2"></i> New Project
+                </button>
+                <div class="relative inline-block text-left">
+                    <button type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-filter mr-2 mt-1"></i>
+                        Filter
+                        <i class="fas fa-chevron-down ml-2 mt-1"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Selector -->
+        <div class="bg-white shadow rounded-lg mb-5 p-4">
+            <div class="flex flex-wrap justify-between items-center">
+                <div class="flex space-x-2">
+                    <button class="px-4 py-2 text-sm font-medium text-indigo-700 bg-indigo-100 rounded-md">
+                        <i class="fas fa-th-large mr-2"></i> Grid
+                    </button>
+                    <button class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md">
+                        <i class="fas fa-list mr-2"></i> List
+                    </button>
+                    <button class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md">
+                        <i class="fas fa-calendar mr-2"></i> Calendar
+                    </button>
+                    <button class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md">
+                        <i class="fas fa-chart-bar mr-2"></i> Stats
+                    </button>
+                </div>
+                <div class="flex items-center space-x-2 mt-3 sm:mt-0">
+                    <span class="text-sm text-gray-500">Sort by:</span>
+                    <select class="border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <option>Recently Updated</option>
+                        <option>Name (A-Z)</option>
+                        <option>Due Date</option>
+                        <option>Priority</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-6">
+            <!-- Project Card 1 - Active -->
+            <div class="bg-white rounded-xl shadow overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-3 bg-green-500"></div>
+                <a href="project-detail.html" class="block p-5">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-bold text-lg text-gray-800">Website Redesign</h3>
+                        <span class="bg-green-100 text-green-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Active</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mt-2">Complete overhaul of company website with new branding and features</p>
+                    <div class="mt-4">
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-green-500 h-2.5 rounded-full" style="width: 70%"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>70% complete</span>
+                            <span>12 days left</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-between items-center">
+                        <div class="flex -space-x-2">
+                            <img class="w-7 h-7 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/32.jpg" alt="">
+                            <img class="w-7 h-7 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/men/45.jpg" alt="">
+                            <img class="w-7 h-7 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/23.jpg" alt="">
+                            <div class="w-7 h-7 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center text-xs font-medium text-gray-500">+3</div>
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <i class="fas fa-tasks mr-1"></i> 24/35
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Project Card 2 - At Risk -->
+            <div class="bg-white rounded-xl shadow overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-3 bg-yellow-500"></div>
+                <a href="project-detail.html" class="block p-5">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-bold text-lg text-gray-800">Mobile App Development</h3>
+                        <span class="bg-yellow-100 text-yellow-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">At Risk</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mt-2">Develop cross-platform mobile application for customer engagement</p>
+                    <div class="mt-4">
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 45%"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>45% complete</span>
+                            <span>5 days left</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-between items-center">
+                        <div class="flex -space-x-2">
+                            <img class="w-7 h-7 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/men/41.jpg" alt="">
+                            <img class="w-7 h-7 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/11.jpg" alt="">
+                            <img class="w-7 h-7 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/men/32.jpg" alt="">
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <i class="fas fa-tasks mr-1"></i> 18/40
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Project Card 3 - Completed -->
+            <div class="bg-white rounded-xl shadow overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-3 bg-blue-500"></div>
+                <a href="project-detail.html" class="block p-5">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-bold text-lg text-gray-800">Annual Marketing Campaign</h3>
+                        <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Completed</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mt-2">Plan and execute marketing campaigns for the fiscal year</p>
+                    <div class="mt-4">
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-blue-500 h-2.5 rounded-full" style="width: 100%"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>100% complete</span>
+                            <span>Completed on May 12</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-between items-center">
+                        <div class="flex -space-x-2">
+                            <img class="w-7 h-7 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/67.jpg" alt="">
+                            <img class="w-7 h-7 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/men/55.jpg" alt="">
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <i class="fas fa-tasks mr-1"></i> 30/30
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Project Card 4 - Planning -->
+            <div class="bg-white rounded-xl shadow overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-3 bg-purple-500"></div>
+                <a href="project-detail.html" class="block p-5">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-bold text-lg text-gray-800">Product Launch: Echo Device</h3>
+                        <span class="bg-purple-100 text-purple-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Planning</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mt-2">Prepare for Q4 launch of new premium smart home device</p>
+                    <div class="mt-4">
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-purple-500 h-2.5 rounded-full" style="width: 15%"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>15% complete</span>
+                            <span>Starts Jul 1</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-between items-center">
+                        <div class="flex -space-x-2">
+                            <img class="w-7 h-7 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/men/22.jpg" alt="">
+                            <img class="w-7 h-7 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/29.jpg" alt="">
+                            <img class="w-7 h-7 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/men/76.jpg" alt="">
+                            <div class="w-7 h-7 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center text-xs font-medium text-gray-500">+5</div>
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <i class="fas fa-tasks mr-1"></i> 8/52
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Project Card 5 - On Hold -->
+            <div class="bg-white rounded-xl shadow overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-3 bg-gray-500"></div>
+                <a href="project-detail.html" class="block p-5">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-bold text-lg text-gray-800">Office Expansion</h3>
+                        <span class="bg-gray-100 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">On Hold</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mt-2">Planning and execution of new office space in Austin</p>
+                    <div class="mt-4">
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-gray-500 h-2.5 rounded-full" style="width: 30%"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>30% complete</span>
+                            <span>On hold since May 5</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-between items-center">
+                        <div class="flex -space-x-2">
+                            <img class="w-7 h-7 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/45.jpg" alt="">
+                            <img class="w-7 h-7 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/men/33.jpg" alt="">
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <i class="fas fa-tasks mr-1"></i> 12/40
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Project Card 6 - Critical -->
+            <div class="bg-white rounded-xl shadow overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-3 bg-red-500"></div>
+                <a href="project-detail.html" class="block p-5">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-bold text-lg text-gray-800">Security Compliance Audit</h3>
+                        <span class="bg-red-100 text-red-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Critical</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mt-2">Complete required security compliance audit for SOC 2 certification</p>
+                    <div class="mt-4">
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-red-500 h-2.5 rounded-full" style="width: 60%"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>60% complete</span>
+                            <span>2 days left</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-between items-center">
+                        <div class="flex -space-x-2">
+                            <img class="w-7 h-7 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/men/61.jpg" alt="">
+                            <img class="w-7 h-7 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/52.jpg" alt="">
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <i class="fas fa-tasks mr-1"></i> 15/25
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Quick Statistics -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-5">
+            <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-500 text-sm">Active Projects</p>
+                        <h3 class="text-3xl font-bold text-gray-800 mt-1">12</h3>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-full">
+                        <i class="fas fa-folder text-green-500"></i>
+                    </div>
+                </div>
+                <div class="text-green-500 text-sm mt-2">
+                    <i class="fas fa-arrow-up"></i> 8% increase
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-500 text-sm">Tasks Due Today</p>
+                        <h3 class="text-3xl font-bold text-gray-800 mt-1">8</h3>
+                    </div>
+                    <div class="bg-red-100 p-3 rounded-full">
+                        <i class="fas fa-calendar-day text-red-500"></i>
+                    </div>
+                </div>
+                <div class="text-red-500 text-sm mt-2">
+                    <i class="fas fa-arrow-up"></i> 3 more than yesterday
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-500 text-sm">Team Members</p>
+                        <h3 class="text-3xl font-bold text-gray-800 mt-1">24</h3>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-full">
+                        <i class="fas fa-users text-blue-500"></i>
+                    </div>
+                </div>
+                <div class="text-gray-500 text-sm mt-2">
+                    <i class="fas fa-user-plus"></i> 2 pending invites
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-500 text-sm">Completion Rate</p>
+                        <h3 class="text-3xl font-bold text-gray-800 mt-1">92%</h3>
+                    </div>
+                    <div class="bg-purple-100 p-3 rounded-full">
+                        <i class="fas fa-chart-line text-purple-500"></i>
+                    </div>
+                </div>
+                <div class="text-purple-500 text-sm mt-2">
+                    <i class="fas fa-arrow-up"></i> 5% increase this month
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="bg-white shadow rounded-lg p-5 mb-5">
+            <h3 class="text-lg font-medium text-gray-800 mb-4">Recent Activity</h3>
+            <div class="space-y-4">
+                <div class="flex">
+                    <div class="flex-shrink-0 mr-3">
+                        <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/44.jpg" alt="">
+                    </div>
+                    <div class="flex-grow">
+                        <p class="text-sm text-gray-700">
+                            <span class="font-medium">Sarah Johnson</span> completed task <span class="font-medium">Design homepage mockup</span> in <span class="font-medium text-indigo-600">Website Redesign</span>
+                        </p>
+                        <span class="text-xs text-gray-500">Today, 11:32 AM</span>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="flex-shrink-0 mr-3">
+                        <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/45.jpg" alt="">
+                    </div>
+                    <div class="flex-grow">
+                        <p class="text-sm text-gray-700">
+                            <span class="font-medium">Michael Rodriguez</span> created a new project <span class="font-medium text-indigo-600">Q3 Sales Strategy</span>
+                        </p>
+                        <span class="text-xs text-gray-500">Yesterday, 3:45 PM</span>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="flex-shrink-0 mr-3">
+                        <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/22.jpg" alt="">
+                    </div>
+                    <div class="flex-grow">
+                        <p class="text-sm text-gray-700">
+                            <span class="font-medium">David Kim</span> added 3 new team members to <span class="font-medium text-indigo-600">Product Launch: Echo Device</span>
+                        </p>
+                        <span class="text-xs text-gray-500">Yesterday, 1:15 PM</span>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="flex-shrink-0 mr-3">
+                        <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/32.jpg" alt="">
+                    </div>
+                    <div class="flex-grow">
+                        <p class="text-sm text-gray-700">
+                            <span class="font-medium">Emily Chen</span> commented on task <span class="font-medium">Finalize user testing plan</span> in <span class="font-medium text-indigo-600">Mobile App Development</span>
+                        </p>
+                        <span class="text-xs text-gray-500">May 15, 4:30 PM</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-5">
+                <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">View all activity</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-8">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <p class="text-sm text-gray-500">© 2023 UnifiedTask. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

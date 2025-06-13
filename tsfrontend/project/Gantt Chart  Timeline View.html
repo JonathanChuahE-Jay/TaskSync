@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gantt Chart - Unified Task System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-indigo-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="text-xl font-bold">Unified<span class="text-indigo-300">Task</span></span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Dashboard</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Projects</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Tasks</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Calendar</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium bg-indigo-700">Gantt</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-indigo-500 hover:bg-indigo-400 p-2 rounded-full">
+                        <i class="fas fa-bell text-white"></i>
+                        <span class="bg-red-500 text-white text-xs rounded-full px-1 absolute -mt-6 ml-3">3</span>
+                    </button>
+                    <div class="relative">
+                        <img class="h-8 w-8 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/44.jpg" alt="User avatar">
+                        <div class="absolute bottom-0 right-0 bg-green-500 rounded-full h-2.5 w-2.5 border border-white"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Project Header -->
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="flex-1 min-w-0">
+                    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Website Redesign - Timeline</h2>
+                    <div class="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
+                        <div class="mt-2 flex items-center text-sm text-gray-500">
+                            <i class="fas fa-calendar-alt mr-1.5 text-gray-400"></i>
+                            Apr 15 - Jun 30, 2023
+                        </div>
+                        <div class="mt-2 flex items-center text-sm text-gray-500">
+                            <i class="fas fa-hourglass-half mr-1.5 text-gray-400"></i>
+                            70% Complete
+                        </div>
+                        <div class="mt-2 flex items-center text-sm text-gray-500">
+                            <i class="fas fa-users mr-1.5 text-gray-400"></i>
+                            6 team members
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 flex md:mt-0 md:ml-4 space-x-2">
+                    <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-print mr-2"></i>
+                        Export
+                    </button>
+                    <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-share-alt mr-2"></i>
+                        Share
+                    </button>
+                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-plus mr-2"></i>
+                        Add Task
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Controls -->
+    <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+        <div class="bg-white shadow rounded-lg p-4 mb-6">
+            <div class="flex flex-wrap justify-between items-center">
+                <div class="flex items-center space-x-4 mb-3 sm:mb-0">
+                    <div class="flex items-center space-x-1">
+                        <button class="p-1 text-gray-500 hover:text-gray-700 rounded-md hover:bg-gray-100">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="p-1 text-gray-500 hover:text-gray-700 rounded-md hover:bg-gray-100">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">Apr 15 - Jun 30, 2023</span>
+                    <button class="px-2 py-1 text-xs text-indigo-600 font-medium bg-indigo-50 rounded-md border border-indigo-200">
+                        Today
+                    </button>
+                </div>
+
+                <div class="flex flex-wrap items-center space-x-3">
+                    <div class="flex items-center space-x-2">
+                        <label class="text-sm text-gray-600">Zoom:</label>
+                        <select class="text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                            <option>Days</option>
+                            <option selected>Weeks</option>
+                            <option>Months</option>
+                            <option>Quarters</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <label class="text-sm text-gray-600">Group By:</label>
+                        <select class="text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                            <option>None</option>
+                            <option selected>Milestone</option>
+                            <option>Assignee</option>
+                            <option>Status</option>
+                            <option>Priority</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <label class="text-sm text-gray-600">Show:</label>
+                        <div class="flex items-center space-x-2">
+                            <label class="inline-flex items-center text-sm text-gray-600">
+                                <input type="checkbox" checked class="h-4 w-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
+                                <span class="ml-1">Dependencies</span>
+                            </label>
+                            <label class="inline-flex items-center text-sm text-gray-600">
+                                <input type="checkbox" checked class="h-4 w-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
+                                <span class="ml-1">Milestones</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="inline-flex items-center px-2 py-1 border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-gray-50">
+                        <i class="fas fa-cog mr-1"></i>
+                        More
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gantt Chart -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+            <!-- Table Header -->
+            <div class="flex border-b border-gray-200">
+                <!-- Task Information -->
+                <div class="w-80 flex-shrink-0 bg-gray-50 border-r border-gray-200">
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Task Information
+                    </div>
+                </div>
+                
+                <!-- Timeline Header -->
+                <div class="flex-1 overflow-x-auto">
+                    <div class="flex">
+                        <!-- Week columns -->
+                        <div class="flex-1 grid grid-cols-11 border-b border-gray-200">
+                            <div class="px-2 py-3 text-center text-xs font-medium text-gray-500 border-r border-gray-200">Week 1<br/>Apr 15-21</div>
+                            <div class="px-2 py-3 text-center text-xs font-medium text-gray-500 border-r border-gray-200">Week 2<br/>Apr 22-28</div>
+                            <div class="px-2 py-3 text-center text-xs font-medium text-gray-500 border-r border-gray-200">Week 3<br/>Apr 29-May 5</div>
+                            <div class="px-2 py-3 text-center text-xs font-medium text-gray-500 border-r border-gray-200">Week 4<br/>May 6-12</div>
+                            <div class="px-2 py-3 text-center text-xs font-medium text-gray-500 border-r border-gray-200">Week 5<br/>May 13-19</div>
+                            <div class="px-2 py-3 text-center text-xs font-medium text-gray-500 border-r border-gray-200">Week 6<br/>May 20-26</div>
+                            <div class="px-2 py-3 text-center text-xs font-medium text-gray-500 border-r border-gray-200">Week 7<br/>May 27-Jun 2</div>
+                            <div class="px-2 py-3 text-center text-xs font-medium text-gray-500 border-r border-gray-200">Week 8<br/>Jun 3-9</div>
+                            <div class="px-2 py-3 text-center text-xs font-medium text-gray-500 border-r border-gray-200">Week 9<br/>Jun 10-16</div>
+                            <div class="px-2 py-3 text-center text-xs font-medium text-gray-500 border-r border-gray-200">Week 10<br/>Jun 17-23</div>
+                            <div class="px-2 py-3 text-center text-xs font-medium text-gray-500">Week 11<br/>Jun 24-30</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Content -->
+            <div class="flex">
+                <!-- Task Names -->
+                <div class="w-80 flex-shrink-0 border-r border-gray-200">
+                    <div class="divide-y divide-gray-200">
+                        <!-- Milestone 1 Group -->
+                        <div class="bg-gray-50 px-6 py-3">
+                            <div class="flex items-center">
+                                <button class="mr-2 text-gray-500">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <h3 class="text-sm font-medium text-gray-900">Research & Discovery</h3>
+                                <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    Completed
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Task 1.1 -->
+                        <div class="px-6 py-3">
+                            <div class="flex items-center">
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-900">Market research</div>
+                                    <div class="text-xs text-gray-500">
+                                        <span class="mr-2">Sarah Johnson</span>
+                                        <span class="inline-flex items-center">
+                                            <i class="far fa-clock mr-1"></i> 3 days
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="ml-2 flex-shrink-0">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        <i class="fas fa-check mr-1"></i> Done
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Task 1.2 -->
+                        <div class="px-6 py-3">
+                            <div class="flex items-center">
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-900">Competitor analysis</div>
+                                    <div class="text-xs text-gray-500">
+                                        <span class="mr-2">Tom Wilson</span>
+                                        <span class="inline-flex items-center">
+                                            <i class="far fa-clock mr-1"></i> 4 days
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="ml-2 flex-shrink-0">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        <i class="fas fa-check mr-1"></i> Done
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Task 1.3 -->
+                        <div class="px-6 py-3">
+                            <div class="flex items-center">
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-900">User interviews</div>
+                                    <div class="text-xs text-gray-500">
+                                        <span class="mr-2">Emily Chen</span>
+                                        <span class="inline-flex items-center">
+                                            <i class="far fa-clock mr-1"></i> 5 days
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="ml-2 flex-shrink-0">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        <i class="fas fa-check mr-1"></i> Done
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Milestone 2 Group -->
+                        <div class="bg-gray-50 px-6 py-3">
+                            <div class="flex items-center">
+                                <button class="mr-2 text-gray-500">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <h3 class="text-sm font-medium text-gray-900">Design & Wireframes</h3>
+                                <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    In Progress
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Task 2.1 -->
+                        <div class="px-6 py-3">
+                            <div class="flex items-center">
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-900">Create site wireframes</div>
+                                    <div class="text-xs text-gray-500">
+                                        <span class="mr-2">Emily Chen</span>
+                                        <span class="inline-flex items-center">
+                                            <i class="far fa-clock mr-1"></i> 7 days
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="ml-2 flex-shrink-0">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        <i class="fas fa-check mr-1"></i> Done
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Task 2.2 -->
+                        <div class="px-6 py-3">
+                            <div class="flex items-center">
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-900">Finalize color palette and typography</div>
+                                    <div class="text-xs text-gray-500">
+                                        <span class="mr-2">Michael Rodriguez</span>
+                                        <span class="inline-flex items-center">
+                                            <i class="far fa-clock mr-1"></i> 4 days
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="ml-2 flex-shrink-0">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        <i class="fas fa-spinner fa-spin mr-1"></i> In Review
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Task 2.3 -->
+                        <div class="px-6 py-3">
+                            <div class="flex items-center">
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-900">Create mobile responsive layouts</div>
+                                    <div class="text-xs text-gray-500">
+                                        <span class="mr-2">Sarah Johnson</span>
+                                        <span class="inline-flex items-center">
+                                            <i class="far fa-clock mr-1"></i> 5 days
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="ml-2 flex-shrink-0">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        <i class="fas fa-spinner fa-spin mr-1"></i> In Progress
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Task 2.4 -->
+                        <div class="px-6 py-3">
+                            <div class="flex items-center">
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-900">Create interactive prototype</div>
+                                    <div class="text-xs text-gray-500">
+                                        <span class="mr-2">Emily Chen</span>
+                                        <span class="inline-flex items-center">
+                                            <i class="far fa-clock mr-1"></i> 6 days
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="ml-2 flex-shrink-0">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        <i class="fas fa-spinner fa-spin mr-1"></i> In Progress
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Milestone 3 Group -->
+                        <div class="bg-gray-50 px-6 py-3">
+                            <div class="flex items-center">
+                                <button class="mr-2 text-gray-500">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <h3 class="text-sm font-medium text-gray-900">Development</h3>
+                                <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    Not Started
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Task 3.1 -->
+                        <div class="px-6 py-3">
+                            <div class="flex items-center">
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-900">Frontend development</div>
+                                    <div class="text-xs text-gray-500">
+                                        <span class="mr-2">Alex Nguyen</span>
+                                        <span class="inline-flex items-center">
+                                            <i class="far fa-clock mr-1"></i> 14 days
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="ml-2 flex-shrink-0">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                        <i class="far fa-clock mr-1"></i> Not Started
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Task 3.2 -->
+                        <div class="px-6 py-3">
+                            <div class="flex items-center">
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-900">Backend integration</div>
+                                    <div class="text-xs text-gray-500">
+                                        <span class="mr-2">Erica Park</span>
+                                        <span class="inline-flex items-center">
+                                            <i class="far fa-clock mr-1"></i> 10 days
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="ml-2 flex-shrink-0">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                        <i class="far fa-clock mr-1"></i> Not Started
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Milestone 4 Group -->
+                        <div class="bg-gray-50 px-6 py-3">
+                            <div class="flex items-center">
+                                <button class="mr-2 text-gray-500">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <h3 class="text-sm font-medium text-gray-900">Testing & Launch</h3>
+                                <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    Not Started
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Task 4.1 -->
+                        <div class="px-6 py-3">
+                            <div class="flex items-center">
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-900">QA testing</div>
+                                    <div class="text-xs text-gray-500">
+                                        <span class="mr-2">Team</span>
+                                        <span class="inline-flex items-center">
+                                            <i class="far fa-clock mr-1"></i> 7 days
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="ml-2 flex-shrink-0">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                        <i class="far fa-clock mr-1"></i> Not Started
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Task 4.2 -->
+                        <div class="px-6 py-3">
+                            <div class="flex items-center">
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-900">Final deployment</div>
+                                    <div class="text-xs text-gray-500">
+                                        <span class="mr-2">Alex Nguyen, Erica Park</span>
+                                        <span class="inline-flex items-center">
+                                            <i class="far fa-clock mr-1"></i> 2 days
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="ml-2 flex-shrink-0">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                        <i class="far fa-clock mr-1"></i> Not Started
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gantt Chart Timeline -->
+                <div class="flex-1 overflow-x-auto">
+                    <div class="relative" style="height: 552px;">
+                        <!-- Background grid -->
+                        <div class="absolute inset-0 grid grid-cols-11 divide-x divide-gray-200">
+                            <div class="h-full"></div>
+                            <div class="h-full"></div>
+                            <div class="h-full"></div>
+                            <div class="h-full"></div>
+                            <div class="h-full"></div>
+                            <div class="h-full"></div>
+                            <div class="h-full"></div>
+                            <div class="h-full"></div>
+                            <div class="h-full"></div>
+                            <div class="h-full"></div>
+                            <div class="h-full"></div>
+                        </div>
+                        
+                        <!-- Today Marker -->
+                        <div class="absolute top-0 bottom-0 border-r-2 border-red-500" style="left: 45.5%; z-index: 10;">
+                            <div class="absolute -top-2 -ml-2.5">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Today</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Task Bars -->
+                        <!-- Milestone 1 Header Bar -->
+                        <div class="absolute h-12 bg-gray-100" style="top: 0px; left: 0%; width: 18.2%;"></div>
+                        
+                        <!-- Task 1.1 Bar -->
+                        <div class="absolute h-9 bg-green-500 rounded-sm flex items-center px-2 text-xs text-white" style="top: 48px; left: 0%; width: 9.1%;">
+                            Market research
+                        </div>
+                        
+                        <!-- Task 1.2 Bar -->
+                        <div class="absolute h-9 bg-green-500 rounded-sm flex items-center px-2 text-xs text-white" style="top: 84px; left: 9.1%; width: 4.5%;">
+                            Competitor analysis
+                        </div>
+                        
+                        <!-- Task 1.3 Bar -->
+                        <div class="absolute h-9 bg-green-500 rounded-sm flex items-center px-2 text-xs text-white" style="top: 120px; left: 13.6%; width: 4.5%;">
+                            User interviews
+                        </div>
+                        
+                        <!-- Milestone 2 Header Bar -->
+                        <div class="absolute h-12 bg-gray-100" style="top: 156px; left: 0%; width: 100%;"></div>
+                        
+                        <!-- Task 2.1 Bar -->
+                        <div class="absolute h-9 bg-green-500 rounded-sm flex items-center px-2 text-xs text-white" style="top: 204px; left: 18.2%; width: 13.6%;">
+                            Create site wireframes
+                        </div>
+                        
+                        <!-- Task 2.2 Bar -->
+                        <div class="absolute h-9 bg-blue-500 rounded-sm flex items-center px-2 text-xs text-white" style="top: 240px; left: 31.8%; width: 9.1%;">
+                            Finalize color palette and typography
+                        </div>
+                        
+                        <!-- Task 2.3 Bar -->
+                        <div class="absolute h-9 bg-yellow-500 rounded-sm flex items-center px-2 text-xs text-white" style="top: 276px; left: 40.9%; width: 9.1%;">
+                            Create mobile responsive layouts
+                        </div>
+                        
+                        <!-- Task 2.4 Bar -->
+                        <div class="absolute h-9 bg-yellow-500 rounded-sm flex items-center px-2 text-xs text-white" style="top: 312px; left: 50.0%; width: 9.1%;">
+                            Create interactive prototype
+                        </div>
+                        
+                        <!-- Milestone 3 Header Bar -->
+                        <div class="absolute h-12 bg-gray-100" style="top: 348px; left: 0%; width: 100%;"></div>
+                        
+                        <!-- Task 3.1 Bar -->
+                        <div class="absolute h-9 bg-indigo-300 rounded-sm flex items-center px-2 text-xs text-white" style="top: 396px; left: 59.1%; width: 17.3%;">
+                            Frontend development
+                        </div>
+                        
+                        <!-- Task 3.2 Bar -->
+                        <div class="absolute h-9 bg-indigo-300 rounded-sm flex items-center px-2 text-xs text-white" style="top: 432px; left: 68.2%; width: 12.5%;">
+                            Backend integration
+                        </div>
+                        
+                        <!-- Milestone 4 Header Bar -->
+                        <div class="absolute h-12 bg-gray-100" style="top: 468px; left: 0%; width: 100%;"></div>
+                        
+                        <!-- Task 4.1 Bar -->
+                        <div class="absolute h-9 bg-gray-300 rounded-sm flex items-center px-2 text-xs text-gray-800" style="top: 516px; left: 80.7%; width: 10.9%;">
+                            QA testing
+                        </div>
+                        
+                        <!-- Task 4.2 Bar -->
+                        <div class="absolute h-9 bg-gray-300 rounded-sm flex items-center px-2 text-xs text-gray-800" style="top: 552px; left: 91.6%; width: 8.4%;">
+                            Final deployment
+                        </div>
+                        
+                        <!-- Dependencies (Arrows) -->
+                        <!-- Task 1.3 to 2.1 -->
+                        <svg class="absolute" style="top: 124px; left: 18.1%; height: 80px; width: 2%;">
+                            <path d="M 0,0 C 10,0 10,80 20,80" stroke="#9CA3AF" stroke-width="2" fill="none" marker-end="url(#arrowhead)"></path>
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#9CA3AF" />
+                                </marker>
+                            </defs>
+                        </svg>
+                        
+                        <!-- Task 2.1 to 2.2 -->
+                        <svg class="absolute" style="top: 208px; left: 31.7%; height: 32px; width: 1%;">
+                            <path d="M 0,0 C 5,0 5,32 10,32" stroke="#9CA3AF" stroke-width="2" fill="none" marker-end="url(#arrowhead)"></path>
+                        </svg>
+                        
+                        <!-- Task 2.2 to 2.3 -->
+                        <svg class="absolute" style="top: 244px; left: 40.8%; height: 32px; width: 1%;">
+                            <path d="M 0,0 C 5,0 5,32 10,32" stroke="#9CA3AF" stroke-width="2" fill="none" marker-end="url(#arrowhead)"></path>
+                        </svg>
+                        
+                        <!-- Task 2.3 to 2.4 -->
+                        <svg class="absolute" style="top: 280px; left: 49.9%; height: 32px; width: 1%;">
+                            <path d="M 0,0 C 5,0 5,32 10,32" stroke="#9CA3AF" stroke-width="2" fill="none" marker-end="url(#arrowhead)"></path>
+                        </svg>
+                        
+                        <!-- Task 2.4 to 3.1 -->
+                        <svg class="absolute" style="top: 316px; left: 59.0%; height: 80px; width: 1%;">
+                            <path d="M 0,0 C 5,0 5,80 10,80" stroke="#9CA3AF" stroke-width="2" fill="none" marker-end="url(#arrowhead)"></path>
+                        </svg>
+                        
+                        <!-- Task 3.1 to 3.2 -->
+                        <svg class="absolute" style="top: 400px; left: 76.3%; height: 32px; width: 1%;">
+                            <path d="M 0,0 C 5,0 5,32 10,32" stroke="#9CA3AF" stroke-width="2" fill="none" marker-end="url(#arrowhead)"></path>
+                        </svg>
+                        
+                        <!-- Task 3.2 to 4.1 -->
+                        <svg class="absolute" style="top: 436px; left: 80.6%; height: 80px; width: 1%;">
+                            <path d="M 0,0 C 5,0 5,80 10,80" stroke="#9CA3AF" stroke-width="2" fill="none" marker-end="url(#arrowhead)"></path>
+                        </svg>
+                        
+                        <!-- Task 4.1 to 4.2 -->
+                        <svg class="absolute" style="top: 520px; left: 91.5%; height: 32px; width: 1%;">
+                            <path d="M 0,0 C 5,0 5,32 10,32" stroke="#9CA3AF" stroke-width="2" fill="none" marker-end="url(#arrowhead)"></path>
+                        </svg>
+                        
+                        <!-- Milestones -->
+                        <div class="absolute flex items-center justify-center w-4 h-4 rounded-full bg-green-500" style="top: 10px; left: 18.2%; margin-left: -8px; margin-top: -8px; z-index: 20;">
+                            <div class="w-2 h-2 rounded-full bg-white"></div>
+                            <div class="absolute -top-6 -ml-20 w-40 text-center">
+                                <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Research Complete</span>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute flex items-center justify-center w-4 h-4 rounded-full bg-yellow-500" style="top: 166px; left: 59.1%; margin-left: -8px; margin-top: -8px; z-index: 20;">
+                            <div class="w-2 h-2 rounded-full bg-white"></div>
+                            <div class="absolute -top-6 -ml-20 w-40 text-center">
+                                <span class="px-2 py-1 rounded text-xs bg-yellow-100 text-yellow-800">Design Complete</span>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute flex items-center justify-center w-4 h-4 rounded-full bg-indigo-500" style="top: 358px; left: 80.7%; margin-left: -8px; margin-top: -8px; z-index: 20;">
+                            <div class="w-2 h-2 rounded-full bg-white"></div>
+                            <div class="absolute -top-6 -ml-20 w-40 text-center">
+                                <span class="px-2 py-1 rounded text-xs bg-indigo-100 text-indigo-800">Dev Complete</span>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute flex items-center justify-center w-4 h-4 rounded-full bg-gray-500" style="top: 478px; left: 100%; margin-left: -8px; margin-top: -8px; z-index: 20;">
+                            <div class="w-2 h-2 rounded-full bg-white"></div>
+                            <div class="absolute -top-6 -ml-20 w-40 text-center">
+                                <span class="px-2 py-1 rounded text-xs bg-gray-100 text-gray-800">Launch</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

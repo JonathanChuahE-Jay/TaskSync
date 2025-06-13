@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Redesign - Project Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-indigo-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="text-xl font-bold">Unified<span class="text-indigo-300">Task</span></span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="index.html" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Dashboard</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Analytics</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Templates</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Teams</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-indigo-500 hover:bg-indigo-400 p-2 rounded-full">
+                        <i class="fas fa-bell text-white"></i>
+                        <span class="bg-red-500 text-white text-xs rounded-full px-1 absolute -mt-6 ml-3">3</span>
+                    </button>
+                    <div class="relative">
+                        <img class="h-8 w-8 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/44.jpg" alt="User avatar">
+                        <div class="absolute bottom-0 right-0 bg-green-500 rounded-full h-2.5 w-2.5 border border-white"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Project Header -->
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center">
+                        <a href="index.html" class="mr-2 text-indigo-600">
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
+                        <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Website Redesign</h2>
+                        <span class="ml-3 bg-green-100 text-green-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Active</span>
+                    </div>
+                    <div class="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
+                        <div class="mt-2 flex items-center text-sm text-gray-500">
+                            <i class="fas fa-calendar-alt mr-1.5 text-gray-400"></i>
+                            Started: April 15, 2023
+                        </div>
+                        <div class="mt-2 flex items-center text-sm text-gray-500">
+                            <i class="fas fa-calendar-check mr-1.5 text-gray-400"></i>
+                            Due: June 30, 2023
+                        </div>
+                        <div class="mt-2 flex items-center text-sm text-gray-500">
+                            <i class="fas fa-user mr-1.5 text-gray-400"></i>
+                            Owner: Sarah Johnson
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 flex md:mt-0 md:ml-4 space-x-2">
+                    <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-star mr-2"></i>
+                        Favorite
+                    </button>
+                    <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-share-alt mr-2"></i>
+                        Share
+                    </button>
+                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-plus mr-2"></i>
+                        New Task
+                    </button>
+                    <button type="button" class="inline-flex items-center p-2 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <!-- Project Stats & Progress -->
+        <div class="bg-white shadow rounded-lg mb-5">
+            <div class="p-5">
+                <div class="flex flex-wrap gap-5 justify-between items-center">
+                    <div class="flex-1 min-w-[200px]">
+                        <h3 class="text-sm font-medium text-gray-500">Overall Progress</h3>
+                        <div class="mt-2">
+                            <div class="w-full bg-gray-200 rounded-full h-4">
+                                <div class="bg-green-500 h-4 rounded-full" style="width: 70%"></div>
+                            </div>
+                            <div class="mt-1 flex justify-between text-xs text-gray-500">
+                                <span>70% complete</span>
+                                <span>12 days left</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex space-x-6">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-gray-900">24</div>
+                            <div class="text-xs text-gray-500">Tasks Completed</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-gray-900">11</div>
+                            <div class="text-xs text-gray-500">Tasks In Progress</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-gray-900">6</div>
+                            <div class="text-xs text-gray-500">Team Members</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 px-5 py-3 text-sm">
+                <a href="#" class="text-indigo-600 font-medium hover:text-indigo-500">View detailed analytics <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="mb-5">
+            <div class="sm:hidden">
+                <select class="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
+                    <option>Overview</option>
+                    <option>Board</option>
+                    <option>Timeline</option>
+                    <option>Documents</option>
+                    <option>Team</option>
+                    <option>Settings</option>
+                </select>
+            </div>
+            <div class="hidden sm:block">
+                <div class="border-b border-gray-200">
+                    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                        <a href="#" class="border-indigo-500 text-indigo-600 border-b-2 py-3 px-1 text-sm font-medium">
+                            Overview
+                        </a>
+                        <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-3 px-1 text-sm font-medium">
+                            Board
+                        </a>
+                        <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-3 px-1 text-sm font-medium">
+                            Timeline
+                        </a>
+                        <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-3 px-1 text-sm font-medium">
+                            Documents
+                        </a>
+                        <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-3 px-1 text-sm font-medium">
+                            Team
+                        </a>
+                        <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-3 px-1 text-sm font-medium">
+                            Settings
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            <!-- Left Column -->
+            <div class="lg:col-span-2">
+                <!-- Milestones -->
+                <div class="bg-white shadow rounded-lg mb-5">
+                    <div class="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
+                        <h2 class="text-lg font-medium text-gray-900">Milestones</h2>
+                        <button type="button" class="text-indigo-600 hover:text-indigo-500 text-sm font-medium">
+                            <i class="fas fa-plus mr-1"></i> Add Milestone
+                        </button>
+                    </div>
+                    <div class="p-5">
+                        <div class="space-y-5">
+                            <!-- Milestone 1 - Completed -->
+                            <div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <span class="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-500">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                        <span class="ml-3 text-lg font-medium text-gray-900">Research & Discovery</span>
+                                    </div>
+                                    <span class="bg-green-100 text-green-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Completed</span>
+                                </div>
+                                <div class="ml-11 mt-2">
+                                    <p class="text-sm text-gray-500">Complete market research, user interviews, and competitive analysis.</p>
+                                    <div class="flex items-center mt-2 text-xs text-gray-500">
+                                        <span class="mr-3">
+                                            <i class="far fa-calendar-alt mr-1"></i> Apr 15 - Apr 28
+                                        </span>
+                                        <span>
+                                            <i class="fas fa-tasks mr-1"></i> 8/8 tasks
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Milestone 2 - In Progress -->
+                            <div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <span class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-blue-500">
+                                            <i class="fas fa-spinner fa-spin"></i>
+                                        </span>
+                                        <span class="ml-3 text-lg font-medium text-gray-900">Design & Wireframes</span>
+                                    </div>
+                                    <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">In Progress</span>
+                                </div>
+                                <div class="ml-11 mt-2">
+                                    <p class="text-sm text-gray-500">Create wireframes, visual designs, and interactive prototypes for the new website.</p>
+                                    <div class="flex items-center mt-2 text-xs text-gray-500">
+                                        <span class="mr-3">
+                                            <i class="far fa-calendar-alt mr-1"></i> Apr 29 - May 18
+                                        </span>
+                                        <span>
+                                            <i class="fas fa-tasks mr-1"></i> 12/15 tasks
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Milestone 3 - Upcoming -->
+                            <div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <span class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-500">
+                                            <i class="fas fa-code"></i>
+                                        </span>
+                                        <span class="ml-3 text-lg font-medium text-gray-900">Development</span>
+                                    </div>
+                                    <span class="bg-gray-100 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Upcoming</span>
+                                </div>
+                                <div class="ml-11 mt-2">
+                                    <p class="text-sm text-gray-500">Build frontend and backend components based on approved designs.</p>
+                                    <div class="flex items-center mt-2 text-xs text-gray-500">
+                                        <span class="mr-3">
+                                            <i class="far fa-calendar-alt mr-1"></i> May 19 - Jun 15
+                                        </span>
+                                        <span>
+                                            <i class="fas fa-tasks mr-1"></i> 0/12 tasks
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Milestone 4 - Upcoming -->
+                            <div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <span class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-500">
+                                            <i class="fas fa-vial"></i>
+                                        </span>
+                                        <span class="ml-3 text-lg font-medium text-gray-900">Testing & Launch</span>
+                                    </div>
+                                    <span class="bg-gray-100 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Upcoming</span>
+                                </div>
+                                <div class="ml-11 mt-2">
+                                    <p class="text-sm text-gray-500">QA testing, bug fixes, and final deployment to production.</p>
+                                    <div class="flex items-center mt-2 text-xs text-gray-500">
+                                        <span class="mr-3">
+                                            <i class="far fa-calendar-alt mr-1"></i> Jun 16 - Jun 30
+                                        </span>
+                                        <span>
+                                            <i class="fas fa-tasks mr-1"></i> 0/8 tasks
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Tasks -->
+                <div class="bg-white shadow rounded-lg mb-5">
+                    <div class="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
+                        <h2 class="text-lg font-medium text-gray-900">Current Tasks</h2>
+                        <div class="flex space-x-2">
+                            <button type="button" class="text-gray-500 hover:text-gray-700 text-sm">
+                                <i class="fas fa-filter"></i>
+                            </button>
+                            <button type="button" class="text-indigo-600 hover:text-indigo-500 text-sm font-medium">
+                                <i class="fas fa-plus mr-1"></i> Add Task
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-hidden">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Task
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Assignee
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Due Date
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Status
+                                    </th>
+                                    <th scope="col" class="relative px-6 py-3">
+                                        <span class="sr-only">Actions</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Create mobile responsive layouts</div>
+                                                <div class="text-xs text-gray-500">In: Design & Wireframes</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <img class="h-8 w-8 rounded-full" src="https://randomuser.me/api/portraits/women/44.jpg" alt="">
+                                            <div class="ml-3">
+                                                <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-red-600">Today</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            In Progress
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <button type="button" class="text-gray-400 hover:text-gray-500">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Finalize color palette and typography</div>
+                                                <div class="text-xs text-gray-500">In: Design & Wireframes</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <img class="h-8 w-8 rounded-full" src="https://randomuser.me/api/portraits/men/45.jpg" alt="">
+                                            <div class="ml-3">
+                                                <div class="text-sm font-medium text-gray-900">Michael Rodriguez</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">May 16</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Completed
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <button type="button" class="text-gray-400 hover:text-gray-500">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Create interactive prototype for user testing</div>
+                                                <div class="text-xs text-gray-500">In: Design & Wireframes</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <img class="h-8 w-8 rounded-full" src="https://randomuser.me/api/portraits/women/32.jpg" alt="">
+                                            <div class="ml-3">
+                                                <div class="text-sm font-medium text-gray-900">Emily Chen</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">May 17</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                            In Review
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <button type="button" class="text-gray-400 hover:text-gray-500">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Design homepage hero section</div>
+                                                <div class="text-xs text-gray-500">In: Design & Wireframes</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <img class="h-8 w-8 rounded-full" src="https://randomuser.me/api/portraits/women/44.jpg" alt="">
+                                            <div class="ml-3">
+                                                <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">May 18</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                                            Not Started
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <button type="button" class="text-gray-400 hover:text-gray-500">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="px-5 py-3 border-t border-gray-200 bg-gray-50 text-sm text-gray-500 text-right">
+                        <a href="#" class="text-indigo-600 hover:text-indigo-500 font-medium">View all tasks <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Activity Timeline -->
+                <div class="bg-white shadow rounded-lg">
+                    <div class="px-5 py-4 border-b border-gray-200">
+                        <h2 class="text-lg font-medium text-gray-900">Recent Activity</h2>
+                    </div>
+                    <div class="p-5">
+                        <ul class="space-y-4">
+                            <li class="relative pl-6">
+                                <span class="absolute left-0 top-5 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                <div class="relative flex items-start space-x-3">
+                                    <div class="relative">
+                                        <span class="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center ring-8 ring-white">
+                                            <i class="fas fa-check text-green-500"></i>
+                                        </span>
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <div>
+                                            <div class="text-sm">
+                                                <a href="#" class="font-medium text-gray-900">Michael Rodriguez</a>
+                                                completed task 
+                                                <a href="#" class="font-medium text-indigo-600">Finalize color palette and typography</a>
+                                            </div>
+                                            <p class="mt-0.5 text-sm text-gray-500">1 hour ago</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="relative pl-6">
+                                <span class="absolute left-0 top-5 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                <div class="relative flex items-start space-x-3">
+                                    <div class="relative">
+                                        <span class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center ring-8 ring-white">
+                                            <i class="fas fa-comment-alt text-blue-500"></i>
+                                        </span>
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <div>
+                                            <div class="text-sm">
+                                                <a href="#" class="font-medium text-gray-900">Emily Chen</a>
+                                                commented on task 
+                                                <a href="#" class="font-medium text-indigo-600">Create interactive prototype for user testing</a>
+                                            </div>
+                                            <p class="mt-0.5 text-sm text-gray-500">3 hours ago</p>
+                                            <div class="mt-2 text-sm text-gray-700 p-3 bg-gray-50 rounded-lg">
+                                                I've added the animations for the menu transitions. Please review and let me know if they match what we discussed in the meeting.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="relative pl-6">
+                                <span class="absolute left-0 top-5 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                <div class="relative flex items-start space-x-3">
+                                    <div class="relative">
+                                        <span class="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center ring-8 ring-white">
+                                            <i class="fas fa-plus text-purple-500"></i>
+                                        </span>
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <div>
+                                            <div class="text-sm">
+                                                <a href="#" class="font-medium text-gray-900">Sarah Johnson</a>
+                                                added a new task 
+                                                <a href="#" class="font-medium text-indigo-600">Design homepage hero section</a>
+                                            </div>
+                                            <p class="mt-0.5 text-sm text-gray-500">Yesterday at 4:30 PM</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="relative pl-6">
+                                <div class="relative flex items-start space-x-3">
+                                    <div class="relative">
+                                        <span class="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center ring-8 ring-white">
+                                            <i class="fas fa-file-alt text-indigo-500"></i>
+                                        </span>
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <div>
+                                            <div class="text-sm">
+                                                <a href="#" class="font-medium text-gray-900">Tom Wilson</a>
+                                                uploaded file 
+                                                <a href="#" class="font-medium text-indigo-600">research-findings.pdf</a>
+                                            </div>
+                                            <p class="mt-0.5 text-sm text-gray-500">Yesterday at 11:15 AM</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="mt-6 text-center">
+                            <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                                View all activity
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div>
+                <!-- Project Description -->
+                <div class="bg-white shadow rounded-lg mb-5">
+                    <div class="px-5 py-4 border-b border-gray-200">
+                        <h2 class="text-lg font-medium text-gray-900">About</h2>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-sm text-gray-700">
+                            Complete overhaul of our company website with new branding, improved user experience, and enhanced performance. This project aims to increase conversion rates and better showcase our products.
+                        </p>
+                        <h3 class="font-medium text-gray-900 mt-4 mb-2">Project Objectives:</h3>
+                        <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                            <li>Increase mobile conversions by 30%</li>
+                            <li>Reduce bounce rate to under 40%</li>
+                            <li>Improve page load times by 50%</li>
+                            <li>Better showcase our product offerings</li>
+                            <li>Update visual branding to align with new guidelines</li>
+                        </ul>
+                        <div class="mt-4 text-sm">
+                            <a href="#" class="text-indigo-600 hover:text-indigo-500 font-medium">View full project brief</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Members -->
+                <div class="bg-white shadow rounded-lg mb-5">
+                    <div class="px-5 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <h2 class="text-lg font-medium text-gray-900">Team</h2>
+                        <button class="text-indigo-600 hover:text-indigo-500 text-sm font-medium">
+                            <i class="fas fa-user-plus mr-1"></i> Add
+                        </button>
+                    </div>
+                    <div class="p-5">
+                        <ul class="divide-y divide-gray-200">
+                            <li class="py-3 flex justify-between">
+                                <div class="flex items-center">
+                                    <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/44.jpg" alt="">
+                                    <div class="ml-3">
+                                        <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                                        <div class="text-xs text-gray-500">Project Manager</div>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                    Owner
+                                </span>
+                            </li>
+                            <li class="py-3 flex justify-between">
+                                <div class="flex items-center">
+                                    <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/45.jpg" alt="">
+                                    <div class="ml-3">
+                                        <div class="text-sm font-medium text-gray-900">Michael Rodriguez</div>
+                                        <div class="text-xs text-gray-500">UI Designer</div>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    Online
+                                </span>
+                            </li>
+                            <li class="py-3 flex justify-between">
+                                <div class="flex items-center">
+                                    <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/32.jpg" alt="">
+                                    <div class="ml-3">
+                                        <div class="text-sm font-medium text-gray-900">Emily Chen</div>
+                                        <div class="text-xs text-gray-500">UX Designer</div>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    Online
+                                </span>
+                            </li>
+                            <li class="py-3 flex justify-between">
+                                <div class="flex items-center">
+                                    <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/22.jpg" alt="">
+                                    <div class="ml-3">
+                                        <div class="text-sm font-medium text-gray-900">Tom Wilson</div>
+                                        <div class="text-xs text-gray-500">Content Strategist</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="py-3 flex justify-between">
+                                <div class="flex items-center">
+                                    <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/41.jpg" alt="">
+                                    <div class="ml-3">
+                                        <div class="text-sm font-medium text-gray-900">Alex Nguyen</div>
+                                        <div class="text-xs text-gray-500">Frontend Developer</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="py-3 flex justify-between">
+                                <div class="flex items-center">
+                                    <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/67.jpg" alt="">
+                                    <div class="ml-3">
+                                        <div class="text-sm font-medium text-gray-900">Erica Park</div>
+                                        <div class="text-xs text-gray-500">Backend Developer</div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Documents -->
+                <div class="bg-white shadow rounded-lg mb-5">
+                    <div class="px-5 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <h2 class="text-lg font-medium text-gray-900">Documents</h2>
+                        <button class="text-indigo-600 hover:text-indigo-500 text-sm font-medium">
+                            <i class="fas fa-upload mr-1"></i> Upload
+                        </button>
+                    </div>
+                    <div class="p-5">
+                        <ul class="divide-y divide-gray-200">
+                            <li class="py-3 flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-500">
+                                    <i class="fas fa-file-pdf"></i>
+                                </div>
+                                <div class="ml-4 flex-1">
+                                    <div class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                                        <a href="#">research-findings.pdf</a>
+                                    </div>
+                                    <div class="text-xs text-gray-500">
+                                        2.4 MB · Uploaded 2 days ago
+                                    </div>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-500">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </li>
+                            <li class="py-3 flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-500">
+                                    <i class="fas fa-file-image"></i>
+                                </div>
+                                <div class="ml-4 flex-1">
+                                    <div class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                                        <a href="#">brand-guidelines.png</a>
+                                    </div>
+                                    <div class="text-xs text-gray-500">
+                                        4.8 MB · Uploaded 4 days ago
+                                    </div>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-500">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </li>
+                            <li class="py-3 flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-500">
+                                    <i class="fab fa-figma"></i>
+                                </div>
+                                <div class="ml-4 flex-1">
+                                    <div class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                                        <a href="#">website-wireframes.fig</a>
+                                    </div>
+                                    <div class="text-xs text-gray-500">
+                                        8.2 MB · Uploaded 1 week ago
+                                    </div>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-500">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </li>
+                            <li class="py-3 flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-500">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="ml-4 flex-1">
+                                    <div class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                                        <a href="#">project-brief.docx</a>
+                                    </div>
+                                    <div class="text-xs text-gray-500">
+                                        1.2 MB · Uploaded 2 weeks ago
+                                    </div>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-500">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="mt-4 text-center">
+                            <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                                View all documents
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-8">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <p class="text-sm text-gray-500">© 2023 UnifiedTask. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,11 +1,11 @@
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
+import { redirect } from '@tanstack/router-core'
 import type { QueryClient } from '@tanstack/react-query'
 import { useAuthStore } from '@/store/useAuthStore.tsx'
 import Sidebar from '@/components/root/Navbar/Sidebar.tsx'
 import TopNav from '@/components/root/Navbar/TopNav.tsx'
 import { useUserConfigStore } from '@/store/useUserConfig.ts'
 import { cn } from '@/utils/utils.ts'
-import { redirect } from '@tanstack/router-core'
 
 interface MyRouterContext {
 	queryClient: QueryClient
@@ -31,7 +31,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				console.error('Auth initialization error:', error)
 				resetState()
 			}
-			if(!isAuthenticated) throw redirect({ to: '/login' })
+			if(!isAuthenticated) throw redirect({
+				to: '/dashboard'
+			})
 		}
 	},
 	component: () => {

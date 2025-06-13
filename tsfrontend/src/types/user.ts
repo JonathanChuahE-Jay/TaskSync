@@ -10,6 +10,6 @@ export interface UserData {
 
 export enum Role {
 	MEMBER = 'MEMBER',
-	PROJECT_MANAGER = 'PROJECT_MANAGER',
+	GUEST = 'GUEST',
 	ADMIN = 'ADMIN',
 }

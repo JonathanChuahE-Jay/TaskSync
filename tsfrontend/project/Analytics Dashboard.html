@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - Unified Task System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-indigo-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="text-xl font-bold">Unified<span class="text-indigo-300">Task</span></span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="index.html" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Dashboard</a>
+                            <a href="project-detail.html" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Projects</a>
+                            <a href="sprint-board.html" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500">Sprint Board</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium bg-indigo-700">Analytics</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-indigo-500 hover:bg-indigo-400 p-2 rounded-full">
+                        <i class="fas fa-bell text-white"></i>
+                        <span class="bg-red-500 text-white text-xs rounded-full px-1 absolute -mt-6 ml-3">3</span>
+                    </button>
+                    <div class="relative">
+                        <img class="h-8 w-8 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/44.jpg" alt="User avatar">
+                        <div class="absolute bottom-0 right-0 bg-green-500 rounded-full h-2.5 w-2.5 border border-white"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="flex-1 min-w-0">
+                    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Analytics & Reports</h2>
+                    <p class="mt-1 text-sm text-gray-500">
+                        In-depth metrics and performance tracking for projects, teams, and individuals
+                    </p>
+                </div>
+                <div class="mt-4 flex md:mt-0 md:ml-4 space-x-2">
+                    <div class="inline-flex items-center text-sm text-gray-500 bg-white">
+                        <span class="mr-2">Last Updated: 15 minutes ago</span>
+                        <button type="button" class="text-indigo-600 hover:text-indigo-500">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <i class="fas fa-download mr-2"></i>
+                            Export
+                            <i class="fas fa-chevron-down ml-2"></i>
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <span>Last 30 Days</span>
+                            <i class="fas fa-calendar ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+        <!-- Overview Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-500 text-sm">Tasks Completed</p>
+                        <h3 class="text-3xl font-bold text-gray-800 mt-1">247</h3>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-lg text-green-600">
+                        <i class="fas fa-tasks text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="flex justify-between items-center text-sm">
+                        <div class="text-green-500">
+                            <i class="fas fa-arrow-up"></i> 12% increase
+                        </div>
+                        <div class="text-gray-500">vs last 30 days</div>
+                    </div>
+                    <div class="mt-2 h-1 w-full bg-gray-200 rounded-full">
+                        <div class="h-1 bg-green-500 rounded-full" style="width: 78%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-500 text-sm">Team Velocity</p>
+                        <h3 class="text-3xl font-bold text-gray-800 mt-1">58</h3>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-lg text-blue-600">
+                        <i class="fas fa-bolt text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="flex justify-between items-center text-sm">
+                        <div class="text-blue-500">
+                            <i class="fas fa-arrow-up"></i> 8% increase
+                        </div>
+                        <div class="text-gray-500">32 story points/week</div>
+                    </div>
+                    <div class="mt-2 h-1 w-full bg-gray-200 rounded-full">
+                        <div class="h-1 bg-blue-500 rounded-full" style="width: 65%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-500 text-sm">Cycle Time</p>
+                        <h3 class="text-3xl font-bold text-gray-800 mt-1">3.2</h3>
+                    </div>
+                    <div class="bg-purple-100 p-3 rounded-lg text-purple-600">
+                        <i class="fas fa-clock text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="flex justify-between items-center text-sm">
+                        <div class="text-purple-500">
+                            <i class="fas fa-arrow-down"></i> 15% decrease
+                        </div>
+                        <div class="text-gray-500">avg. days/task</div>
+                    </div>
+                    <div class="mt-2 h-1 w-full bg-gray-200 rounded-full">
+                        <div class="h-1 bg-purple-500 rounded-full" style="width: 42%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-500 text-sm">Completion Rate</p>
+                        <h3 class="text-3xl font-bold text-gray-800 mt-1">87%</h3>
+                    </div>
+                    <div class="bg-yellow-100 p-3 rounded-lg text-yellow-600">
+                        <i class="fas fa-percentage text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="flex justify-between items-center text-sm">
+                        <div class="text-yellow-500">
+                            <i class="fas fa-arrow-up"></i> 4% increase
+                        </div>
+                        <div class="text-gray-500">on-time completion</div>
+                    </div>
+                    <div class="mt-2 h-1 w-full bg-gray-200 rounded-full">
+                        <div class="h-1 bg-yellow-500 rounded-full" style="width: 87%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task Completion and Team Performance -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Task Completion Chart -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-5 py-4 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-medium text-gray-900">Task Completion Trend</h3>
+                        <div class="flex space-x-2">
+                            <button type="button" class="text-sm bg-indigo-100 text-indigo-700 px-3 py-1 rounded-md">Week</button>
+                            <button type="button" class="text-sm text-gray-500 hover:bg-gray-100 px-3 py-1 rounded-md">Month</button>
+                            <button type="button" class="text-sm text-gray-500 hover:bg-gray-100 px-3 py-1 rounded-md">Quarter</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <!-- Placeholder for chart - in real app, use a charting library here -->
+                    <div class="h-64 bg-gray-50 rounded-lg border border-gray-200 relative">
+                        <!-- Sample chart (static SVG mockup) -->
+                        <svg viewBox="0 0 400 200" class="w-full h-full p-4">
+                            <!-- Axes -->
+                            <line x1="40" y1="180" x2="380" y2="180" stroke="#CBD5E0" stroke-width="1"></line>
+                            <line x1="40" y1="20" x2="40" y2="180" stroke="#CBD5E0" stroke-width="1"></line>
+                            
+                            <!-- Completed Tasks Line -->
+                            <path d="M 40,140 L 80,130 L 120,150 L 160,120 L 200,100 L 240,90 L 280,70 L 320,60 L 360,40" fill="none" stroke="#4F46E5" stroke-width="3"></path>
+                            
+                            <!-- Goal Line -->
+                            <path d="M 40,110 L 80,110 L 120,110 L 160,110 L 200,110 L 240,110 L 280,110 L 320,110 L 360,110" fill="none" stroke="#CBD5E0" stroke-width="2" stroke-dasharray="5,5"></path>
+                            
+                            <!-- Data Points -->
+                            <circle cx="40" cy="140" r="4" fill="#4F46E5"></circle>
+                            <circle cx="80" cy="130" r="4" fill="#4F46E5"></circle>
+                            <circle cx="120" cy="150" r="4" fill="#4F46E5"></circle>
+                            <circle cx="160" cy="120" r="4" fill="#4F46E5"></circle>
+                            <circle cx="200" cy="100" r="4" fill="#4F46E5"></circle>
+                            <circle cx="240" cy="90" r="4" fill="#4F46E5"></circle>
+                            <circle cx="280" cy="70" r="4" fill="#4F46E5"></circle>
+                            <circle cx="320" cy="60" r="4" fill="#4F46E5"></circle>
+                            <circle cx="360" cy="40" r="4" fill="#4F46E5"></circle>
+                            
+                            <!-- Axis Labels -->
+                            <text x="40" y="195" text-anchor="middle" font-size="10" fill="#4B5563">Mon</text>
+                            <text x="80" y="195" text-anchor="middle" font-size="10" fill="#4B5563">Tue</text>
+                            <text x="120" y="195" text-anchor="middle" font-size="10" fill="#4B5563">Wed</text>
+                            <text x="160" y="195" text-anchor="middle" font-size="10" fill="#4B5563">Thu</text>
+                            <text x="200" y="195" text-anchor="middle" font-size="10" fill="#4B5563">Fri</text>
+                            <text x="240" y="195" text-anchor="middle" font-size="10" fill="#4B5563">Sat</text>
+                            <text x="280" y="195" text-anchor="middle" font-size="10" fill="#4B5563">Sun</text>
+                            <text x="320" y="195" text-anchor="middle" font-size="10" fill="#4B5563">Mon</text>
+                            <text x="360" y="195" text-anchor="middle" font-size="10" fill="#4B5563">Tue</text>
+                            
+                            <text x="35" y="180" text-anchor="end" font-size="10" fill="#4B5563">0</text>
+                            <text x="35" y="140" text-anchor="end" font-size="10" fill="#4B5563">10</text>
+                            <text x="35" y="100" text-anchor="end" font-size="10" fill="#4B5563">20</text>
+                            <text x="35" y="60" text-anchor="end" font-size="10" fill="#4B5563">30</text>
+                            <text x="35" y="20" text-anchor="end" font-size="10" fill="#4B5563">40</text>
+                            
+                            <!-- Legend -->
+                            <circle cx="300" cy="20" r="4" fill="#4F46E5"></circle>
+                            <text x="310" y="23" font-size="10" fill="#4B5563">Completed Tasks</text>
+                            <line x1="280" y1="35" x2="295" y2="35" stroke="#CBD5E0" stroke-width="2" stroke-dasharray="5,5"></line>
+                            <text x="310" y="38" font-size="10" fill="#4B5563">Goal</text>
+                        </svg>
+                    </div>
+                    <div class="mt-4 flex justify-between text-sm text-gray-500">
+                        <span>Tasks ahead of goal: +12</span>
+                        <span>Peak day: Tuesday (32 tasks)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Performance -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-5 py-4 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-medium text-gray-900">Team Performance</h3>
+                        <select class="text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                            <option>Website Redesign</option>
+                            <option>Mobile App Development</option>
+                            <option>Annual Marketing Campaign</option>
+                            <option>All Projects</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <!-- Team Performance Bars -->
+                    <div class="space-y-4">
+                        <!-- Team Member 1 -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <img class="h-8 w-8 rounded-full mr-3" src="https://randomuser.me/api/portraits/women/44.jpg" alt="">
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-900">Sarah Johnson</h4>
+                                    <p class="text-xs text-gray-500">Project Manager</p>
+                                </div>
+                                <div class="ml-auto text-sm font-medium text-gray-900">36 <span class="text-xs text-gray-500">tasks</span></div>
+                            </div>
+                            <div class="h-2 w-full bg-gray-200 rounded-full">
+                                <div class="h-2 bg-green-500 rounded-full" style="width: 92%"></div>
+                            </div>
+                            <div class="flex justify-between items-center mt-1 text-xs">
+                                <span class="text-gray-500">Tasks completed: 92%</span>
+                                <span class="text-green-500">On time: 98%</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Team Member 2 -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <img class="h-8 w-8 rounded-full mr-3" src="https://randomuser.me/api/portraits/men/45.jpg" alt="">
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-900">Michael Rodriguez</h4>
+                                    <p class="text-xs text-gray-500">UI Designer</p>
+                                </div>
+                                <div class="ml-auto text-sm font-medium text-gray-900">28 <span class="text-xs text-gray-500">tasks</span></div>
+                            </div>
+                            <div class="h-2 w-full bg-gray-200 rounded-full">
+                                <div class="h-2 bg-green-500 rounded-full" style="width: 85%"></div>
+                            </div>
+                            <div class="flex justify-between items-center mt-1 text-xs">
+                                <span class="text-gray-500">Tasks completed: 85%</span>
+                                <span class="text-green-500">On time: 90%</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Team Member 3 -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <img class="h-8 w-8 rounded-full mr-3" src="https://randomuser.me/api/portraits/women/32.jpg" alt="">
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-900">Emily Chen</h4>
+                                    <p class="text-xs text-gray-500">UX Designer</p>
+                                </div>
+                                <div class="ml-auto text-sm font-medium text-gray-900">31 <span class="text-xs text-gray-500">tasks</span></div>
+                            </div>
+                            <div class="h-2 w-full bg-gray-200 rounded-full">
+                                <div class="h-2 bg-green-500 rounded-full" style="width: 88%"></div>
+                            </div>
+                            <div class="flex justify-between items-center mt-1 text-xs">
+                                <span class="text-gray-500">Tasks completed: 88%</span>
+                                <span class="text-green-500">On time: 95%</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Team Member 4 -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <img class="h-8 w-8 rounded-full mr-3" src="https://randomuser.me/api/portraits/men/41.jpg" alt="">
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-900">Alex Nguyen</h4>
+                                    <p class="text-xs text-gray-500">Frontend Developer</p>
+                                </div>
+                                <div class="ml-auto text-sm font-medium text-gray-900">25 <span class="text-xs text-gray-500">tasks</span></div>
+                            </div>
+                            <div class="h-2 w-full bg-gray-200 rounded-full">
+                                <div class="h-2 bg-yellow-500 rounded-full" style="width: 76%"></div>
+                            </div>
+                            <div class="flex justify-between items-center mt-1 text-xs">
+                                <span class="text-gray-500">Tasks completed: 76%</span>
+                                <span class="text-yellow-500">On time: 82%</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Team Member 5 -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <img class="h-8 w-8 rounded-full mr-3" src="https://randomuser.me/api/portraits/women/67.jpg" alt="">
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-900">Erica Park</h4>
+                                    <p class="text-xs text-gray-500">Backend Developer</p>
+                                </div>
+                                <div class="ml-auto text-sm font-medium text-gray-900">22 <span class="text-xs text-gray-500">tasks</span></div>
+                            </div>
+                            <div class="h-2 w-full bg-gray-200 rounded-full">
+                                <div class="h-2 bg-green-500 rounded-full" style="width: 80%"></div>
+                            </div>
+                            <div class="flex justify-between items-center mt-1 text-xs">
+                                <span class="text-gray-500">Tasks completed: 80%</span>
+                                <span class="text-green-500">On time: 91%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Status & Leaderboard -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Project Status -->
+            <div class="lg:col-span-2 bg-white shadow rounded-lg">
+                <div class="px-5 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-medium text-gray-900">Project Status Overview</h3>
+                </div>
+                <div class="p-5">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Progress</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tasks</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Deadline</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Website Redesign</div>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                                <div class="bg-green-500 h-2.5 rounded-full" style="width: 70%"></div>
+                                            </div>
+                                            <span class="text-sm text-gray-500">70%</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">24/35</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">Jun 30, 2023</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Mobile App Development</div>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">At Risk</span>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                                <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 45%"></div>
+                                            </div>
+                                            <span class="text-sm text-gray-500">45%</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">18/40</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-red-500">May 20, 2023</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Annual Marketing Campaign</div>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">Completed</span>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                                <div class="bg-blue-500 h-2.5 rounded-full" style="width: 100%"></div>
+                                            </div>
+                                            <span class="text-sm text-gray-500">100%</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">30/30</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">May 12, 2023</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Product Launch: Echo Device</div>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">Planning</span>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                                <div class="bg-purple-500 h-2.5 rounded-full" style="width: 15%"></div>
+                                            </div>
+                                            <span class="text-sm text-gray-500">15%</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">8/52</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">Nov 15, 2023</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Security Compliance Audit</div>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Critical</span>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                                <div class="bg-red-500 h-2.5 rounded-full" style="width: 60%"></div>
+                                            </div>
+                                            <span class="text-sm text-gray-500">60%</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">15/25</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-red-500">May 19, 2023</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Team Leaderboard -->
+            <div class="bg-white shadow rounded-lg">
+                <div class="px-5 py-4 border-b border-gray-200 flex justify-between items-center">
+                    <h3 class="text-lg font-medium text-gray-900">Team Leaderboard</h3>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                        This Month
+                    </span>
+                </div>
+                <div class="p-5">
+                    <div class="space-y-2">
+                        <!-- Leader 1 -->
+                        <div class="flex items-center p-3 bg-indigo-50 rounded-lg border border-indigo-100">
+                            <div class="flex-shrink-0 relative">
+                                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/44.jpg" alt="">
+                                <span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-yellow-400 text-xs text-white font-bold">1</span>
+                            </div>
+                            <div class="ml-3 flex-grow">
+                                <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                                <div class="text-xs text-gray-500">42 tasks · 15 stars · 98% on-time</div>
+                            </div>
+                            <div class="flex-shrink-0 flex items-center space-x-1">
+                                <span class="text-sm font-bold text-indigo-600">920</span>
+                                <span class="text-xs text-gray-500">pts</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Leader 2 -->
+                        <div class="flex items-center p-3 rounded-lg border border-gray-100">
+                            <div class="flex-shrink-0 relative">
+                                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/32.jpg" alt="">
+                                <span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-300 text-xs text-white font-bold">2</span>
+                            </div>
+                            <div class="ml-3 flex-grow">
+                                <div class="text-sm font-medium text-gray-900">Emily Chen</div>
+                                <div class="text-xs text-gray-500">38 tasks · 12 stars · 95% on-time</div>
+                            </div>
+                            <div class="flex-shrink-0 flex items-center space-x-1">
+                                <span class="text-sm font-bold text-indigo-600">875</span>
+                                <span class="text-xs text-gray-500">pts</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Leader 3 -->
+                        <div class="flex items-center p-3 rounded-lg border border-gray-100">
+                            <div class="flex-shrink-0 relative">
+                                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/45.jpg" alt="">
+                                <span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-orange-400 text-xs text-white font-bold">3</span>
+                            </div>
+                            <div class="ml-3 flex-grow">
+                                <div class="text-sm font-medium text-gray-900">Michael Rodriguez</div>
+                                <div class="text-xs text-gray-500">35 tasks · 10 stars · 90% on-time</div>
+                            </div>
+                            <div class="flex-shrink-0 flex items-center space-x-1">
+                                <span class="text-sm font-bold text-indigo-600">830</span>
+                                <span class="text-xs text-gray-500">pts</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Leader 4 -->
+                        <div class="flex items-center p-3 rounded-lg border border-gray-100">
+                            <div class="flex-shrink-0 relative">
+                                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/67.jpg" alt="">
+                                <span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-200 text-xs text-gray-500 font-bold">4</span>
+                            </div>
+                            <div class="ml-3 flex-grow">
+                                <div class="text-sm font-medium text-gray-900">Erica Park</div>
+                                <div class="text-xs text-gray-500">29 tasks · 8 stars · 91% on-time</div>
+                            </div>
+                            <div class="flex-shrink-0 flex items-center space-x-1">
+                                <span class="text-sm font-bold text-indigo-600">795</span>
+                                <span class="text-xs text-gray-500">pts</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Leader 5 -->
+                        <div class="flex items-center p-3 rounded-lg border border-gray-100">
+                            <div class="flex-shrink-0 relative">
+                                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/41.jpg" alt="">
+                                <span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-200 text-xs text-gray-500 font-bold">5</span>
+                            </div>
+                            <div class="ml-3 flex-grow">
+                                <div class="text-sm font-medium text-gray-900">Alex Nguyen</div>
+                                <div class="text-xs text-gray-500">25 tasks · 7 stars · 82% on-time</div>
+                            </div>
+                            <div class="flex-shrink-0 flex items-center space-x-1">
+                                <span class="text-sm font-bold text-indigo-600">720</span>
+                                <span class="text-xs text-gray-500">pts</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 text-center">
+                        <button class="text-sm font-medium text-indigo-600 hover:text-indigo-500">View Full Leaderboard</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Time Tracking -->
+        <div class="bg-white shadow rounded-lg mb-8">
+            <div class="px-5 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h3 class="text-lg font-medium text-gray-900">Time Tracking Analysis</h3>
+                <select class="text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                    <option>Last 30 Days</option>
+                    <option>Last Quarter</option>
+                    <option>Year to Date</option>
+                </select>
+            </div>
+            <div class="p-5">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Estimated vs Actual Chart -->
+                    <div class="col-span-2">
+                        <!-- Placeholder for chart - in real app, use a charting library here -->
+                        <div class="h-64 bg-gray-50 rounded-lg border border-gray-200 relative">
+                            <!-- Sample chart (static SVG mockup) -->
+                            <svg viewBox="0 0 400 200" class="w-full h-full p-4">
+                                <!-- Axes -->
+                                <line x1="40" y1="180" x2="380" y2="180" stroke="#CBD5E0" stroke-width="1"></line>
+                                <line x1="40" y1="20" x2="40" y2="180" stroke="#CBD5E0" stroke-width="1"></line>
+                                
+                                <!-- Estimated Time Bars -->
+                                <rect x="60" y="70" width="20" height="110" fill="#C7D2FE"></rect>
+                                <rect x="100" y="50" width="20" height="130" fill="#C7D2FE"></rect>
+                                <rect x="140" y="90" width="20" height="90" fill="#C7D2FE"></rect>
+                                <rect x="180" y="60" width="20" height="120" fill="#C7D2FE"></rect>
+                                <rect x="220" y="80" width="20" height="100" fill="#C7D2FE"></rect>
+                                <rect x="260" y="40" width="20" height="140" fill="#C7D2FE"></rect>
+                                <rect x="300" y="70" width="20" height="110" fill="#C7D2FE"></rect>
+                                <rect x="340" y="60" width="20" height="120" fill="#C7D2FE"></rect>
+                                
+                                <!-- Actual Time Bars -->
+                                <rect x="60" y="90" width="20" height="90" fill="#4F46E5"></rect>
+                                <rect x="100" y="40" width="20" height="140" fill="#4F46E5"></rect>
+                                <rect x="140" y="110" width="20" height="70" fill="#4F46E5"></rect>
+                                <rect x="180" y="70" width="20" height="110" fill="#4F46E5"></rect>
+                                <rect x="220" y="100" width="20" height="80" fill="#4F46E5"></rect>
+                                <rect x="260" y="50" width="20" height="130" fill="#4F46E5"></rect>
+                                <rect x="300" y="85" width="20" height="95" fill="#4F46E5"></rect>
+                                <rect x="340" y="80" width="20" height="100" fill="#4F46E5"></rect>
+                                
+                                <!-- Axis Labels -->
+                                <text x="70" y="195" text-anchor="middle" font-size="10" fill="#4B5563">Website</text>
+                                <text x="110" y="195" text-anchor="middle" font-size="10" fill="#4B5563">Mobile</text>
+                                <text x="150" y="195" text-anchor="middle" font-size="10" fill="#4B5563">Marketing</text>
+                                <text x="190" y="195" text-anchor="middle" font-size="10" fill="#4B5563">Echo</text>
+                                <text x="230" y="195" text-anchor="middle" font-size="10" fill="#4B5563">Security</text>
+                                <text x="270" y="195" text-anchor="middle" font-size="10" fill="#4B5563">Office</text>
+                                <text x="310" y="195" text-anchor="middle" font-size="10" fill="#4B5563">HR System</text>
+                                <text x="350" y="195" text-anchor="middle" font-size="10" fill="#4B5563">CRM</text>
+                                
+                                <text x="35" y="180" text-anchor="end" font-size="10" fill="#4B5563">0</text>
+                                <text x="35" y="140" text-anchor="end" font-size="10" fill="#4B5563">100</text>
+                                <text x="35" y="100" text-anchor="end" font-size="10" fill="#4B5563">200</text>
+                                <text x="35" y="60" text-anchor="end" font-size="10" fill="#4B5563">300</text>
+                                <text x="35" y="20" text-anchor="end" font-size="10" fill="#4B5563">400</text>
+                                
+                                <!-- Legend -->
+                                <rect x="280" y="15" width="10" height="10" fill="#C7D2FE"></rect>
+                                <text x="295" y="23" font-size="10" fill="#4B5563">Estimated Hours</text>
+                                <rect x="280" y="30" width="10" height="10" fill="#4F46E5"></rect>
+                                <text x="295" y="38" font-size="10" fill="#4B5563">Actual Hours</text>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- Time Metrics -->
+                    <div>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="text-sm font-medium text-gray-500">Total Hours</div>
+                                <div class="flex justify-between items-end mt-2">
+                                    <div>
+                                        <div class="text-3xl font-bold text-gray-800">1,248</div>
+                                        <div class="text-xs text-gray-500">tracked across all projects</div>
+                                    </div>
+                                    <div class="text-sm bg-green-100 text-green-800 px-2 py-0.5 rounded-md">
+                                        +12% vs last month
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="text-sm font-medium text-gray-500">Estimation Accuracy</div>
+                                <div class="flex justify-between items-end mt-2">
+                                    <div>
+                                        <div class="text-3xl font-bold text-gray-800">92%</div>
+                                        <div class="text-xs text-gray-500">average across all projects</div>
+                                    </div>
+                                    <div class="text-sm bg-green-100 text-green-800 px-2 py-0.5 rounded-md">
+                                        +3% vs last month
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="text-sm font-medium text-gray-500">Most Time-Intensive Project</div>
+                                <div class="mt-2">
+                                    <div class="text-xl font-bold text-gray-800">Mobile App Development</div>
+                                    <div class="text-sm text-gray-500">320 hours (26% of total)</div>
+                                    <div class="text-xs text-red-500 mt-1">140% of estimated time</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-8">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <p class="text-sm text-gray-500">© 2023 UnifiedTask. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
