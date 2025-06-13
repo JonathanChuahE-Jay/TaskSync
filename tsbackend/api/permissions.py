@@ -4,9 +4,9 @@ class IsTeamMember(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.user.is_authenticated and request.user.role == 'MEMBER'
 
-class IsProjectManager(permissions.BasePermission):
+class IsGUEST(permissions.BasePermission):
     def has_permission(self, request, view):
-        return request.user.is_authenticated and request.user.role == 'PROJECT_MANAGER'
+        return request.user.is_authenticated and request.user.role == 'GUEST'
 
 class IsAdmin(permissions.BasePermission):
     def has_permission(self, request, view):

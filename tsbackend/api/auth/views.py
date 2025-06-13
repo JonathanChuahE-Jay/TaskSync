@@ -7,12 +7,12 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from .serializers import (
+from api.auth.serializers import (
     UserSerializer, RegisterSerializer, EmailValidationSerializer,
     PasswordValidationSerializer, UsernameValidationSerializer,
     PhoneValidationSerializer, SendOtpSerializer, VerifyOtpSerializer, CustomTokenObtainPairSerializer
 )
-from .models import OtpVerification
+from api.models import OtpVerification
 import re
 from django.utils import timezone
 User = get_user_model()

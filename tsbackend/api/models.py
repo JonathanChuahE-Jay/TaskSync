@@ -9,8 +9,8 @@ from django.core.validators import RegexValidator
 
 class User(AbstractUser):
     ROLE_CHOICES = (
-        ('MEMBER', 'Team Member'),
-        ('PROJECT_MANAGER', 'Project Manager'),
+        ('MEMBER', 'Member'),
+        ('GUEST', 'GUEST'),
         ('ADMIN', 'System Administrator'),
     )
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='MEMBER')
@@ -84,3 +84,23 @@ class OtpVerification(models.Model):
         db_table = 'otp_verifications'
         verbose_name = 'OTP Verification'
         verbose_name_plural = 'OTP Verifications'
+
+
+class Project(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    due_date = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    updated_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='updated_projects'
+    )
+
+    def __str__(self):
+        return self.title

@@ -1,10 +1,11 @@
 from django.urls import path
-from .views import (
+from api.auth.views import (
     RegisterView, LogoutView, UserView,
     CustomTokenObtainPairView, CookieTokenRefreshView,
     ValidateEmailView, ValidatePasswordView, ValidateUsernameView,
     ValidatePhoneView, SendOtpView, VerifyOtpView, TokenVerifyView
 )
+from api.projects.views import ProjectListCreateView, ProjectRetrieveUpdateDeleteView
 
 urlpatterns = [
     path('login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -24,4 +25,7 @@ urlpatterns = [
     path('send-otp/', SendOtpView.as_view(), name='send_otp'),
     path('resend-otp/', SendOtpView.as_view(), name='resend_otp'),
     path('verify-otp/', VerifyOtpView.as_view(), name='verify_otp'),
+
+    path('projects/', ProjectListCreateView.as_view(), name='project-list-create'),
+    path('projects/<uuid:pk>/', ProjectRetrieveUpdateDeleteView.as_view(), name='project-detail'),
 ]
