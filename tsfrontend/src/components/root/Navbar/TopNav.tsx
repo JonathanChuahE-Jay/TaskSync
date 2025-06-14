@@ -9,9 +9,11 @@ import { useLogout } from '@/queries/AuthQueries.tsx'
 import { useToast } from '@/contexts/ToastContext.tsx'
 import { formatZodError } from '@/utils/convertZodToJson.ts'
 import { flattenErrorResponse } from '@/utils/flattenErrorResponse.ts'
+import { useAuthStore } from '@/store/useAuthStore.tsx'
 
 const TopNav = () => {
 	const { toggleTheme } = useUserConfigStore()
+	const { resetState } = useAuthStore()
 	const { toast } = useToast()
 	const navigate = useNavigate()
 	const logOut = useLogout()
@@ -19,6 +21,7 @@ const TopNav = () => {
 	const onLogout = async () => {
 		try {
 			await logOut.mutateAsync()
+			resetState()
 			navigate({ to: '/login' })
 			toast('Logged out!', 'success')
 		} catch (error) {

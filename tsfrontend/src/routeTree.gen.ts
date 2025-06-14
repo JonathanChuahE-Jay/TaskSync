@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as membersRouteImport } from './routes/(members)/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as membersTaskManagementImport } from './routes/(members)/task-management'
 import { Route as membersProjectManagementImport } from './routes/(members)/project-management'
@@ -20,6 +21,11 @@ import { Route as authLoginImport } from './routes/(auth)/login'
 
 // Create/Update Routes
 
+const membersRouteRoute = membersRouteImport.update({
+  id: '/(members)',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
@@ -27,21 +33,21 @@ const IndexRoute = IndexImport.update({
 } as any)
 
 const membersTaskManagementRoute = membersTaskManagementImport.update({
-  id: '/(members)/task-management',
+  id: '/task-management',
   path: '/task-management',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => membersRouteRoute,
 } as any)
 
 const membersProjectManagementRoute = membersProjectManagementImport.update({
-  id: '/(members)/project-management',
+  id: '/project-management',
   path: '/project-management',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => membersRouteRoute,
 } as any)
 
 const membersDashboardRoute = membersDashboardImport.update({
-  id: '/(members)/dashboard',
+  id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => membersRouteRoute,
 } as any)
 
 const authRegisterRoute = authRegisterImport.update({
@@ -67,6 +73,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/(members)': {
+      id: '/(members)'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof membersRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/(auth)/login': {
       id: '/(auth)/login'
       path: '/login'
@@ -86,29 +99,45 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof membersDashboardImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof membersRouteImport
     }
     '/(members)/project-management': {
       id: '/(members)/project-management'
       path: '/project-management'
       fullPath: '/project-management'
       preLoaderRoute: typeof membersProjectManagementImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof membersRouteImport
     }
     '/(members)/task-management': {
       id: '/(members)/task-management'
       path: '/task-management'
       fullPath: '/task-management'
       preLoaderRoute: typeof membersTaskManagementImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof membersRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface membersRouteRouteChildren {
+  membersDashboardRoute: typeof membersDashboardRoute
+  membersProjectManagementRoute: typeof membersProjectManagementRoute
+  membersTaskManagementRoute: typeof membersTaskManagementRoute
+}
+
+const membersRouteRouteChildren: membersRouteRouteChildren = {
+  membersDashboardRoute: membersDashboardRoute,
+  membersProjectManagementRoute: membersProjectManagementRoute,
+  membersTaskManagementRoute: membersTaskManagementRoute,
+}
+
+const membersRouteRouteWithChildren = membersRouteRoute._addFileChildren(
+  membersRouteRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof membersRouteRouteWithChildren
   '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
   '/dashboard': typeof membersDashboardRoute
@@ -117,7 +146,7 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/': typeof membersRouteRouteWithChildren
   '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
   '/dashboard': typeof membersDashboardRoute
@@ -128,6 +157,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/(members)': typeof membersRouteRouteWithChildren
   '/(auth)/login': typeof authLoginRoute
   '/(auth)/register': typeof authRegisterRoute
   '/(members)/dashboard': typeof membersDashboardRoute
@@ -155,6 +185,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/(members)'
     | '/(auth)/login'
     | '/(auth)/register'
     | '/(members)/dashboard'
@@ -165,20 +196,16 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  membersRouteRoute: typeof membersRouteRouteWithChildren
   authLoginRoute: typeof authLoginRoute
   authRegisterRoute: typeof authRegisterRoute
-  membersDashboardRoute: typeof membersDashboardRoute
-  membersProjectManagementRoute: typeof membersProjectManagementRoute
-  membersTaskManagementRoute: typeof membersTaskManagementRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  membersRouteRoute: membersRouteRouteWithChildren,
   authLoginRoute: authLoginRoute,
   authRegisterRoute: authRegisterRoute,
-  membersDashboardRoute: membersDashboardRoute,
-  membersProjectManagementRoute: membersProjectManagementRoute,
-  membersTaskManagementRoute: membersTaskManagementRoute,
 }
 
 export const routeTree = rootRoute
@@ -192,15 +219,21 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/(members)",
         "/(auth)/login",
-        "/(auth)/register",
-        "/(members)/dashboard",
-        "/(members)/project-management",
-        "/(members)/task-management"
+        "/(auth)/register"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/(members)": {
+      "filePath": "(members)/route.tsx",
+      "children": [
+        "/(members)/dashboard",
+        "/(members)/project-management",
+        "/(members)/task-management"
+      ]
     },
     "/(auth)/login": {
       "filePath": "(auth)/login.tsx"
@@ -209,13 +242,16 @@ export const routeTree = rootRoute
       "filePath": "(auth)/register.tsx"
     },
     "/(members)/dashboard": {
-      "filePath": "(members)/dashboard.tsx"
+      "filePath": "(members)/dashboard.tsx",
+      "parent": "/(members)"
     },
     "/(members)/project-management": {
-      "filePath": "(members)/project-management.tsx"
+      "filePath": "(members)/project-management.tsx",
+      "parent": "/(members)"
     },
     "/(members)/task-management": {
-      "filePath": "(members)/task-management.tsx"
+      "filePath": "(members)/task-management.tsx",
+      "parent": "/(members)"
     }
   }
 }

@@ -7,7 +7,6 @@ import { useAuthStore } from '@/store/useAuthStore.tsx'
 export const Route = createFileRoute('/(auth)/login')({
 	beforeLoad: () => {
 		const { isAuthenticated, user } = useAuthStore.getState();
-		console.log(isAuthenticated, { user })
 		if (isAuthenticated && user?.role === 'MEMBER') {
 			throw redirect({
 				to: '/dashboard'

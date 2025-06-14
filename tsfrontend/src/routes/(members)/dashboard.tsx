@@ -7,7 +7,7 @@ export const Route = createFileRoute('/(members)/dashboard')({
 function RouteComponent() {
 	return(
 		<div>
-			
+			dasdsa
 		</div>
 	)
 }

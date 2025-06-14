@@ -1,5 +1,4 @@
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
-import { redirect } from '@tanstack/router-core'
 import type { QueryClient } from '@tanstack/react-query'
 import { useAuthStore } from '@/store/useAuthStore.tsx'
 import Sidebar from '@/components/root/Navbar/Sidebar.tsx'
@@ -13,28 +12,8 @@ interface MyRouterContext {
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
 	beforeLoad: async () => {
-		const { init, verify, refresh, isInitialized, resetState, isAuthenticated } = useAuthStore.getState()
-
-		if (!isInitialized) {
-			try {
-				const isValid = await verify()
-				if (isValid) {
-					await init()
-				} else {
-					const refreshed = await refresh()
-
-					if (!refreshed) {
-						resetState()
-					}
-				}
-			} catch (error) {
-				console.error('Auth initialization error:', error)
-				resetState()
-			}
-			if(!isAuthenticated) throw redirect({
-				to: '/dashboard'
-			})
-		}
+		const { init } = useAuthStore.getState()
+		await init()
 	},
 	component: () => {
 		const { theme } = useUserConfigStore()
@@ -55,7 +34,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				<main
 					className={cn(
 						'group-hover:pl-64 transition-all duration-700 min-h-screen bg-background text-foreground',
-						isAuthenticated && 'pt-16 pl-20 '
+						isAuthenticated && 'pt-16 pl-20 ',
 					)}
 				>
 					<Outlet />
