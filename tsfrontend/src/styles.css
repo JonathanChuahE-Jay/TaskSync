@@ -5,8 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 body {
-    @apply m-0 bg-white text-black dark:text-white transition-colors duration-700;
+    @apply bg-[#F4F5F6] text-black dark:bg-[#0a0d36] dark:text-white transition-colors duration-700;
 }
+
 
 .text {
     @apply dark:text-white text-black transition-colors duration-700;
@@ -15,6 +16,12 @@ body {
 .dark {
     background-color: #0a0d36;
     color: white;
+}
+
+.dark .bg-white {
+  background-color: #080a2e;
+  color: white;
+  @apply duration-700 transition-colors
 }
 
 code {

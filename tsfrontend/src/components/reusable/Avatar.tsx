@@ -55,7 +55,7 @@ const Avatar: React.FC<AvatarProps> = ({
 
 	const sizeClasses = {
 		xs: 'size-8',
-		sm: 'size-12',
+		sm: 'size-10',
 		md: 'size-16',
 		lg: 'size-20',
 		xl: 'size-24',
@@ -148,7 +148,7 @@ const Avatar: React.FC<AvatarProps> = ({
 		} else {
 			return (
 				<div
-					className={`flex items-center justify-center bg-gray-100 rounded-full ${sizeClass} ${borderStyles} ${className}`}
+					className={`flex items-center justify-center bg-gray-200 rounded-full ${sizeClass} ${borderStyles} ${className}`}
 				>
 					<svg
 						className="text-gray-400 size-1/2"

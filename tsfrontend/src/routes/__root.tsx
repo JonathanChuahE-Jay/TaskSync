@@ -33,8 +33,8 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				)}
 				<main
 					className={cn(
-						'group-hover:pl-64 transition-all duration-700 min-h-screen bg-background text-foreground',
-						isAuthenticated && 'pt-16 pl-20 ',
+						'group-hover:pl-64 transition-all duration-700 min-h-screen text-foreground',
+						isAuthenticated && 'pt-13 pl-16 ',
 					)}
 				>
 					<Outlet />

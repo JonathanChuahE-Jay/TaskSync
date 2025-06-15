@@ -41,7 +41,7 @@ const TopNav = () => {
 	const menuItems = createMenuItems({ onLogout })
 
 	return (
-		<header className="h-16 pl-20 group-hover:pl-64 transition-all duration-300 flex items-center justify-between px-6 fixed top-0 left-0 right-0 z-10 text text-foreground">
+		<header className="h-13 pl-20 backdrop-blur-sm group-hover:pl-64 transition-all duration-300 flex items-center justify-between px-6 fixed top-0 left-0 right-0 z-10 text text-foreground">
 			<div className="text-lg font-semibold">User Dashboard</div>
 			<div className="flex items-center space-x-6">
 				<IconSun

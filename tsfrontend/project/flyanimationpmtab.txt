@@ -1,0 +1,131 @@
+"use client"
+import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { IconArrowDown } from '@tabler/icons-react';
+import type { ProjectManagementSortOptionType, projectManagementTabsIDType, ProjectManagementToolProps } from '@/types/projectManagementTypes';
+import { projectManagementsortOptions, projectManagementTabs } from '@/data/projectManagementData';
+
+const ProjectManagementTool: React.FC<ProjectManagementToolProps> = ({
+    sortOption,
+    setSortOption,
+    activeTab,
+    setActiveTab
+}) => {
+    const [showSortOptions, setShowSortOptions] = useState(false);
+    const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
+    const [underlineStyle, setUnderlineStyle] = useState({
+        width: 0,
+        left: 0
+    });
+
+    const handleTabChange = (tabId: projectManagementTabsIDType) => {
+        setActiveTab(tabId);
+    };
+
+    const handleSortChange = (option: ProjectManagementSortOptionType) => {
+        setSortOption(option);
+        setShowSortOptions(false);
+    };
+
+    // Update underline position when active tab changes or on window resize
+    useEffect(() => {
+        const updateUnderlinePosition = () => {
+            const activeTabIndex = projectManagementTabs.findIndex(tab => tab.id === activeTab);
+            if (tabsRef.current[activeTabIndex]) {
+                const tab = tabsRef.current[activeTabIndex];
+                const tabRect = tab?.getBoundingClientRect();
+                const containerRect = tab?.parentElement?.getBoundingClientRect();
+                
+                if (tabRect && containerRect) {
+                    setUnderlineStyle({
+                        width: tabRect.width,
+                        left: tabRect.left - containerRect.left
+                    });
+                }
+            }
+        };
+
+        updateUnderlinePosition();
+        
+        // Update position on window resize
+        window.addEventListener('resize', updateUnderlinePosition);
+        return () => window.removeEventListener('resize', updateUnderlinePosition);
+    }, [activeTab]);
+
+    return (
+        <div className="shadow-md p-4 mt-5 bg-white rounded-lg flex flex-col gap-4">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2">
+                <div className="flex flex-wrap gap-2 relative">
+                    {projectManagementTabs.map((tab, index) => (
+                        <button
+                            key={tab.id}
+                            ref={el => tabsRef.current[index] = el}
+                            className={`px-4 py-2 flex items-center gap-2 rounded-md transition-colors relative ${
+                                activeTab === tab.id
+                                    ? 'bg-indigo-100 text-indigo-800'
+                                    : 'hover:bg-gray-100 text-gray-600'
+                            }`}
+                            onClick={() => handleTabChange(tab.id)}
+                        >
+                            <span className={activeTab === tab.id ? 'text-indigo-700' : ''}>
+                                {tab.icon}
+                            </span>
+                            <span className="hidden md:inline-block">{tab.label}</span>
+                        </button>
+                    ))}
+                    
+                    <motion.div 
+                        className="absolute bottom-0 h-0.5 bg-indigo-600"
+                        layoutId="tab-underline"
+                        transition={{ 
+                            type: 'spring', 
+                            stiffness: 500, 
+                            damping: 30 
+                        }}
+                        style={{
+                            width: `${underlineStyle.width}px`,
+                            left: `${underlineStyle.left}px`
+                        }}
+                    />
+                </div>
+
+                <div className="relative">
+                    <button
+                        onClick={() => setShowSortOptions(!showSortOptions)}
+                        className="px-4 py-2 flex items-center gap-2 border border-gray-200 rounded-md hover:bg-gray-50"
+                    >
+                        <span>Sort by: {sortOption}</span>
+                        <IconArrowDown className={`transition-transform ${showSortOptions ? 'rotate-180' : ''}`} size={16} />
+                    </button>
+                    <AnimatePresence>
+                        {showSortOptions && (
+                            <motion.div 
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.2 }}
+                                className="absolute right-0 mt-1 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200"
+                            >
+                                {projectManagementsortOptions.map((option) => (
+                                    <button
+                                        key={option}
+                                        onClick={() => handleSortChange(option)}
+                                        className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${
+                                            option === sortOption ? 'bg-indigo-50 text-indigo-700' : ''
+                                        }`}
+                                    >
+                                        {option}
+                                    </button>
+                                ))}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default ProjectManagementTool;
+
+fly animation tab
