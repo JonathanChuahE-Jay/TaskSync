@@ -156,7 +156,7 @@ export const authApi = {
 
 	getCurrentUser: async (): Promise<UserData> => {
 		try {
-			return await kyInstance.get('me/').json<UserData>()
+			return await kyInstance.get('user/me/').json<UserData>()
 		} catch (err) {
 			return await handleKyError(err)
 		}

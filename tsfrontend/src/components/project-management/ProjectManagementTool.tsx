@@ -1,12 +1,12 @@
-import { projectManagementsortOptions, projectManagementTabs } from '@/data/projectManagementData';
 import { TabsWithSorting } from '../reusable/TabsWithSorting';
 import type { ProjectManagementToolProps } from '@/types/projectManagementTypes';
+import { projectManagementTabs, projectManagementsortOptions } from '@/data/projectManagementData';
 
 const ProjectManagementTool: React.FC<ProjectManagementToolProps> = ({
     sortOption,
     setSortOption,
     activeTab,
-    setActiveTab
+    setActiveTab,
 }) => {
 
     const formattedSortOptions = projectManagementsortOptions.map(option => ({

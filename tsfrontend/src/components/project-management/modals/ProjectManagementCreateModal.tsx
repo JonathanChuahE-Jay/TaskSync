@@ -9,7 +9,7 @@ interface ProjectManagementCreateModalProps {
 const ProjectManagementCreateModal = ({ isOpen, onClose }: ProjectManagementCreateModalProps) => {
 	const form = useDefaultAppForm({
 		defaultValues: {
-			
+
 		}
 	})
 	return (

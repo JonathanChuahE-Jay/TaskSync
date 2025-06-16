@@ -6,11 +6,13 @@ import type { Dispatch, SetStateAction } from "react";
 interface ProjectManagementHeaderProps {
 	searchContent: string;
 	setSearchContent: Dispatch<SetStateAction<string>>;
+	setCreateProjectModal: (value: boolean) => void
 }
 
 const ProjectManagementHeader: React.FC<ProjectManagementHeaderProps> = ({
 	searchContent,
 	setSearchContent,
+	setCreateProjectModal
 }) => {
 	return (
 		<div className="shadow-md p-4 rounded-lg flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between bg-white">
@@ -32,7 +34,7 @@ const ProjectManagementHeader: React.FC<ProjectManagementHeaderProps> = ({
 					/>
 				</div>
 
-				<Button className="shrink-0 lg:w-auto bg-indigo-600 text-white" aria-label="New Project">
+				<Button onClick={()=>setCreateProjectModal(true)} className="shrink-0 lg:w-auto bg-indigo-600 text-white" aria-label="New Project">
 					<IconPlus />
 					<span className="hidden lg:inline ">New Project</span>
 				</Button>
