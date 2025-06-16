@@ -8,7 +8,9 @@ export const kyInstance: KyInstance = ky.create({
 	hooks: {
 		beforeRequest: [
 			(request) => {
-				request.headers.set('Content-Type', 'application/json')
+				if (!(request.body instanceof FormData)) {
+					request.headers.set('Content-Type', 'application/json')
+				}
 			},
 		],
 	},
@@ -29,12 +31,23 @@ export const debugKyInstance = ({
 						`${debugKey}-StartTime`,
 						String(performance.now()),
 					)
+
 					const clone = request.clone()
-					const body = await clone.json()
+
+					let body
+					try {
+						if (clone.body instanceof FormData) {
+							body = Object.fromEntries(clone.body.entries())
+						} else {
+							body = await clone.json()
+						}
+					} catch (error) {
+						body = 'Unable to parse body'
+					}
 
 					console.log(
 						debugKey,
-						`Request Sent at ${performance.now()}: `,
+						`Request Sent at ${performance.now()}:`,
 						body,
 					)
 				},
@@ -47,10 +60,16 @@ export const debugKyInstance = ({
 					const timeReceived = performance.now()
 					const totalTimeElapsed = timeReceived - timeStart
 
-					const body = await response.clone().json()
+					let body
+					try {
+						body = await response.clone().json()
+					} catch (error) {
+						body = await response.clone().text()
+					}
+
 					console.log(
 						debugKey,
-						`Response Received at ${performance.now()} : `,
+						`Response Received at ${performance.now()} :`,
 						body,
 						`. Total time taken ${totalTimeElapsed}ms`,
 					)

@@ -10,13 +10,15 @@ interface InputFieldProps
 	> {
 	label?: string
 	darker?: boolean
-	error?: string | undefined | null
+	error?: string | undefined
 	tooltip?: React.ReactNode
 	prefix?: React.ReactNode
 	InputFieldClassName?: string
 	clearFieldError?: (fieldName: string) => void
 	apiErrors?: Record<string, string | undefined>
 	value?: string | number | ReadonlyArray<string> | undefined | boolean
+	maxFiles?: number
+	maxFileSize?: number
 }
 
 const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
@@ -29,12 +31,32 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
 			InputFieldClassName,
 			clearFieldError = () => {},
 			apiErrors = {},
+			maxFiles = 0,
+			maxFileSize = 0,
 			...props
 		},
 		ref,
 	) => {
-		const field = useDefaultFieldContext<string | boolean>()
-
+		const field = useDefaultFieldContext<string | boolean | Array<File>>()
+		const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+			if (props.type === 'checkbox') {
+				field.handleChange(e.target.checked)
+			} else if (props.type === 'color') {
+				field.handleChange(e.target.value)
+			} else if (props.type === 'file') {
+				if (e.target.files && e.target.files.length > 0) {
+					const files = Array.from(e.target.files)
+					field.handleChange(files)
+				}
+			} else {
+				field.handleChange(e.target.value)
+			}
+			clearFieldError(field.name)
+		}
+		const handleFileChange = (files: Array<File>) => {
+			field.handleChange(files)
+			clearFieldError(field.name)
+		}
 		return (
 			<Input
 				type={props.type || 'text'}
@@ -49,16 +71,14 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
 						? Boolean(field.state.value)
 						: undefined
 				}
-				onChange={(e) => {
-					if (props.type === 'checkbox') {
-						field.handleChange(e.target.checked)
-					} else {
-						field.handleChange(e.target.value)
-					}
-					clearFieldError(field.name)
-				}}
-				error={field.state.meta.errors[0] || apiErrors[field.name] || error}
+				onChange={handleInputChange}
+				onFileChange={props.type === 'file' ? handleFileChange : undefined}
 				className={InputFieldClassName}
+				multiple={props.multiple}
+				accept={props.accept}
+				maxFiles={maxFiles}
+				maxFileSize={maxFileSize}
+				error={error}
 				{...props}
 			/>
 		)
