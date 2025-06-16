@@ -1,20 +1,40 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.response import Response
 
 from api.models.models_project import Project, ProjectTeam, ProjectRole
 from .serializers import ProjectSerializer, ProjectTeamSerializer, ProjectRoleSerializer
+
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+import json
 
 
 class ProjectListCreateView(generics.ListCreateAPIView):
     queryset = Project.objects.all().order_by('-created_at')
     serializer_class = ProjectSerializer
     permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+    def create(self, request, *args, **kwargs):
+        if hasattr(request, 'content_type') and 'multipart/form-data' in str(request.content_type):
+            data = request.data.copy()
+
+            files = request.FILES.getlist('attachments')
+            if files:
+                data['attachments'] = files[0]
+
+            serializer = self.get_serializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+        return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         user = self.request.user
         if user.role not in ['ADMIN', 'MEMBER']:
             raise PermissionDenied("You do not have permission to create a project.")
-
         project = serializer.save(updated_by=user)
         role, _ = ProjectRole.objects.get_or_create(name='Team Leader', project=project)
         ProjectTeam.objects.create(
@@ -26,9 +46,7 @@ class ProjectListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-
         qs = Project.objects.all() if user.role == 'ADMIN' else Project.objects.filter(project_teams__user=user)
-
         return qs.distinct().order_by('-created_at') \
             .prefetch_related('project_teams__user', 'project_teams__role', 'project_roles')
 

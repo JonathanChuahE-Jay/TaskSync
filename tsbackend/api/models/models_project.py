@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 import uuid
 
@@ -11,6 +12,14 @@ class Project(models.Model):
         ('completed', 'Completed'),
         ('cancelled', 'Cancelled'),
     ]
+
+    PRIORITY_CHOICES = [
+        ('low', 'Low'),
+        ('medium', 'Medium'),
+        ('high', 'High'),
+        ('critical', 'Critical'),
+    ]
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     title = models.CharField(max_length=100)
     description = models.TextField()
@@ -29,7 +38,8 @@ class Project(models.Model):
     )
     status_date = models.DateField(null=True, blank=True)
     colors = models.CharField(null=True, blank=True, max_length=20)
-    priority = models.IntegerField(default=0)
+    priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default='medium')
+    tags = ArrayField(models.CharField(max_length=100), blank=True, null=True,  default=list)
 
     class Meta:
         ordering = ['-created_at']

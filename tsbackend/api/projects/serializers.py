@@ -59,7 +59,17 @@ class ProjectSerializer(serializers.ModelSerializer):
     project_teams = ProjectTeamSerializer(many=True, read_only=True)
     project_roles = ProjectRoleSerializer(many=True, read_only=True)
     progress_percentage = serializers.ReadOnlyField()
+    priority = serializers.ChoiceField(choices=Project.PRIORITY_CHOICES, default='medium')
+    tags = serializers.ListField(
+        child=serializers.CharField(max_length=100),
+        required=False,
+        default=list
+    )
 
+    def validate_tags(self, value):
+        if value in ["", None]:
+            return []
+        return value
     class Meta:
         model = Project
         fields = '__all__'
