@@ -26,7 +26,6 @@ class Project(models.Model):
     start_date = models.DateField(null=True, blank=True)
     due_date = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='not_started')
-    attachments = models.FileField(upload_to='project_attachments/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey(
@@ -39,7 +38,13 @@ class Project(models.Model):
     status_date = models.DateField(null=True, blank=True)
     colors = models.CharField(null=True, blank=True, max_length=20)
     priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default='medium')
-    tags = ArrayField(models.CharField(max_length=100), blank=True, null=True,  default=list)
+    tags = ArrayField(
+        models.CharField(max_length=100),
+        blank=True,
+        null=True,
+        default=list,
+        help_text="List of tags associated with this project"
+    )
 
     class Meta:
         ordering = ['-created_at']
@@ -78,3 +83,20 @@ class ProjectTeam(models.Model):
 
     def __str__(self):
         return f"{self.user} as {self.role.name} in {self.project.title}"
+
+
+class ProjectAttachment(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='attachment_files')
+    file = models.FileField(upload_to='project_attachments/')
+    filename = models.CharField(max_length=255, blank=True)
+    file_type = models.CharField(max_length=100, blank=True)
+    size = models.PositiveIntegerField(blank=True, null=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Attachment for {self.project.title}: {self.filename}"
+
+    def save(self, *args, **kwargs):
+        if not self.filename and self.file:
+            self.filename = self.file.name
+        super().save(*args, **kwargs)

@@ -7,7 +7,7 @@ from api.auth.views import (
 )
 from api.projects.views import ProjectListCreateView, ProjectRetrieveUpdateDeleteView, ProjectTeamListCreateView, \
     ProjectTeamDetailView, MyProjectTeamListView, ProjectRoleListCreateView, ProjectRoleDetailView, \
-    AllProjectTeamListView
+    AllProjectTeamListView, ProjectAttachmentListView, ProjectAttachmentDetailView
 from api.users.views import UserListCreateView, UserRetrieveUpdateDeleteView
 from api.users.views import UserView
 
@@ -42,7 +42,10 @@ urlpatterns = [
     path('projects/<uuid:project_id>/roles/', ProjectRoleListCreateView.as_view(), name='project-role-list'),
     path('projects/<uuid:project_id>/roles/<int:role_id>/', ProjectRoleDetailView.as_view(),
          name='project-role-detail'),
-
+    path('projects/<uuid:project_id>/attachments/', ProjectAttachmentListView.as_view(),
+         name='project-attachment-list'),
+    path('projects/<uuid:project_id>/attachments/<int:pk>/', ProjectAttachmentDetailView.as_view(),
+         name='project-attachment-detail'),
     path('project-teams/me/', MyProjectTeamListView.as_view(), name='my-project-teams'),
     path('project-teams/', AllProjectTeamListView.as_view(), name='all-project-teams'),
 
