@@ -51,16 +51,36 @@ const ProjectManagementCreateModal = ({
 			due_date: '',
 			priority: '',
 			colors: '#000000',
-			attachments: Array<File>,
-			tags: Array<string>,
+			attachments: [] as Array<File>,
+			tags: [] as Array<string>,
 		},
 		onSubmit: async ({ value }: { value: ProjectCreationType }) => {
 			try {
 				setIsLoading(true)
 				setApiErrors({})
 				const data = projectCreationSchema.parse(value)
-				console.log(data)
-				await mutateAsync({ data })
+
+				const formData = new FormData()
+				formData.append('title', data.title)
+				if (data.description) formData.append('description', data.description)
+				if (data.status) formData.append('status', data.status)
+				if (data.start_date) formData.append('start_date', data.start_date)
+				if (data.due_date) formData.append('due_date', data.due_date)
+				if (data.priority) formData.append('priority', data.priority)
+				if (data.colors) formData.append('colors', data.colors)
+
+				if (data.tags && Array.isArray(data.tags)) {
+					data.tags.forEach((tag, index) => {
+						formData.append(`tags[${index}]`, tag)
+					})
+				}
+
+				if (data.attachments && data.attachments.length > 0) {
+					for (const file of data.attachments) {
+						formData.append('attachments', file)
+					}
+				}
+				await mutateAsync({ data: formData })
 				setIsLoading(false)
 				onClose()
 				if (onSuccess) onSuccess()
@@ -70,7 +90,7 @@ const ProjectManagementCreateModal = ({
 					setApiErrors(formatZodError(error))
 				} else {
 					const err = error as Error
-					setApiErrors({ message: err.message || 'Login failed' })
+					setApiErrors({ message: err.message || 'Create project failed' })
 				}
 			}
 		},

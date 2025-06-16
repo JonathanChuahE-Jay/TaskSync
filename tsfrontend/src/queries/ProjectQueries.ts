@@ -1,11 +1,10 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
-import type { ProjectCreationType } from '@/schema/projectsSchema.ts'
 import { projectApi } from '@/services/projectServices.ts'
 
 export function useCreateProjectMutation() {
 	return useMutation({
-		mutationFn: (data: { data: ProjectCreationType }) =>
-			projectApi.createProject(data),
+		mutationFn: ({ data }: { data: FormData }) =>
+			projectApi.createProject({ data }),
 	})
 }
 
