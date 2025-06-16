@@ -11,17 +11,23 @@ class ProjectListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        project = serializer.save(updated_by=self.request.user)
+        user = self.request.user
+        if user.role not in ['ADMIN', 'MEMBER']:
+            raise PermissionDenied("You do not have permission to create a project.")
+
+        project = serializer.save(updated_by=user)
         role, _ = ProjectRole.objects.get_or_create(name='Team Leader', project=project)
         ProjectTeam.objects.create(
             project=project,
-            user=self.request.user,
+            user=user,
             role=role,
             is_creator=True
         )
 
     def get_queryset(self):
         user = self.request.user
+        if user.role == 'ADMIN':
+            return Project.objects.all().order_by('-created_at')
         return Project.objects.filter(
             project_teams__user=user
         ).distinct().order_by('-created_at')
@@ -96,6 +102,18 @@ class MyProjectTeamListView(generics.ListAPIView):
 
     def get_queryset(self):
         return ProjectTeam.objects.filter(user=self.request.user).select_related('project', 'role')
+
+
+class AllProjectTeamListView(generics.ListAPIView):
+    serializer_class = ProjectTeamSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.role != 'ADMIN':
+            raise PermissionDenied("Only admins can view all project teams.")
+        return ProjectTeam.objects.select_related('project', 'user', 'role').all()
+
 
 class ProjectRoleListCreateView(generics.ListCreateAPIView):
     serializer_class = ProjectRoleSerializer

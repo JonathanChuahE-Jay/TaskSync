@@ -6,7 +6,8 @@ from api.auth.views import (
     ValidatePhoneView, SendOtpView, VerifyOtpView, TokenVerifyView
 )
 from api.projects.views import ProjectListCreateView, ProjectRetrieveUpdateDeleteView, ProjectTeamListCreateView, \
-    ProjectTeamDetailView, MyProjectTeamListView, ProjectRoleListCreateView, ProjectRoleDetailView
+    ProjectTeamDetailView, MyProjectTeamListView, ProjectRoleListCreateView, ProjectRoleDetailView, \
+    AllProjectTeamListView
 from api.users.views import UserListCreateView, UserRetrieveUpdateDeleteView
 from api.users.views import UserView
 
@@ -33,13 +34,17 @@ urlpatterns = [
 
     # Project team URLs
     path('projects/<uuid:project_id>/teams/', ProjectTeamListCreateView.as_view(), name='project-team-list'),
-    path('projects/<uuid:project_id>/teams/<int:team_id>/', ProjectTeamDetailView.as_view(),name='project-team-detail'),
+    path('projects/<uuid:project_id>/teams/<int:team_id>/', ProjectTeamDetailView.as_view(),
+         name='project-team-detail'),
     path('my-project-teams/', MyProjectTeamListView.as_view(), name='my-project-teams'),
 
     # Project roles
     path('projects/<uuid:project_id>/roles/', ProjectRoleListCreateView.as_view(), name='project-role-list'),
     path('projects/<uuid:project_id>/roles/<int:role_id>/', ProjectRoleDetailView.as_view(),
          name='project-role-detail'),
+
+    path('project-teams/me/', MyProjectTeamListView.as_view(), name='my-project-teams'),
+    path('project-teams/', AllProjectTeamListView.as_view(), name='all-project-teams'),
 
     path('user/me/', UserView.as_view(), name='user-me'),
     path('users/', UserListCreateView.as_view(), name='user-list-create'),
