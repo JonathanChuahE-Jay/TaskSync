@@ -1,0 +1,271 @@
+Models
+
+import uuid
+from django.db import models
+from django.contrib.auth.models import User
+
+class Project(models.Model):
+    STATUS_CHOICES = (
+        ('not_started', 'Not Started'),
+        ('in_progress', 'In Progress'),
+        ('on_hold', 'On Hold'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+    )
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    start_date = models.DateField()
+    due_date = models.DateField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='not_started')
+    
+    # Team members
+    owner = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        related_name='owned_projects'
+    )
+    team_members = models.ManyToManyField(
+        User, 
+        related_name='projects', 
+        blank=True
+    )
+    
+    # Files and documentation
+    attachments = models.FileField(upload_to='project_attachments/', blank=True, null=True)
+    
+    # Metadata and tracking
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    updated_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='updated_projects'
+    )
+    
+    # Analytics
+    estimated_hours = models.PositiveIntegerField(default=0)
+    actual_hours = models.PositiveIntegerField(default=0, blank=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return self.title
+    
+    @property
+    def progress_percentage(self):
+        if not self.tasks.exists():
+            return 0
+        completed_tasks = self.tasks.filter(status='completed').count()
+        total_tasks = self.tasks.count()
+        return int((completed_tasks / total_tasks) * 100)
+
+class Milestone(models.Model):
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('in_progress', 'In Progress'),
+        ('completed', 'Completed'),
+        ('overdue', 'Overdue'),
+    )
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    project = models.ForeignKey(
+        Project, 
+        on_delete=models.CASCADE, 
+        related_name='milestones'
+    )
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    due_date = models.DateField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    
+    # Tracking
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['due_date']
+    
+    def __str__(self):
+        return f"{self.project.title} - {self.title}"
+    
+    @property
+    def progress_percentage(self):
+        if not self.tasks.exists():
+            return 0
+        completed_tasks = self.tasks.filter(status='completed').count()
+        total_tasks = self.tasks.count()
+        return int((completed_tasks / total_tasks) * 100)
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    color = models.CharField(max_length=7, default="#3498db")  # Default blue color in hex
+    
+    def __str__(self):
+        return self.name
+
+class Task(models.Model):
+    PRIORITY_CHOICES = (
+        ('low', 'Low'),
+        ('medium', 'Medium'),
+        ('high', 'High'),
+        ('urgent', 'Urgent'),
+    )
+    
+    STATUS_CHOICES = (
+        ('backlog', 'Backlog'),
+        ('to_do', 'To Do'),
+        ('in_progress', 'In Progress'),
+        ('in_review', 'In Review'),
+        ('testing', 'Testing'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+    )
+    
+    RECURRENCE_CHOICES = (
+        ('none', 'None'),
+        ('daily', 'Daily'),
+        ('weekly', 'Weekly'),
+        ('bi_weekly', 'Bi-weekly'),
+        ('monthly', 'Monthly'),
+        ('quarterly', 'Quarterly'),
+    )
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    project = models.ForeignKey(
+        Project, 
+        on_delete=models.CASCADE, 
+        related_name='tasks'
+    )
+    milestone = models.ForeignKey(
+        Milestone, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True, 
+        related_name='tasks'
+    )
+    parent_task = models.ForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='subtasks'
+    )
+    
+    # Basic information
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default='medium')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='to_do')
+    
+    # Assignment and scheduling
+    assignees = models.ManyToManyField(User, related_name='assigned_tasks', blank=True)
+    start_date = models.DateField(null=True, blank=True)
+    due_date = models.DateField(null=True, blank=True)
+    estimated_hours = models.PositiveIntegerField(default=0)
+    actual_hours = models.PositiveIntegerField(default=0, blank=True)
+    
+    # Recurrence
+    is_recurring = models.BooleanField(default=False)
+    recurrence_pattern = models.CharField(
+        max_length=20, 
+        choices=RECURRENCE_CHOICES, 
+        default='none'
+    )
+    
+    # Tags
+    tags = models.ManyToManyField(Tag, related_name='tasks', blank=True)
+    
+    # Tracking
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='created_tasks'
+    )
+    updated_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='updated_tasks'
+    )
+    completed_at = models.DateTimeField(null=True, blank=True)
+    completed_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='completed_tasks'
+    )
+    
+    class Meta:
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return self.title
+    
+    @property
+    def is_overdue(self):
+        from django.utils import timezone
+        if self.due_date and self.status != 'completed':
+            return self.due_date < timezone.now().date()
+        return False
+
+class TaskAttachment(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='attachments')
+    file = models.FileField(upload_to='task_attachments/')
+    file_name = models.CharField(max_length=255)
+    file_size = models.PositiveIntegerField()  # Size in bytes
+    file_type = models.CharField(max_length=100)
+    uploaded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.file_name
+
+class Comment(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['created_at']
+    
+    def __str__(self):
+        return f"Comment by {self.author.username} on {self.task.title}"
+
+class TaskHistory(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='history')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    action = models.CharField(max_length=255)  # e.g., "changed status from 'to do' to 'in progress'"
+    timestamp = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-timestamp']
+        verbose_name_plural = "Task histories"
+    
+    def __str__(self):
+        return f"{self.user.username} {self.action} on {self.task.title}"
+
+class ProjectTemplate(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_public = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.title

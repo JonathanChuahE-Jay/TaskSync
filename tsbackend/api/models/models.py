@@ -8,13 +8,13 @@ from django.core.validators import RegexValidator
 
 
 class User(AbstractUser):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     ROLE_CHOICES = (
         ('MEMBER', 'Member'),
-        ('GUEST', 'GUEST'),
+        ('GUEST', 'Guest'),
         ('ADMIN', 'System Administrator'),
     )
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='MEMBER')
-
     phone_number = models.CharField(
         max_length=15,
         unique=True,
@@ -23,7 +23,6 @@ class User(AbstractUser):
         validators=[RegexValidator(regex=r'^\+?1?\d{9,15}$',
                                    message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")]
     )
-
     groups = models.ManyToManyField(
         'auth.Group',
         verbose_name='groups',
@@ -32,7 +31,6 @@ class User(AbstractUser):
         related_name='api_user_set',
         related_query_name='api_user',
     )
-
     user_permissions = models.ManyToManyField(
         'auth.Permission',
         verbose_name='user permissions',
@@ -47,7 +45,8 @@ class User(AbstractUser):
 
 
 class OtpVerification(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    objects = models.Manager()
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     email = models.EmailField(null=True, blank=True)
     otp = models.CharField(max_length=6)
     is_used = models.BooleanField(default=False)
@@ -84,23 +83,3 @@ class OtpVerification(models.Model):
         db_table = 'otp_verifications'
         verbose_name = 'OTP Verification'
         verbose_name_plural = 'OTP Verifications'
-
-
-class Project(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    due_date = models.DateField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    updated_by = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='updated_projects'
-    )
-
-    def __str__(self):
-        return self.title

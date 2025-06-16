@@ -8,11 +8,12 @@ from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from api.auth.serializers import (
-    UserSerializer, RegisterSerializer, EmailValidationSerializer,
+ RegisterSerializer, EmailValidationSerializer,
     PasswordValidationSerializer, UsernameValidationSerializer,
     PhoneValidationSerializer, SendOtpSerializer, VerifyOtpSerializer, CustomTokenObtainPairSerializer
 )
-from api.models import OtpVerification
+from api.users.serializers import  UserSerializer
+from api.models.models import OtpVerification
 import re
 from django.utils import timezone
 User = get_user_model()
@@ -320,14 +321,6 @@ class LogoutView(APIView):
             return response
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-
-class UserView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request):
-        serializer = UserSerializer(request.user)
-        return Response(serializer.data)
 
 
 class TokenVerifyView(APIView):

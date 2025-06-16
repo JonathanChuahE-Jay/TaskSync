@@ -1,0 +1,96 @@
+serializer
+
+from rest_framework import serializers
+from django.contrib.auth.models import User
+from ..models import (
+    Project, Milestone, Task, Tag, Comment, 
+    TaskAttachment, TaskHistory, ProjectTemplate
+)
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name']
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = '__all__'
+
+class CommentSerializer(serializers.ModelSerializer):
+    author_details = UserSerializer(source='author', read_only=True)
+    
+    class Meta:
+        model = Comment
+        fields = '__all__'
+        read_only_fields = ['author']
+
+class TaskAttachmentSerializer(serializers.ModelSerializer):
+    uploaded_by_details = UserSerializer(source='uploaded_by', read_only=True)
+    
+    class Meta:
+        model = TaskAttachment
+        fields = '__all__'
+        read_only_fields = ['uploaded_by', 'file_size', 'file_type']
+
+class TaskHistorySerializer(serializers.ModelSerializer):
+    user_details = UserSerializer(source='user', read_only=True)
+    
+    class Meta:
+        model = TaskHistory
+        fields = '__all__'
+
+class SubtaskSerializer(serializers.ModelSerializer):
+    assignees_details = UserSerializer(source='assignees', many=True, read_only=True)
+    tags_details = TagSerializer(source='tags', many=True, read_only=True)
+    is_overdue = serializers.ReadOnlyField()
+    
+    class Meta:
+        model = Task
+        exclude = ['project', 'milestone', 'parent_task']
+        read_only_fields = ['created_at', 'updated_at', 'created_by', 'updated_by', 
+                           'completed_at', 'completed_by']
+
+class TaskSerializer(serializers.ModelSerializer):
+    assignees_details = UserSerializer(source='assignees', many=True, read_only=True)
+    tags_details = TagSerializer(source='tags', many=True, read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
+    attachments = TaskAttachmentSerializer(many=True, read_only=True)
+    subtasks = SubtaskSerializer(many=True, read_only=True)
+    history = TaskHistorySerializer(many=True, read_only=True)
+    is_overdue = serializers.ReadOnlyField()
+    
+    class Meta:
+        model = Task
+        fields = '__all__'
+        read_only_fields = ['created_at', 'updated_at', 'created_by', 'updated_by', 
+                           'completed_at', 'completed_by']
+
+class MilestoneSerializer(serializers.ModelSerializer):
+    tasks = TaskSerializer(many=True, read_only=True)
+    progress_percentage = serializers.ReadOnlyField()
+    
+    class Meta:
+        model = Milestone
+        fields = '__all__'
+        read_only_fields = ['created_at', 'updated_at']
+
+class ProjectSerializer(serializers.ModelSerializer):
+    owner_details = UserSerializer(source='owner', read_only=True)
+    team_members_details = UserSerializer(source='team_members', many=True, read_only=True)
+    milestones = MilestoneSerializer(many=True, read_only=True)
+    tasks = TaskSerializer(many=True, read_only=True)
+    progress_percentage = serializers.ReadOnlyField()
+    
+    class Meta:
+        model = Project
+        fields = '__all__'
+        read_only_fields = ['created_at', 'updated_at', 'updated_by']
+
+class ProjectTemplateSerializer(serializers.ModelSerializer):
+    created_by_details = UserSerializer(source='created_by', read_only=True)
+    
+    class Meta:
+        model = ProjectTemplate
+        fields = '__all__'
+        read_only_fields = ['created_at']
