@@ -1,20 +1,18 @@
 import type { ProjectListResponse } from '@/types/projectManagementTypes.ts'
 import { handleKyError } from '@/utils/handleKyErrors.ts'
 import { kyInstance } from '@/lib/ky.ts'
-import { env } from '@/env.ts'
 
 export const projectApi = {
-	createProject: async ({ data }: { data: FormData }): Promise<Response> => {
+	createProject: async ({ data }: { data: FormData }) => {
 		try {
-			return await fetch(`${env.VITE_BACKEND_URL}projects/`, {
-				method: 'POST',
+			return await kyInstance.post('projects/', {
 				body: data,
-				credentials: 'include',
 			})
 		} catch (err) {
 			return await handleKyError(err)
 		}
 	},
+
 	listProjects: async (): Promise<ProjectListResponse> => {
 		try {
 			return await kyInstance.get('projects/').json<ProjectListResponse>()

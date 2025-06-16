@@ -5,15 +5,15 @@ import { env } from '@/env.ts'
 export const kyInstance: KyInstance = ky.create({
 	prefixUrl: env.VITE_BACKEND_URL,
 	credentials: 'include',
-	hooks: {
-		beforeRequest: [
-			(request) => {
-				if (!(request.body instanceof FormData)) {
-					request.headers.set('Content-Type', 'application/json')
-				}
-			},
-		],
-	},
+	// hooks: {
+	// 	// beforeRequest: [
+	// 	// 	(request) => {
+	// 	// 		if (!(request.body instanceof FormData)) {
+	// 	// 			request.headers.set('Content-Type', 'application/json')
+	// 	// 		}
+	// 	// 	},
+	// 	// ],
+	// },
 })
 
 export const debugKyInstance = ({
