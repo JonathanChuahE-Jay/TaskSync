@@ -52,9 +52,12 @@ class ProjectTeamSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
     updated_by = UserSerializer(read_only=True)
-    updated_by_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), source='updated_by',
-                                                       write_only=True, required=False)
+    updated_by_id = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), source='updated_by',
+        write_only=True, required=False
+    )
     project_teams = ProjectTeamSerializer(many=True, read_only=True)
+    project_roles = ProjectRoleSerializer(many=True, read_only=True)
     progress_percentage = serializers.ReadOnlyField()
 
     class Meta:

@@ -48,7 +48,7 @@ class Project(models.Model):
 
 class ProjectRole(models.Model):
     name = models.CharField(max_length=50)
-    project = models.ForeignKey(Project, related_name='project_roles', on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='project_roles')
 
     class Meta:
         unique_together = ('name', 'project')

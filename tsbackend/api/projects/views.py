@@ -26,11 +26,11 @@ class ProjectListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.role == 'ADMIN':
-            return Project.objects.all().order_by('-created_at')
-        return Project.objects.filter(
-            project_teams__user=user
-        ).distinct().order_by('-created_at')
+
+        qs = Project.objects.all() if user.role == 'ADMIN' else Project.objects.filter(project_teams__user=user)
+
+        return qs.distinct().order_by('-created_at') \
+            .prefetch_related('project_teams__user', 'project_teams__role', 'project_roles')
 
 
 class ProjectRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
