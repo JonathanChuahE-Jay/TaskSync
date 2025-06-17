@@ -41,24 +41,34 @@ const TopNav = () => {
 	const menuItems = createMenuItems({ onLogout })
 
 	return (
-		<header className="h-13 pl-20 backdrop-blur-sm group-hover:pl-64 transition-all duration-300 flex items-center justify-between px-6 fixed top-0 left-0 right-0 z-10 text text-foreground">
-			<div className="text-lg font-semibold">User Dashboard</div>
-			<div className="flex items-center space-x-6">
-				<IconSun
+		<header className="h-16 flex items-center justify-between px-6 bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-20">
+			<div className="text-lg font-semibold text-foreground">
+				User Dashboard
+			</div>
+
+			<div className="flex items-center space-x-4">
+				<button
 					onClick={toggleTheme}
-					className="text-gray-600 hover:text-gray-800 cursor-pointer transition-colors"
-					size={25}
-				/>
-				<IconBell
-					className="text-gray-600 hover:text-gray-800 cursor-pointer transition-colors"
-					size={25}
-				/>
+					className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+					title="Toggle theme"
+				>
+					<IconSun size={20} />
+				</button>
+
+				<button
+					className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors relative"
+					title="Notifications"
+				>
+					<IconBell size={20} />
+					<span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full"></span>
+				</button>
+
 				<Menu items={menuItems} trigger="click">
 					<Avatar
 						size="sm"
 						src="/profile.jpg"
 						alt="User Profile"
-						className="cursor-pointer"
+						className="cursor-pointer transition-all"
 					/>
 				</Menu>
 			</div>

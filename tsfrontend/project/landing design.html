@@ -1,0 +1,449 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Task - Unified Task System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+<!-- Hero Section with Enhanced Gallery and Description -->
+<section class="relative min-h-screen bg-black overflow-hidden">
+  <!-- Navigation -->
+  <nav class="absolute top-0 left-0 right-0 z-50 px-4 py-6">
+    <div class="container mx-auto flex items-center justify-between">
+      <a href="/" class="flex items-center">
+        <img src="https://picsum.photos/200/300" alt="Confetti Events" class="h-12">
+      </a>
+      
+      <div class="hidden lg:flex items-center space-x-8">
+        <a href="/" class="text-white hover:text-amber-300 transition">Home</a>
+        <a href="/about" class="text-white hover:text-amber-300 transition">About Us</a>
+        <a href="/spaces" class="text-white hover:text-amber-300 transition">Halls & Spaces</a>
+        <a href="/packages" class="text-white hover:text-amber-300 transition">Packages</a>
+        <a href="/gallery" class="text-white hover:text-amber-300 transition">Gallery</a>
+      </div>
+      
+      <div class="flex items-center">
+        <a href="/contact" class="py-2 px-6 bg-amber-500 text-black rounded-full font-medium hover:bg-amber-400 transition duration-300 mr-4">Contact Us</a>
+        <button class="lg:hidden text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Background with overlay -->
+  <div class="absolute inset-0 bg-[url('/path/to/ballroom-bg.jpg')] bg-cover bg-center">
+    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+  </div>
+  
+  <!-- Content -->
+  <div class="container mx-auto px-4 relative z-10 pt-32">
+    <!-- Header -->
+    <div class="text-center mb-16">
+      <h1 class="inline-block text-white font-serif text-3xl md:text-5xl leading-tight relative">
+        <span class="absolute -top-8 left-1/2 transform -translate-x-1/2 text-amber-400 text-sm font-sans tracking-widest">EXPERIENCE LUXURY</span>
+        Imperial Dynasty
+        <span class="block text-xl md:text-2xl mt-2 font-light text-amber-300">- BALLROOM -</span>
+      </h1>
+    </div>
+    
+    <!-- Gallery Showcase -->
+    <div class="max-w-6xl mx-auto relative">
+      <!-- Main gallery carousel -->
+      <div class="rounded-lg overflow-hidden shadow-2xl border border-amber-900/30">
+        <div class="aspect-w-16 aspect-h-9">
+          <!-- Large featured image would go here -->
+          <div class="grid grid-cols-3 gap-1">
+            <div class="relative group overflow-hidden">
+              <img src="https://picsum.photos/200/300" class="object-cover w-full h-full transition duration-500 group-hover:scale-110" alt="Gallery image">
+              <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-0 transition duration-300"></div>
+            </div>
+            <div class="relative group overflow-hidden">
+              <div class="absolute inset-0 flex items-center justify-center">
+                <button class="bg-amber-500 rounded-full p-4 transform scale-0 group-hover:scale-100 transition duration-300">
+                  <svg class="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                </button>
+              </div>
+              <img src="https://picsum.photos/200/300" class="object-cover w-full h-full transition duration-500 group-hover:scale-110" alt="Gallery video">
+              <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-40 transition duration-300"></div>
+            </div>
+            <div class="relative group overflow-hidden">
+              <img src="https://picsum.photos/200/300" class="object-cover w-full h-full transition duration-500 group-hover:scale-110" alt="Gallery image">
+              <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-0 transition duration-300"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Navigation arrows -->
+      <button class="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-amber-500 rounded-full p-3 shadow-lg focus:outline-none hover:bg-amber-400 transition">
+        <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      </button>
+      <button class="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-1/2 bg-amber-500 rounded-full p-3 shadow-lg focus:outline-none hover:bg-amber-400 transition">
+        <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+      </button>
+      
+      <!-- Thumbnails -->
+      <div class="hidden md:grid grid-cols-6 gap-3 mt-4">
+        <div class="h-16 rounded overflow-hidden border-2 border-amber-500">
+          <img src="https://picsum.photos/200/300" class="object-cover w-full h-full" alt="Thumbnail">
+        </div>
+        <div class="h-16 rounded overflow-hidden border border-white/30 hover:border-amber-500 transition">
+          <img src="https://picsum.photos/200/300" class="object-cover w-full h-full" alt="Thumbnail">
+        </div>
+        <!-- More thumbnails would go here -->
+      </div>
+    </div>
+    
+    <!-- Description -->
+    <div class="mt-20 mb-16 max-w-3xl mx-auto text-center">
+      <h2 class="text-white text-2xl font-serif mb-6">A Royal Celebration Awaits!</h2>
+      <p class="text-gray-300 leading-relaxed mb-8">
+        Step into a world of timeless elegance and grandeur with our Imperial Dynasty Ballroom. Inspired by the opulence of ancient royal courts, this exquisite space features rich crimson hues, golden accents, and intricate details that exude majesty and sophistication.
+      </p>
+      <p class="text-gray-300 leading-relaxed mb-10">
+        With its grand chandeliers, luxurious decor, and regal atmosphere, the Imperial Dynasty Ballroom sets the perfect stage for unforgettable weddings, lavish banquets, and prestigious corporate events.
+      </p>
+      
+      <a href="/contact" class="inline-flex items-center px-8 py-3 bg-gradient-to-r from-amber-600 to-amber-500 text-black font-medium rounded-full hover:from-amber-500 hover:to-amber-400 transition duration-300 shadow-lg transform hover:-translate-y-1">
+        Contact us to know more
+        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+      </a>
+    </div>
+  </div>
+  
+  <!-- Decorative elements -->
+  <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black to-transparent"></div>
+</section>
+<!-- Event Space Showcase with Elegant Cards -->
+<section class="py-20 bg-black relative overflow-hidden">
+  <!-- Background decorative elements -->
+  <div class="absolute inset-0 opacity-20 bg-[url('/path/to/pattern.jpg')] bg-repeat"></div>
+  
+  <div class="container mx-auto px-4 relative z-10">
+    <!-- Event types showcase -->
+    <div class="text-center mb-20">
+      <h2 class="text-4xl font-serif text-white mb-6">This Space Is Best For</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 max-w-5xl mx-auto">
+        <!-- Event type cards -->
+        <div class="bg-gradient-to-br from-gray-900 to-black p-4 rounded-lg border border-amber-800/30 hover:border-amber-500 transition-all transform hover:-translate-y-1 duration-300">
+          <div class="flex justify-center mb-3">
+            <svg class="w-6 h-6 text-amber-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+          </div>
+          <h3 class="text-amber-200 text-sm font-medium">Annual Corporate Gala</h3>
+        </div>
+        
+        <div class="bg-gradient-to-br from-gray-900 to-black p-4 rounded-lg border border-amber-800/30 hover:border-amber-500 transition-all transform hover:-translate-y-1 duration-300">
+          <div class="flex justify-center mb-3">
+            <svg class="w-6 h-6 text-amber-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+          </div>
+          <h3 class="text-amber-200 text-sm font-medium">Luxury Award Ceremonies</h3>
+        </div>
+        
+        <div class="bg-gradient-to-br from-gray-900 to-black p-4 rounded-lg border border-amber-800/30 hover:border-amber-500 transition-all transform hover:-translate-y-1 duration-300">
+          <div class="flex justify-center mb-3">
+            <svg class="w-6 h-6 text-amber-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+          </div>
+          <h3 class="text-amber-200 text-sm font-medium">Executive Appreciation Nights</h3>
+        </div>
+        
+        <div class="bg-gradient-to-br from-gray-900 to-black p-4 rounded-lg border border-amber-800/30 hover:border-amber-500 transition-all transform hover:-translate-y-1 duration-300">
+          <div class="flex justify-center mb-3">
+            <svg class="w-6 h-6 text-amber-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+          </div>
+          <h3 class="text-amber-200 text-sm font-medium">Product & Brand Launches</h3>
+        </div>
+        
+        <div class="bg-gradient-to-br from-gray-900 to-black p-4 rounded-lg border border-amber-800/30 hover:border-amber-500 transition-all transform hover:-translate-y-1 duration-300">
+          <div class="flex justify-center mb-3">
+            <svg class="w-6 h-6 text-amber-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+          </div>
+          <h3 class="text-amber-200 text-sm font-medium">High-Profile Conferences</h3>
+        </div>
+      </div>
+    </div>
+    
+    <!-- What's included section -->
+    <div class="mb-20">
+      <h2 class="text-4xl font-serif text-white mb-10 text-center">What's Included</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Feature card 1 -->
+        <div class="group relative overflow-hidden rounded-xl">
+          <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70 z-10"></div>
+          <img src="https://picsum.photos/200/300" alt="Private Entrance" class="w-full h-80 object-cover transition duration-500 group-hover:scale-110">
+          <div class="absolute bottom-0 left-0 right-0 p-6 z-20">
+            <h3 class="text-xl font-bold text-white mb-2">Private Entrance & Cocktail Foyer</h3>
+            <p class="text-gray-300 text-sm mb-4">Canape will be served here.</p>
+            <div class="w-10 h-1 bg-amber-400 transform transition duration-300 group-hover:w-full"></div>
+          </div>
+        </div>
+        
+        <!-- Feature card 2 -->
+        <div class="group relative overflow-hidden rounded-xl">
+          <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70 z-10"></div>
+          <img src="https://picsum.photos/200/300" alt="Light Show" class="w-full h-80 object-cover transition duration-500 group-hover:scale-110">
+          <div class="absolute bottom-0 left-0 right-0 p-6 z-20">
+            <h3 class="text-xl font-bold text-white mb-2">Immersive Light Show</h3>
+            <p class="text-gray-300 text-sm mb-4">Best for event grand opening.</p>
+            <div class="w-10 h-1 bg-amber-400 transform transition duration-300 group-hover:w-full"></div>
+          </div>
+        </div>
+        
+        <!-- Feature card 3 -->
+        <div class="group relative overflow-hidden rounded-xl">
+          <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70 z-10"></div>
+          <img src="https://picsum.photos/200/300" alt="Banquet Services" class="w-full h-80 object-cover transition duration-500 group-hover:scale-110">
+          <div class="absolute bottom-0 left-0 right-0 p-6 z-20">
+            <h3 class="text-xl font-bold text-white mb-2">5 Stars Banquet Services</h3>
+            <p class="text-gray-300 text-sm mb-4">Let us take care your guests for you.</p>
+            <div class="w-10 h-1 bg-amber-400 transform transition duration-300 group-hover:w-full"></div>
+          </div>
+        </div>
+        
+        <!-- Feature card 4 -->
+        <div class="group relative overflow-hidden rounded-xl">
+          <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70 z-10"></div>
+          <img src="https://picsum.photos/200/300" alt="LED Screens" class="w-full h-80 object-cover transition duration-500 group-hover:scale-110">
+          <div class="absolute bottom-0 left-0 right-0 p-6 z-20">
+            <h3 class="text-xl font-bold text-white mb-2">High-Resolution LED Screens</h3>
+            <p class="text-gray-300 text-sm mb-4">Dual screens for immersive presentations.</p>
+            <div class="w-10 h-1 bg-amber-400 transform transition duration-300 group-hover:w-full"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Luxury Facilities & Amenities Section -->
+<section class="py-20 bg-gradient-to-b from-gray-900 to-black">
+  <div class="container mx-auto px-4">
+    <!-- Facilities section -->
+    <div class="mb-16">
+      <div class="flex items-center mb-10">
+        <span class="h-px w-8 bg-amber-400"></span>
+        <h2 class="text-3xl md:text-4xl font-serif text-white mx-4">Facilities & Amenities</h2>
+        <span class="h-px flex-grow bg-amber-400/30"></span>
+      </div>
+      
+      <!-- Two-column card layout -->
+      <div class="bg-gradient-to-r from-black to-gray-900 rounded-xl shadow-2xl overflow-hidden border border-amber-900/20">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 p-8">
+          <!-- Technology column -->
+          <div class="space-y-6">
+            <h3 class="text-amber-400 text-xl font-semibold mb-4">Technology</h3>
+            <ul class="space-y-4">
+              <li class="flex items-start">
+                <svg class="text-amber-400 w-5 h-5 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div>
+                  <p class="text-white">Centralized Air-conditioning</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <svg class="text-amber-400 w-5 h-5 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div>
+                  <p class="text-white">Premium Sound system</p>
+                  <p class="text-gray-400 text-sm">Built-in PA system</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <svg class="text-amber-400 w-5 h-5 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div>
+                  <p class="text-white">Wireless Mic (x2)</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <svg class="text-amber-400 w-5 h-5 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div>
+                  <p class="text-white">LED Screen (x2)</p>
+                  <p class="text-gray-400 text-sm">1856 x 1152 resolution</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          
+          <!-- Experience column -->
+          <div class="space-y-6">
+            <h3 class="text-amber-400 text-xl font-semibold mb-4">Experience</h3>
+            <ul class="space-y-4">
+              <li class="flex items-start">
+                <svg class="text-amber-400 w-5 h-5 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div>
+                  <p class="text-white">3D Projection Mapping</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <svg class="text-amber-400 w-5 h-5 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div>
+                  <p class="text-white">Advanced Lighting system</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <svg class="text-amber-400 w-5 h-5 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div>
+                  <p class="text-white">Immersive Light Shows</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <svg class="text-amber-400 w-5 h-5 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div>
+                  <p class="text-white">Grand T Stage</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          
+          <!-- Comfort column -->
+          <div class="space-y-6">
+            <h3 class="text-amber-400 text-xl font-semibold mb-4">Comfort</h3>
+            <ul class="space-y-4">
+              <li class="flex items-start">
+                <svg class="text-amber-400 w-5 h-5 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div>
+                  <p class="text-white">High-speed Wi-Fi</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <svg class="text-amber-400 w-5 h-5 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div>
+                  <p class="text-white">VIP / Bridal Suites</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <svg class="text-amber-400 w-5 h-5 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div>
+                  <p class="text-white">Premium Restrooms</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Table & Furnishings section -->
+    <div class="mb-16">
+      <div class="flex items-center mb-10">
+        <span class="h-px w-8 bg-amber-400"></span>
+        <h2 class="text-3xl md:text-4xl font-serif text-white mx-4">Table & Furnishings</h2>
+        <span class="h-px flex-grow bg-amber-400/30"></span>
+      </div>
+      
+      <div class="bg-gradient-to-r from-black to-gray-900 rounded-xl shadow-2xl overflow-hidden border border-amber-900/20">
+        <div class="grid md:grid-cols-2 gap-8 p-8">
+          <!-- Seating Options -->
+          <div>
+            <h3 class="text-amber-400 text-xl font-semibold mb-6">Seating Options</h3>
+            <ul class="space-y-3">
+              <li class="flex items-center text-white">
+                <span class="text-amber-400 mr-2">■</span>
+                Round Tables (6ft) for 350pax
+              </li>
+              <li class="flex items-center text-white">
+                <span class="text-amber-400 mr-2">■</span>
+                Round Tables (5ft) for 430pax
+              </li>
+              <li class="flex items-center text-white">
+                <span class="text-amber-400 mr-2">■</span>
+                Viking Long Tables for 340pax
+              </li>
+            </ul>
+            
+            <a href="#" class="inline-flex items-center px-4 py-2 mt-6 border border-amber-400 text-amber-400 rounded hover:bg-amber-400 hover:text-black transition-all duration-300 text-sm">
+              View Seating Layout Floorplan
+              <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </a>
+          </div>
+          
+          <!-- Style Options -->
+          <div>
+            <h3 class="text-amber-400 text-xl font-semibold mb-6">Style Options</h3>
+            <ul class="space-y-3">
+              <li class="flex items-center text-white">
+                <span class="text-amber-400 mr-2">■</span>
+                Table Set Up (Gold / Red)
+              </li>
+              <li class="flex items-center text-white">
+                <span class="text-amber-400 mr-2">■</span>
+                Banquet chairs (Gold / Red)
+              </li>
+              <li class="flex items-center text-white">
+                <span class="text-amber-400 mr-2">■</span>
+                Customization Arrangement*
+                <span class="ml-1 text-xs text-amber-400">(additional fees apply)</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- More sections would follow with similarly improved design -->
+  </div>
+</section>
+<!-- Modern FAQ with glass morphism effect -->
+<section class="relative py-16 bg-gradient-to-b from-black to-gray-900">
+  <div class="container mx-auto px-4">
+    <!-- Elegant heading with decorative elements -->
+    <div class="flex items-center justify-center mb-12">
+      <div class="h-px bg-amber-400 w-12 opacity-70"></div>
+      <h2 class="text-4xl font-serif text-white mx-6 text-center">Frequently Asked Questions</h2>
+      <div class="h-px bg-amber-400 w-12 opacity-70"></div>
+    </div>
+    
+    <!-- FAQ accordion cards with glass effect -->
+    <div class="max-w-3xl mx-auto space-y-4">
+      <div class="group">
+        <div class="bg-black bg-opacity-60 backdrop-filter backdrop-blur-sm border border-amber-900/30 rounded-lg p-5 cursor-pointer hover:bg-opacity-70 transition duration-300">
+          <div class="flex justify-between items-center">
+            <h3 class="text-white font-medium text-lg">1. What is included in the event space rental?</h3>
+            <span class="text-amber-400 transform group-hover:rotate-180 transition duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </span>
+          </div>
+          <div class="mt-4 text-gray-300 hidden group-hover:block">
+            Our rental includes the venue space, basic sound system, lighting, tables and chairs setup, cleaning service, and staff assistance throughout your event.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Additional FAQ items with same styling -->
+      <div class="group">
+        <div class="bg-black bg-opacity-60 backdrop-filter backdrop-blur-sm border border-amber-900/30 rounded-lg p-5 cursor-pointer hover:bg-opacity-70 transition duration-300">
+          <div class="flex justify-between items-center">
+            <h3 class="text-white font-medium text-lg">2. How many guests can your space accommodate?</h3>
+            <span class="text-amber-400 transform group-hover:rotate-180 transition duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </span>
+          </div>
+          <div class="mt-4 text-gray-300 hidden group-hover:block">
+            Our venue can accommodate up to 430 guests for a seated dinner and up to 600 for a standing reception, depending on your chosen setup.
+          </div>
+        </div>
+      </div>
+      
+      <!-- 5 more FAQ items would go here with the same structure -->
+    </div>
+    
+    <!-- Elegant call to action -->
+    <div class="mt-16 text-center">
+      <h3 class="text-3xl font-serif text-white mb-4">One More Step to Your Dream Celebration</h3>
+      <p class="text-gray-300 mb-8 max-w-2xl mx-auto">Contact us today for a VIP Private Tour with our consultants!</p>
+      <a href="https://wa.me/601154211658" class="inline-flex items-center px-6 py-3 border border-amber-400 text-amber-400 bg-transparent rounded-full hover:bg-amber-400 hover:text-black transition-all duration-300">
+        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat with Us
+      </a>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
