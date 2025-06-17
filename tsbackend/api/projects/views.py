@@ -5,12 +5,13 @@ from .serializers import ProjectSerializer, ProjectTeamSerializer, ProjectRoleSe
 import json
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.core.files.uploadedfile import UploadedFile
-import logging
+from ..utils.project import parse_tags_field
 from django.db import transaction
 from rest_framework import generics, permissions, status
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from api.models.models_project import Project, ProjectTeam, ProjectRole, ProjectAttachment
+
 
 class ProjectListCreateView(generics.ListCreateAPIView):
     queryset = Project.objects.all().order_by('-created_at')
@@ -24,39 +25,9 @@ class ProjectListCreateView(generics.ListCreateAPIView):
             data = request.data.copy()
 
             if 'tags' in data:
-                try:
-                    if isinstance(data['tags'], str):
-                        parsed_tags = json.loads(data['tags'])
-                        if isinstance(parsed_tags, str):
-                            try:
-                                parsed_tags = json.loads(parsed_tags)
-                            except json.JSONDecodeError:
-                                pass
-                        if isinstance(parsed_tags, list):
-                            data['tags'] = parsed_tags
-                        else:
-                            data['tags'] = []
-                    elif isinstance(data['tags'], (dict, list)) or hasattr(data['tags'], 'dict'):
-                        tags_list = []
-                        if hasattr(data['tags'], 'items'):
-                            tags_dict = dict(data['tags'].items())
-                            for key in sorted(tags_dict.keys()):
-                                tags_list.append(str(tags_dict[key]))
-                        elif hasattr(data['tags'], 'getlist'):
-                            tags_list = data.getlist('tags')
-                        else:
-                            tags_list = data['tags']
-                        data['tags'] = tags_list
-                except (json.JSONDecodeError, AttributeError, TypeError) as e:
-                    if isinstance(data['tags'], str):
-                        data['tags'] = [tag.strip() for tag in data['tags'].split(',') if tag.strip()]
-                    else:
-                        data['tags'] = []
+                data['tags'] = parse_tags_field(data['tags'])
 
             files = request.FILES.getlist('attachments')
-
-            if files:
-                data['attachments'] = files[0]
 
             serializer = self.get_serializer(data=data)
             serializer.is_valid(raise_exception=True)
@@ -64,19 +35,16 @@ class ProjectListCreateView(generics.ListCreateAPIView):
 
             for file in files:
                 try:
-                    file_size = file.size if hasattr(file, 'size') else 0
-                    file_type = file.content_type if hasattr(file, 'content_type') else ''
-
-                    attachment = ProjectAttachment.objects.create(
+                    ProjectAttachment.objects.create(
                         project=project,
                         file=file,
                         filename=file.name,
-                        file_type=file_type,
-                        size=file_size
+                        file_type=getattr(file, 'content_type', ''),
+                        size=getattr(file, 'size', 0)
                     )
-                    logger.debug(f"Created attachment: {attachment.id} for project {project.id}")
+                    print('success saving attachment')
                 except Exception as e:
-                    logger.error(f"Error saving attachment: {e}")
+                    print(f"Error saving attachment: {e}")
 
             headers = self.get_success_headers(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
@@ -89,12 +57,7 @@ class ProjectListCreateView(generics.ListCreateAPIView):
             raise PermissionDenied("You do not have permission to create a project.")
         project = serializer.save(updated_by=user)
         role, _ = ProjectRole.objects.get_or_create(name='Team Leader', project=project)
-        ProjectTeam.objects.create(
-            project=project,
-            user=user,
-            role=role,
-            is_creator=True
-        )
+        ProjectTeam.objects.create(project=project, user=user, role=role, is_creator=True)
         return project
 
 
@@ -112,16 +75,11 @@ class ProjectRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
         if request.content_type and 'multipart/form-data' in request.content_type:
             data = request.data.copy()
 
-            if 'tags' in data and isinstance(data['tags'], str):
-                try:
-                    data['tags'] = json.loads(data['tags'])
-                except json.JSONDecodeError:
-                    data['tags'] = [tag.strip() for tag in data['tags'].split(',') if tag.strip()]
+            if 'tags' in data:
+                data['tags'] = parse_tags_field(data['tags'])
 
             files = request.FILES.getlist('attachments')
-
-            if 'attachments' in data:
-                data.pop('attachments')
+            data.pop('attachments', None)
 
             serializer = self.get_serializer(instance, data=data, partial=partial)
             serializer.is_valid(raise_exception=True)
@@ -134,8 +92,8 @@ class ProjectRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
                             project=instance,
                             file=file,
                             filename=file.name,
-                            file_type=file.content_type if hasattr(file, 'content_type') else '',
-                            size=file.size if hasattr(file, 'size') else 0
+                            file_type=getattr(file, 'content_type', ''),
+                            size=getattr(file, 'size', 0)
                         )
                     except Exception as e:
                         logger.error(f"Error saving attachment: {e}")
