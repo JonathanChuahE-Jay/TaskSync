@@ -57,6 +57,7 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
 			field.handleChange(files)
 			clearFieldError(field.name)
 		}
+
 		return (
 			<Input
 				type={props.type || 'text'}
@@ -78,7 +79,7 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
 				accept={props.accept}
 				maxFiles={maxFiles}
 				maxFileSize={maxFileSize}
-				error={error}
+				error={error || apiErrors[field.name]}
 				{...props}
 			/>
 		)

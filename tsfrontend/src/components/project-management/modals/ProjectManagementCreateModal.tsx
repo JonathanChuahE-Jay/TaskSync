@@ -90,7 +90,7 @@ const ProjectManagementCreateModal = ({
 					setApiErrors(formatZodError(error))
 				} else {
 					const err = error as Error
-					setApiErrors({ message: err.message || 'Create project failed' })
+					setApiErrors(err)
 				}
 			}
 		},

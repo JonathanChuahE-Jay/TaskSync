@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
 	IconAlertCircle,
 	IconDownload,
@@ -69,14 +69,30 @@ const Input: React.FC<InputProps> = ({
 	const [isDragging, setIsDragging] = useState(false)
 	const [fileError, setFileError] = useState<string | null>(null)
 	const fileInputRef = useRef<HTMLInputElement>(null)
-	const inputType = type === 'password' && showPassword ? 'text' : type
+	const [fileCount, setFileCount] = useState(0)
+	const [remainingFileCount, setRemainingFileCount] = useState<number | null>(
+		null,
+	)
 
+	const inputType = type === 'password' && showPassword ? 'text' : type
 	const shouldShowClearButton =
 		showClearButton &&
 		typeof value === 'string' &&
 		value.length > 0 &&
 		type !== 'password' &&
 		!disabled
+
+	// Update file counts whenever value changes
+	useEffect(() => {
+		if (Array.isArray(value)) {
+			setFileCount(value.length)
+			if (maxFiles > 0) {
+				setRemainingFileCount(maxFiles - value.length)
+			} else {
+				setRemainingFileCount(null)
+			}
+		}
+	}, [value, maxFiles])
 
 	const handleClear = () => {
 		const syntheticEvent = {
@@ -95,22 +111,37 @@ const Input: React.FC<InputProps> = ({
 	}
 
 	const validateFiles = (files: Array<File>) => {
+		// Clear previous errors
 		setFileError(null)
 
+		// Calculate current file count
+		const currentFiles = Array.isArray(value) ? value.length : 0
+
+		// Log for debugging
+		console.log('Validating files:', {
+			newFiles: files.length,
+			currentFiles,
+			maxFiles,
+			totalWouldBe: currentFiles + files.length,
+		})
+
+		// Check max files limit
 		if (maxFiles > 0) {
-			const currentFiles = Array.isArray(value) ? value.length : 0
 			if (currentFiles + files.length > maxFiles) {
-				setFileError(`You can upload a maximum of ${maxFiles} files`)
+				const errorMsg = `You can upload a maximum of ${maxFiles} files (${currentFiles} already uploaded)`
+				console.log('Setting file error:', errorMsg)
+				setFileError(errorMsg)
 				return false
 			}
 		}
 
+		// Check file size limit
 		if (maxFileSize > 0) {
 			const oversizedFiles = files.filter((file) => file.size > maxFileSize)
 			if (oversizedFiles.length > 0) {
-				setFileError(
-					`File size exceeds the limit of ${formatFileSize(maxFileSize)}`,
-				)
+				const errorMsg = `File size exceeds the limit of ${formatFileSize(maxFileSize)}`
+				console.log('Setting file error:', errorMsg)
+				setFileError(errorMsg)
 				return false
 			}
 		}
@@ -122,14 +153,23 @@ const Input: React.FC<InputProps> = ({
 		if (e.target.files && e.target.files.length > 0) {
 			const newFiles = Array.from(e.target.files)
 
+			// Validate before processing
 			if (!validateFiles(newFiles)) {
 				if (fileInputRef.current) fileInputRef.current.value = ''
 				return
 			}
 
+			// Process valid files
 			if (Array.isArray(value) && multiple) {
+				const updatedFiles = [...value, ...newFiles]
+
 				if (onFileChange) {
-					onFileChange([...value, ...newFiles])
+					console.log(
+						'Calling onFileChange with',
+						updatedFiles.length,
+						'files',
+					)
+					onFileChange(updatedFiles)
 				} else {
 					const syntheticEvent = {
 						target: {
@@ -141,11 +181,18 @@ const Input: React.FC<InputProps> = ({
 				}
 			} else {
 				if (onFileChange) {
+					console.log(
+						'Calling onFileChange with',
+						newFiles.length,
+						'files',
+					)
 					onFileChange(newFiles)
 				} else {
 					onChange(e)
 				}
 			}
+
+			// Reset the file input
 			if (fileInputRef.current) fileInputRef.current.value = ''
 		}
 	}
@@ -171,17 +218,28 @@ const Input: React.FC<InputProps> = ({
 		e.preventDefault()
 		e.stopPropagation()
 		setIsDragging(false)
+
 		if (disabled) return
+
 		if (e.dataTransfer.files.length > 0) {
 			const newFiles = Array.from(e.dataTransfer.files)
 
+			// Validate before processing
 			if (!validateFiles(newFiles)) {
 				return
 			}
 
+			// Process valid files
 			if (Array.isArray(value) && multiple) {
+				const updatedFiles = [...value, ...newFiles]
+
 				if (onFileChange) {
-					onFileChange([...value, ...newFiles])
+					console.log(
+						'Drop: Calling onFileChange with',
+						updatedFiles.length,
+						'files',
+					)
+					onFileChange(updatedFiles)
 				} else {
 					const syntheticEvent = {
 						target: {
@@ -193,6 +251,11 @@ const Input: React.FC<InputProps> = ({
 				}
 			} else {
 				if (onFileChange) {
+					console.log(
+						'Drop: Calling onFileChange with',
+						newFiles.length,
+						'files',
+					)
 					onFileChange(newFiles)
 				} else {
 					const syntheticEvent = {
@@ -204,16 +267,35 @@ const Input: React.FC<InputProps> = ({
 					onChange(syntheticEvent)
 				}
 			}
+
 			if (fileInputRef.current) fileInputRef.current.value = ''
 		}
 	}
 
 	const removeFile = (fileIndex: number, e: React.MouseEvent) => {
 		e.stopPropagation()
+
 		if (Array.isArray(value)) {
 			const newFiles = [...value]
 			newFiles.splice(fileIndex, 1)
-			if (onFileChange) onFileChange(newFiles)
+
+			if (onFileChange) {
+				console.log(
+					'Remove: Calling onFileChange with',
+					newFiles.length,
+					'files',
+				)
+				onFileChange(newFiles)
+
+				// Clear file error if we're now under the limit
+				if (
+					maxFiles > 0 &&
+					fileCount > maxFiles &&
+					newFiles.length <= maxFiles
+				) {
+					setFileError(null)
+				}
+			}
 		}
 	}
 
@@ -301,7 +383,12 @@ const Input: React.FC<InputProps> = ({
 						</div>
 					</div>
 				</div>
-				{error && <p className="mt-1 text-sm text-rose-500">{error}</p>}
+				{error && (
+					<p className="mt-1 text-sm text-rose-500 flex items-center">
+						<IconAlertCircle className="size-4 mr-1" stroke={1.5} />
+						{error}
+					</p>
+				)}
 			</div>
 		)
 	}
@@ -309,13 +396,14 @@ const Input: React.FC<InputProps> = ({
 	if (type === 'file') {
 		const fileInputId =
 			id || `file-input-${Math.random().toString(36).substr(2, 9)}`
-
 		const totalSize = Array.isArray(value)
 			? value.reduce((sum, file) => sum + file.size, 0)
 			: 0
 
-		const remainingFiles =
-			maxFiles > 0 && Array.isArray(value) ? maxFiles - value.length : null
+		// Calculate the actual file counts - use state variables to ensure UI updates
+		const displayFileCount = fileCount
+		const displayRemainingFiles = remainingFileCount
+		const hasReachedMaxFiles = maxFiles > 0 && displayFileCount >= maxFiles
 
 		return (
 			<div className="relative">
@@ -334,12 +422,7 @@ const Input: React.FC<InputProps> = ({
 					type="file"
 					accept={accept}
 					multiple={multiple}
-					disabled={
-						disabled ||
-						(maxFiles > 0 &&
-							Array.isArray(value) &&
-							value.length >= maxFiles)
-					}
+					disabled={disabled || hasReachedMaxFiles}
 					className="hidden"
 					onChange={handleFileChange}
 					{...props}
@@ -347,10 +430,7 @@ const Input: React.FC<InputProps> = ({
 				<div
 					className={cn(
 						'relative border-2 border-dashed rounded-lg p-4 transition-colors',
-						disabled ||
-							(maxFiles > 0 &&
-								Array.isArray(value) &&
-								value.length >= maxFiles)
+						disabled || hasReachedMaxFiles
 							? 'opacity-60 cursor-not-allowed border-gray-300 bg-gray-50'
 							: isDragging
 								? 'border-blue-400 bg-blue-50 cursor-pointer'
@@ -361,14 +441,7 @@ const Input: React.FC<InputProps> = ({
 					onDragOver={handleDragOver}
 					onDrop={handleDrop}
 					onClick={() => {
-						if (
-							!disabled &&
-							!(
-								maxFiles > 0 &&
-								Array.isArray(value) &&
-								value.length >= maxFiles
-							)
-						) {
+						if (!disabled && !hasReachedMaxFiles) {
 							triggerFileInput()
 						}
 					}}
@@ -378,27 +451,18 @@ const Input: React.FC<InputProps> = ({
 							className={cn(
 								'size-8 mb-2',
 								isDragging ? 'text-blue-500' : 'text-gray-400',
-								maxFiles > 0 &&
-									Array.isArray(value) &&
-									value.length >= maxFiles &&
-									'text-gray-300',
+								hasReachedMaxFiles && 'text-gray-300',
 							)}
 							stroke={1.5}
 						/>
 						<p className="text-sm font-medium text-gray-700">
 							{isDragging
 								? 'Drop files here'
-								: maxFiles > 0 &&
-									  Array.isArray(value) &&
-									  value.length >= maxFiles
+								: hasReachedMaxFiles
 									? `Maximum file limit reached (${maxFiles})`
 									: 'Drag and drop files here'}
 						</p>
-						{!(
-							maxFiles > 0 &&
-							Array.isArray(value) &&
-							value.length >= maxFiles
-						) && (
+						{!hasReachedMaxFiles && (
 							<p className="mt-1 text-xs text-gray-500">
 								or{' '}
 								<button
@@ -421,16 +485,14 @@ const Input: React.FC<InputProps> = ({
 								Accepted formats: {accept}
 							</p>
 						)}
-
 						{/* File limits information */}
 						<div className="flex flex-col items-center mt-2 text-xs text-gray-500">
 							{maxFiles > 0 && (
 								<p>
-									File limit: {Array.isArray(value) ? value.length : 0}
-									/{maxFiles}
-									{remainingFiles !== null &&
-										remainingFiles > 0 &&
-										` (${remainingFiles} remaining)`}
+									File limit: {displayFileCount}/{maxFiles}
+									{displayRemainingFiles !== null &&
+										displayRemainingFiles > 0 &&
+										` (${displayRemainingFiles} remaining)`}
 								</p>
 							)}
 							{maxFileSize > 0 && (
@@ -445,8 +507,11 @@ const Input: React.FC<InputProps> = ({
 
 				{/* File Error Message */}
 				{fileError && (
-					<div className="flex items-center mt-2 text-sm text-rose-500">
-						<IconAlertCircle className="size-4 mr-1" stroke={1.5} />
+					<div className="flex items-center mt-2 text-sm text-rose-500 bg-rose-50 p-2 rounded-md border border-rose-200">
+						<IconAlertCircle
+							className="size-4 mr-1 flex-shrink-0"
+							stroke={1.5}
+						/>
 						<p>{fileError}</p>
 					</div>
 				)}
@@ -469,8 +534,10 @@ const Input: React.FC<InputProps> = ({
 									onClick={(e) => {
 										e.preventDefault()
 										e.stopPropagation()
-										if (onFileChange) onFileChange([])
-										setFileError(null)
+										if (onFileChange) {
+											onFileChange([])
+											setFileError(null)
+										}
 									}}
 								>
 									Clear all
@@ -544,10 +611,17 @@ const Input: React.FC<InputProps> = ({
 						</div>
 					</motion.div>
 				)}
-				{error && <p className="mt-1 text-sm text-rose-500">{error}</p>}
+
+				{error && (
+					<p className="mt-1 text-sm text-rose-500 flex items-center">
+						<IconAlertCircle className="size-4 mr-1" stroke={1.5} />
+						{error}
+					</p>
+				)}
 			</div>
 		)
 	}
+
 	return (
 		<div className="relative">
 			{label && (
@@ -609,7 +683,12 @@ const Input: React.FC<InputProps> = ({
 					</div>
 				)}
 			</div>
-			{error && <p className="mt-1 text-sm text-rose-500">{error}</p>}
+			{error && (
+				<p className="mt-1 text-sm text-rose-500 flex items-center">
+					<IconAlertCircle className="size-4 mr-1" stroke={1.5} />
+					{error}
+				</p>
+			)}
 		</div>
 	)
 }

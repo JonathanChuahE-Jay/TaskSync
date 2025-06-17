@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconX } from '@tabler/icons-react'
+import { IconAlertCircle, IconX } from '@tabler/icons-react'
 import { cn } from '@/utils/utils'
 
 type TextareaProps = {
@@ -81,7 +81,12 @@ const Textarea: React.FC<TextareaProps> = ({
 					</div>
 				)}
 			</div>
-			{error && <p className="mt-1 text-sm text-rose-500">{error}</p>}
+			{error && (
+				<p className="mt-1 text-sm text-rose-500 flex items-center">
+					<IconAlertCircle className="size-4 mr-1" stroke={1.5} />
+					{error}
+				</p>
+			)}
 		</div>
 	)
 }

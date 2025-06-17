@@ -112,7 +112,6 @@ const TagInputField = React.forwardRef<HTMLInputElement, TagInputFieldProps>(
 					<div className="relative">
 						<input
 							ref={(node) => {
-								// Handle both refs
 								if (typeof ref === 'function') {
 									ref(node)
 								} else if (ref) {
@@ -166,7 +165,12 @@ const TagInputField = React.forwardRef<HTMLInputElement, TagInputFieldProps>(
 					</div>
 				)}
 
-				{error && <p className="mt-1 text-sm text-rose-500">{error}</p>}
+				{error && (
+					<p className="mt-1 text-sm text-rose-500 flex items-center">
+						<IconAlertCircle className="size-4 mr-1" stroke={1.5} />
+						{error}
+					</p>
+				)}
 
 				<div className="flex flex-wrap gap-2 mt-3">
 					<AnimatePresence>

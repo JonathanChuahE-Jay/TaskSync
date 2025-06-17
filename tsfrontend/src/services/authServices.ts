@@ -12,7 +12,7 @@ export const authApi = {
 	validateEmail: async (email: string): Promise<ValidationResponse> => {
 		try {
 			return await kyInstance
-				.post('validate-email/', {
+				.post('auth/validate-email/', {
 					json: { email },
 				})
 				.json()
@@ -24,7 +24,7 @@ export const authApi = {
 	validatePassword: async (password: string): Promise<ValidationResponse> => {
 		try {
 			return await kyInstance
-				.post('validate-password/', {
+				.post('auth/validate-password/', {
 					json: { password },
 				})
 				.json()
@@ -36,7 +36,7 @@ export const authApi = {
 	validateUsername: async (username: string): Promise<ValidationResponse> => {
 		try {
 			return await kyInstance
-				.post('validate-username/', {
+				.post('auth/validate-username/', {
 					json: { username },
 				})
 				.json()
@@ -48,7 +48,7 @@ export const authApi = {
 	validatePhone: async (phoneNumber: string): Promise<ValidationResponse> => {
 		try {
 			return await kyInstance
-				.post('validate-phone/', {
+				.post('auth/validate-phone/', {
 					json: { phone_number: phoneNumber },
 				})
 				.json()
@@ -60,7 +60,7 @@ export const authApi = {
 	sendOtp: async (email: string): Promise<OtpResponse> => {
 		try {
 			return await kyInstance
-				.post('send-otp/', {
+				.post('auth/send-otp/', {
 					json: { email: email },
 				})
 				.json()
@@ -72,7 +72,7 @@ export const authApi = {
 	resendOtp: async (email: string): Promise<OtpResponse> => {
 		try {
 			return await kyInstance
-				.post('resend-otp/', {
+				.post('auth/resend-otp/', {
 					json: { email: email },
 				})
 				.json()
@@ -87,7 +87,7 @@ export const authApi = {
 	): Promise<ValidationResponse> => {
 		try {
 			return await kyInstance
-				.post('verify-otp/', {
+				.post('auth/verify-otp/', {
 					json: {
 						email: email,
 						otp,
@@ -105,7 +105,7 @@ export const authApi = {
             return false;
         }
 
-        await kyInstance.post('verify/')
+        await kyInstance.post('auth/verify/')
         return true
     } catch (err) {
         console.error('Token verification failed:', err)
@@ -114,7 +114,7 @@ export const authApi = {
 },
 	refreshToken: async (): Promise<void> => {
 		try {
-			await kyInstance.post('refresh/')
+			await kyInstance.post('auth/refresh/')
 		} catch (err) {
 			return await handleKyError(err)
 		}
@@ -123,7 +123,7 @@ export const authApi = {
 	register: async (userData: RegisterInput): Promise<UserData> => {
 		try {
 			return await kyInstance
-				.post('register/', {
+				.post('auth/register/', {
 					json: userData,
 				})
 				.json()
@@ -135,7 +135,7 @@ export const authApi = {
 	login: async (credentials: LoginInput): Promise<UserData> => {
 		try {
 			return await kyInstance
-				.post('login/', {
+				.post('auth/login/', {
 					json: credentials,
 				})
 				.json()
@@ -146,7 +146,7 @@ export const authApi = {
 
 	logout: async (): Promise<void> => {
 		try {
-			await kyInstance.post('logout/', {
+			await kyInstance.post('auth/logout/', {
 				json: {},
 			})
 		} catch (err) {
@@ -156,7 +156,7 @@ export const authApi = {
 
 	getCurrentUser: async (): Promise<UserData> => {
 		try {
-			return await kyInstance.get('user/me/').json<UserData>()
+			return await kyInstance.get('users/me/').json<UserData>()
 		} catch (err) {
 			return await handleKyError(err)
 		}

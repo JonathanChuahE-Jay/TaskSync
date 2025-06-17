@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const projectCreationSchema = z.object({
 	title: z.string().min(1, 'Title is required'),
-	description: z.string().optional(),
+	description: z.string().min(1, 'Description is required'),
 	start_date: z.string().nullable().optional(),
 	due_date: z.string().nullable().optional(),
 	status: z.string().optional(),

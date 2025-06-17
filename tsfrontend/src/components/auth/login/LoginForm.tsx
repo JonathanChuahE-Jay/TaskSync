@@ -63,7 +63,7 @@ const LoginForm = () => {
 					setApiErrors(formatZodError(error))
 				} else {
 					const err = error as Error
-					setApiErrors({ message: err.message || 'Login failed' })
+					setApiErrors(err)
 				}
 			}
 		},
