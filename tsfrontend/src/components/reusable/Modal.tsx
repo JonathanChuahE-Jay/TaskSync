@@ -58,7 +58,7 @@ const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
 					<motion.div
 						key="modal"
 						className={cn(
-							'bg-white rounded-xl shadow-2xl max-w-lg w-full mx-4 px-6 pb-6 pt-4 relative',
+							'bg-white rounded-xl shadow-2xl max-w-3xl w-full mx-4 px-6 pb-6 pt-4 relative',
 							!title && 'p-6 pt-8',
 						)}
 						variants={modalVariants}

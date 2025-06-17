@@ -17,7 +17,7 @@ import {
 	useValidatePhone,
 	useValidateUsername,
 	useVerifyOtp,
-} from '@/queries/AuthQueries.tsx'
+} from '@/queries/AuthQueries.ts'
 import { useDefaultAppForm } from '@/components/common/defaultForm/DefaultAppForm.tsx'
 import { cleanObject } from '@/utils/removeNullKeys.ts'
 import { useStepperStore } from '@/store/useStepperStore.tsx'

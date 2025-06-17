@@ -42,6 +42,7 @@ const ProjectManagementCreateModal = ({
 	const [apiErrors, setApiErrors] = useState<ErrorResponse>({})
 	const clearFieldError = useClearFieldError(apiErrors, setApiErrors)
 	const { mutateAsync } = useCreateProjectMutation()
+
 	const form = useDefaultAppForm({
 		defaultValues: {
 			title: '',
@@ -120,6 +121,7 @@ const ProjectManagementCreateModal = ({
 					<form.AppField name="description">
 						{(field) => (
 							<field.TextareaField
+								required
 								label="Description"
 								placeholder="Describe the project"
 								rows={3}
