@@ -111,21 +111,10 @@ const Input: React.FC<InputProps> = ({
 	}
 
 	const validateFiles = (files: Array<File>) => {
-		// Clear previous errors
 		setFileError(null)
 
-		// Calculate current file count
 		const currentFiles = Array.isArray(value) ? value.length : 0
 
-		// Log for debugging
-		console.log('Validating files:', {
-			newFiles: files.length,
-			currentFiles,
-			maxFiles,
-			totalWouldBe: currentFiles + files.length,
-		})
-
-		// Check max files limit
 		if (maxFiles > 0) {
 			if (currentFiles + files.length > maxFiles) {
 				const errorMsg = `You can upload a maximum of ${maxFiles} files (${currentFiles} already uploaded)`
@@ -135,7 +124,6 @@ const Input: React.FC<InputProps> = ({
 			}
 		}
 
-		// Check file size limit
 		if (maxFileSize > 0) {
 			const oversizedFiles = files.filter((file) => file.size > maxFileSize)
 			if (oversizedFiles.length > 0) {
@@ -153,13 +141,11 @@ const Input: React.FC<InputProps> = ({
 		if (e.target.files && e.target.files.length > 0) {
 			const newFiles = Array.from(e.target.files)
 
-			// Validate before processing
 			if (!validateFiles(newFiles)) {
 				if (fileInputRef.current) fileInputRef.current.value = ''
 				return
 			}
 
-			// Process valid files
 			if (Array.isArray(value) && multiple) {
 				const updatedFiles = [...value, ...newFiles]
 
@@ -192,7 +178,6 @@ const Input: React.FC<InputProps> = ({
 				}
 			}
 
-			// Reset the file input
 			if (fileInputRef.current) fileInputRef.current.value = ''
 		}
 	}
@@ -224,12 +209,10 @@ const Input: React.FC<InputProps> = ({
 		if (e.dataTransfer.files.length > 0) {
 			const newFiles = Array.from(e.dataTransfer.files)
 
-			// Validate before processing
 			if (!validateFiles(newFiles)) {
 				return
 			}
 
-			// Process valid files
 			if (Array.isArray(value) && multiple) {
 				const updatedFiles = [...value, ...newFiles]
 
@@ -287,7 +270,6 @@ const Input: React.FC<InputProps> = ({
 				)
 				onFileChange(newFiles)
 
-				// Clear file error if we're now under the limit
 				if (
 					maxFiles > 0 &&
 					fileCount > maxFiles &&
@@ -400,7 +382,6 @@ const Input: React.FC<InputProps> = ({
 			? value.reduce((sum, file) => sum + file.size, 0)
 			: 0
 
-		// Calculate the actual file counts - use state variables to ensure UI updates
 		const displayFileCount = fileCount
 		const displayRemainingFiles = remainingFileCount
 		const hasReachedMaxFiles = maxFiles > 0 && displayFileCount >= maxFiles
@@ -485,7 +466,6 @@ const Input: React.FC<InputProps> = ({
 								Accepted formats: {accept}
 							</p>
 						)}
-						{/* File limits information */}
 						<div className="flex flex-col items-center mt-2 text-xs text-gray-500">
 							{maxFiles > 0 && (
 								<p>
@@ -505,7 +485,6 @@ const Input: React.FC<InputProps> = ({
 					</div>
 				</div>
 
-				{/* File Error Message */}
 				{fileError && (
 					<div className="flex items-center mt-2 text-sm text-rose-500 bg-rose-50 p-2 rounded-md border border-rose-200">
 						<IconAlertCircle
@@ -627,7 +606,7 @@ const Input: React.FC<InputProps> = ({
 			{label && (
 				<label
 					htmlFor={id}
-					className="block text-sm font-medium text-slate mb-1.5 pointer-events-none"
+					className="block text-xs md:text-sm font-medium text-slate mb-1.5 pointer-events-none"
 				>
 					{label} {required && <span className="text-rose-500">*</span>}
 				</label>

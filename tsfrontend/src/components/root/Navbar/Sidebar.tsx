@@ -14,7 +14,7 @@ const Sidebar = ({ isExpanded, onExpandedChange }: SidebarProps) => {
 	return (
 		<motion.aside
 			className={cn(
-				'transition-all duration-300 bg-sidebar text-sidebar-foreground shadow-lg h-full flex flex-col fixed top-0 left-0 overflow-hidden z-30',
+				'transition-all duration-300 bg-sidebar text-sidebar-foreground shadow-lg h-full flex flex-col fixed top-0 left-0 overflow-hidden z-30 scrollbar-hide',
 				isExpanded ? 'w-64' : 'w-16',
 			)}
 			initial={false}
@@ -46,7 +46,7 @@ const Sidebar = ({ isExpanded, onExpandedChange }: SidebarProps) => {
 				</AnimatePresence>
 			</div>
 
-			<nav className="flex-1 flex flex-col px-2 py-4 overflow-y-auto">
+			<nav className="flex-1 flex flex-col px-2 py-4 overflow-y-hide scrollbar-hide">
 				{navGroups.map((group, groupIndex) => (
 					<div key={group.title} className="mb-4">
 						<div className="h-5 mb-3 relative">

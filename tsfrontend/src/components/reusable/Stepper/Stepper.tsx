@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useStepperStore } from '@/store/useStepperStore'
 import { Step } from '@/components/reusable/Stepper/Step.tsx'
 import { cn } from '@/utils/utils.ts'
-import { useClickEnter } from '@/hooks/useClickEnter.tsx'
+import { useClickEnter } from '@/hooks/useClickEnter'
 
 interface StepperProps {
 	steps: Array<{ label: string }>
@@ -63,12 +63,12 @@ const Stepper = ({
 
 	return (
 		<div className="w-full">
-			<div className="flex justify-between items-center mb-8 relative">
+			<div className="flex flex-wrap justify-between items-center gap-y-6 mb-8 relative">
 				<div className="absolute h-1 bg-gray-200 top-5 left-[15px] right-[15px] z-0" />
 				<motion.div
-					className="absolute h-1 bg-blue-600 top-5 left-[12px] z-0"
+					className="absolute h-1 bg-blue-600 top-5 left-[15px] z-0"
 					initial={{ width: 0 }}
-					animate={{ width: `calc(${progress}% - 24px)` }}
+					animate={{ width: `calc(${progress}% - 30px)` }}
 					transition={{ duration: 0.3 }}
 				/>
 
@@ -95,12 +95,12 @@ const Stepper = ({
 			</div>
 
 			{showFooterButtons && (
-				<div className="flex justify-between mt-8">
+				<div className="flex flex-col sm:flex-row justify-between gap-4 mt-8">
 					<motion.button
 						whileHover={{ scale: 1.02 }}
 						whileTap={{ scale: 0.98 }}
 						className={cn(
-							`px-6 py-2 rounded-lg w-[40%]`,
+							`px-6 py-2 rounded-lg w-full sm:w-[48%]`,
 							currentStep === 1
 								? 'bg-gray-200 text-gray-400 cursor-not-allowed'
 								: 'bg-gray-200 text-gray-800',
@@ -115,10 +115,10 @@ const Stepper = ({
 						whileHover={{ scale: 1.02 }}
 						whileTap={{ scale: 0.98 }}
 						className={
-							cn(`px-6 py-2 rounded-lg w-[40%]`,
-							currentStep === totalSteps
-								? 'bg-green-600 text-white'
-								: 'bg-blue-600 text-white')
+							cn(`px-6 py-2 rounded-lg w-full sm:w-[48%]`,
+								currentStep === totalSteps
+									? 'bg-green-600 text-white'
+									: 'bg-blue-600 text-white')
 						}
 						onClick={handleNextClick}
 					>

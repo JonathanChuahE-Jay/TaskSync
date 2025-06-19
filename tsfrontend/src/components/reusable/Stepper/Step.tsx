@@ -18,7 +18,7 @@ export const Step = ({
 	allowStepNavigation,
 }: StepProps) => {
 	return (
-		<div className="flex flex-col items-center">
+		<div className="flex flex-col items-center text-center">
 			<motion.div
 				onClick={allowStepNavigation ? onClick : undefined}
 				className={`relative ${allowStepNavigation ? 'cursor-pointer' : 'cursor-default'} rounded-full flex items-center justify-center 
@@ -53,7 +53,7 @@ export const Step = ({
 				)}
 			</motion.div>
 			<span
-				className={`mt-2 text-sm ${
+				className={`mt-2 text-sm break-words max-w-[80px] ${
 					isActive ? 'text-blue-600 font-medium' : 'text-gray-600'
 				}`}
 			>

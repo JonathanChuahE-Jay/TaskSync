@@ -6,6 +6,8 @@ import Sidebar from '@/components/root/Navbar/Sidebar.tsx'
 import TopNav from '@/components/root/Navbar/TopNav.tsx'
 import { useUserConfigStore } from '@/store/useUserConfig.ts'
 import { cn } from '@/utils/utils.ts'
+import { useDeviceType } from '@/hooks/useDeviceType'
+import FloatDock from '@/components/root/Navbar/Floatdock'
 
 interface MyRouterContext {
 	queryClient: QueryClient
@@ -18,6 +20,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 	},
 	component: () => {
 		const { theme } = useUserConfigStore()
+		const { isPhone } = useDeviceType()
 		const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 		const [sidebarExpanded, setSidebarExpanded] = useState(false)
 
@@ -30,18 +33,22 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 			>
 				{isAuthenticated ? (
 					<div className="flex h-screen overflow-hidden">
-						<Sidebar
-							isExpanded={sidebarExpanded}
-							onExpandedChange={setSidebarExpanded}
-						/>
+						{isPhone ? (
+							<FloatDock />
+						): (
+							<Sidebar
+								isExpanded={sidebarExpanded}
+								onExpandedChange={setSidebarExpanded}
+							/>
+						)}
 						<div
 							className={cn(
 								'flex-1 flex flex-col transition-all duration-300',
-								sidebarExpanded ? 'ml-64' : 'ml-16',
+								(sidebarExpanded && !isPhone) ? 'ml-64' : isPhone ? 'mb-16' : 'ml-16',
 							)}
 						>
 							<TopNav />
-							<main className="flex-1 overflow-auto min-h-0">
+							<main className="flex-1 overflow-auto min-h-0 scrollbar-hide">
 								<div className="p-6">
 									<Outlet />
 								</div>
