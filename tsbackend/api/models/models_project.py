@@ -36,7 +36,7 @@ class Project(models.Model):
         related_name='updated_projects'
     )
     status_date = models.DateField(null=True, blank=True)
-    colors = models.CharField(null=True, blank=True, max_length=20)
+    color = models.CharField(null=True, blank=True, max_length=20)
     priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default='medium')
     tags = ArrayField(
         models.CharField(max_length=100),
