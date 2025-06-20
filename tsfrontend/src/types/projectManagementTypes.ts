@@ -42,7 +42,7 @@ export interface ProjectListResponse {
 	created_at: string
 	updated_at: string
 	status_date: string | null
-	colors: string
+	color: string
 	priority: number
 }
 

@@ -6,6 +6,7 @@ import {
 } from '@tabler/icons-react'
 import type { projectManagementTabsIDType } from '@/types/projectManagementTypes'
 import { useListProjectMutation } from '@/queries/ProjectQueries.ts'
+import ProjectManagementGridView from '@/components/project-management/project-contents/ProjectManagementGridView.tsx'
 
 const ProjectList = () => (
 	<div className="space-y-4">
@@ -201,42 +202,7 @@ const TasksView = () => (
 	</div>
 )
 
-const GridView = () => (
-	<div className="space-y-4 h-screen">
-		<h3 className="text-lg font-medium">Projects Grid</h3>
-		<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-			{[1, 2, 3].map((item) => (
-				<div
-					key={item}
-					className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow flex flex-col justify-between"
-				>
-					<div>
-						<h4 className="font-medium text-lg">Project Alpha {item}</h4>
-						<p className="text-sm text-gray-500">
-							Last updated: 2 days ago
-						</p>
-					</div>
 
-					<div className="mt-3 flex items-center justify-between">
-						<span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
-							On Track
-						</span>
-						<div className="flex -space-x-2">
-							{[1, 2, 3].map((avatar) => (
-								<div
-									key={avatar}
-									className="w-6 h-6 rounded-full bg-indigo-300 border border-white"
-								></div>
-							))}
-						</div>
-					</div>
-
-					<div className="text-xs text-gray-500 mt-2">Progress: 75%</div>
-				</div>
-			))}
-		</div>
-	</div>
-)
 
 const ProjectManagementContent = ({
 	activeTab,
@@ -244,6 +210,7 @@ const ProjectManagementContent = ({
 	activeTab: projectManagementTabsIDType
 }) => {
 	const { data } = useListProjectMutation()
+
 	console.log(data)
 	const contentVariants = {
 		initial: { opacity: 0, y: 10 },
@@ -261,7 +228,7 @@ const ProjectManagementContent = ({
 			transition={{ duration: 0.2 }}
 			className="w-full"
 		>
-			{activeTab === 'grid' && <GridView />}
+			{activeTab === 'grid' && <ProjectManagementGridView data={data} />}
 			{activeTab === 'list' && <ProjectList />}
 			{activeTab === 'calendar' && <CalendarView />}
 			{activeTab === 'chart' && <ChartView />}
