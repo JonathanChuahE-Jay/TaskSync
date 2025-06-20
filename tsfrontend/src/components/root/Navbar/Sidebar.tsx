@@ -21,7 +21,7 @@ const Sidebar = ({ isExpanded, onExpandedChange }: SidebarProps) => {
 			onMouseEnter={() => onExpandedChange(true)}
 			onMouseLeave={() => onExpandedChange(false)}
 		>
-			<div className="h-16 flex items-center justify-center px-4 whitespace-nowrap border-b border-sidebar-border">
+			<div className="h-16 flex items-center justify-center px-4 whitespace-nowrap ">
 				<img src="/logo.png" alt="Logo" className="h-10 flex-shrink-0" />
 				<AnimatePresence>
 					{isExpanded && (
