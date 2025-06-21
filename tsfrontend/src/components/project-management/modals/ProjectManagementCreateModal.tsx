@@ -4,6 +4,7 @@ import {
 	IconAlertCircle,
 	IconAlertTriangle,
 	IconCalendar,
+	IconCalendarStats,
 	IconChecks,
 	IconCircleDashed,
 	IconCircleOff,
@@ -16,16 +17,12 @@ import {
 	IconPaperclip,
 	IconProgress,
 } from '@tabler/icons-react'
-import { ZodError } from 'zod'
 import type { ErrorResponse } from '@/types/errorResponse.ts'
-import type { ProjectCreationType } from '@/schema/projectsSchema.ts'
 import Modal from '@/components/reusable/Modal.tsx'
-import { useDefaultAppForm } from '@/components/common/defaultForm/DefaultAppForm.tsx'
 import ErrorMessage from '@/components/reusable/ErrorMessage.tsx'
 import { useClearFieldError } from '@/hooks/useClearFieldError.tsx'
-import { useCreateProjectMutation } from '@/queries/ProjectQueries.ts'
-import { projectCreationSchema } from '@/schema/projectsSchema.ts'
-import { formatZodError } from '@/utils/convertZodToJson.ts'
+import { ProjectStatus } from '@/types/projectManagementTypes.ts'
+import { useProjectCreationFormHandler } from '@/components/project-management/modals/form/useProjectCreationFormHandler.tsx'
 
 interface ProjectManagementCreateModalProps {
 	isOpen: boolean
@@ -41,62 +38,15 @@ const ProjectManagementCreateModal = ({
 	const [isLoading, setIsLoading] = useState(false)
 	const [apiErrors, setApiErrors] = useState<ErrorResponse>({})
 	const clearFieldError = useClearFieldError(apiErrors, setApiErrors)
-	const { mutateAsync } = useCreateProjectMutation()
 
-	const form = useDefaultAppForm({
-		defaultValues: {
-			title: '',
-			description: '',
-			status: 'not_started',
-			start_date: '',
-			due_date: '',
-			priority: '',
-			colors: '#000000',
-			attachments: [] as Array<File>,
-			tags: [] as Array<string>,
-		},
-		onSubmit: async ({ value }: { value: ProjectCreationType }) => {
-			try {
-				setIsLoading(true)
-				setApiErrors({})
-				const data = projectCreationSchema.parse(value)
-
-				const formData = new FormData()
-				formData.append('title', data.title)
-				if (data.description) formData.append('description', data.description)
-				if (data.status) formData.append('status', data.status)
-				if (data.start_date) formData.append('start_date', data.start_date)
-				if (data.due_date) formData.append('due_date', data.due_date)
-				if (data.priority) formData.append('priority', data.priority)
-				if (data.colors) formData.append('colors', data.colors)
-
-				if (data.tags && Array.isArray(data.tags)) {
-					data.tags.forEach((tag, index) => {
-						formData.append(`tags[${index}]`, tag)
-					})
-				}
-
-				if (data.attachments && data.attachments.length > 0) {
-					for (const file of data.attachments) {
-						formData.append('attachments', file)
-					}
-				}
-				await mutateAsync({ data: formData })
-				setIsLoading(false)
-				onClose()
-				if (onSuccess) onSuccess()
-			} catch (error) {
-				setIsLoading(false)
-				if (error instanceof ZodError) {
-					setApiErrors(formatZodError(error))
-				} else {
-					const err = error as Error
-					setApiErrors(err)
-				}
-			}
-		},
+	const {projectCreationForm} = useProjectCreationFormHandler({
+		onClose,
+		onSuccess,
+		setIsLoading,
+		setApiErrors,
 	})
 
+	const form = projectCreationForm
 	return (
 		<Modal isOpen={isOpen} onClose={onClose} title="Create a Project">
 			<motion.div
@@ -167,29 +117,50 @@ const ProjectManagementCreateModal = ({
 											prefix: (
 												<IconNotesOff className="size-5 text-gray-500" />
 											),
-											value: 'not_started',
+											value: ProjectStatus.NOT_STARTED,
 											label: 'Not Started',
 										},
 										{
 											prefix: (
 												<IconProgress className="size-5 text-blue-600" />
 											),
-											value: 'in_progress',
+											value: ProjectStatus.IN_PROGRESS,
 											label: 'In Progress',
 										},
 										{
 											prefix: (
 												<IconChecks className="size-5 text-green-600" />
 											),
-											value: 'completed',
+											value: ProjectStatus.COMPLETED,
 											label: 'Completed',
 										},
 										{
 											prefix: (
 												<IconHandStop className="size-5 text-yellow-600" />
 											),
-											value: 'on_hold',
+											value: ProjectStatus.ON_HOLD,
 											label: 'On Hold',
+										},
+										{
+											prefix: (
+												<IconCalendarStats className="size-5 text-indigo-600" />
+											),
+											value: ProjectStatus.PLANNING,
+											label: 'Planning',
+										},
+										{
+											prefix: (
+												<IconAlertTriangle className="size-5 text-orange-600" />
+											),
+											value: ProjectStatus.AT_RISK,
+											label: 'At Risk',
+										},
+										{
+											prefix: (
+												<IconAlertCircle className="size-5 text-red-600" />
+											),
+											value: ProjectStatus.CRITICAL,
+											label: 'Critical',
 										},
 									]}
 									prefix={<IconList className="size-5" />}

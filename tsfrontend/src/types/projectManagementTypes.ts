@@ -27,6 +27,18 @@ export type projectManagementTabsIDType =
 	| 'tasks'
 	| 'grid'
 
+export enum ProjectStatus {
+	NOT_STARTED = 'not_started',
+	IN_PROGRESS = 'in_progress',
+	COMPLETED = 'completed',
+	PLANNING = 'planning',
+	AT_RISK = 'at_risk',
+	CRITICAL = 'critical',
+	ON_HOLD = 'on_hold',
+}
+
+export type ProjectStatusValue = `${ProjectStatus}`
+
 export interface ProjectListResponse {
 	id: string
 	updated_by: User
@@ -37,8 +49,8 @@ export interface ProjectListResponse {
 	description: string
 	start_date: string
 	due_date: string | null
-	status: 'not_started' | 'in_progress' | 'completed' | string
-	attachments: any 
+	status: ProjectStatus
+	attachments: any
 	created_at: string
 	updated_at: string
 	status_date: string | null

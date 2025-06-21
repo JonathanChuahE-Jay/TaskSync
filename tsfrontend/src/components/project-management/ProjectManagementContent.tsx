@@ -218,6 +218,7 @@ const ProjectManagementContent = ({
 		exit: { opacity: 0, y: -10 },
 	}
 
+	if(!data) return null
 	return (
 		<motion.div
 			key={activeTab}
