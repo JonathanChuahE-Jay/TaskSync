@@ -1,11 +1,11 @@
 import type { ProjectStatusValue } from '@/types/projectManagementTypes.ts'
+import type {StatusColor} from '@/utils/statusUtils.ts';
 import { cn } from '@/utils/utils.ts'
 import {
 	STATUS_COLORS,
 	statusCodeToLabelMap,
 	statusToColorMap
 } from '@/utils/statusUtils.ts'
-import type {StatusColor} from '@/utils/statusUtils.ts';
 
 interface StatusBadgeProps {
 	status?: ProjectStatusValue
