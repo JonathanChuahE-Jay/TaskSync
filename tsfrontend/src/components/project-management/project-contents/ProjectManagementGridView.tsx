@@ -30,15 +30,15 @@ const ProjectManagementGridView = ({
 								</h1>
 								<StatusBadge status={item.status} />
 							</div>
-							<p className="text-gray-500 text-sm line-clamp-3 ">
+							<p className="text-gray-500 text-sm line-clamp-3 min-h-15">
 								{item.description}
 							</p>
 							<ProgressBar
 								progress={55}
 								type="line"
 								width={300}
-								height={14}
-								color="#3b82f6"
+								height={10}
+								color={item.color}
 							/>
 						</div>
 					</div>
