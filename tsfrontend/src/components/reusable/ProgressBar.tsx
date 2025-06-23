@@ -6,7 +6,8 @@ interface ProgressBarProps {
 	progress: number
 	type?: ProgressType
 	size?: number // for circle
-	width?: number // for line
+	width?: number
+	fullWidth?: boolean
 	height?: number // for line
 	strokeWidth?: number // for circle
 	color?: string
@@ -16,7 +17,8 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
 	progress,
 	type = 'circle',
 	size = 100,
-	width = 300,
+	width,
+	fullWidth = true,
 	height = 12,
 	strokeWidth = 10,
 	color = '#3b82f6',
@@ -67,15 +69,18 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
 		)
 	}
 
-	const progressWidth = (clampedProgress / 100) * width
+	const barWidth = fullWidth ? '100%' : `${width}px`
+	const progressWidth = fullWidth
+		? `${clampedProgress}%`
+		: `${(clampedProgress / 100) * (width ?? 100)}px`
 
 	return (
-		<div className="flex flex-col">
-			<svg width={width} height={height}>
+		<div className="flex flex-col w-full">
+			<svg width={barWidth} height={height}>
 				<rect
 					x="0"
 					y="0"
-					width={width}
+					width="100%"
 					height={height}
 					rx={height / 2}
 					ry={height / 2}
@@ -91,6 +96,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
 					fill={color}
 				/>
 			</svg>
+
 			<div>
 				<p className="text-xs text-gray-500 mt-1">{`${clampedProgress}% complete`}</p>
 				<p></p>
