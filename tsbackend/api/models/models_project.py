@@ -11,6 +11,8 @@ class Project(models.Model):
         ('on_hold', 'On Hold'),
         ('completed', 'Completed'),
         ('cancelled', 'Cancelled'),
+        ('at_risk', 'At Risk'),
+        ('planning', 'Planning'),
     ]
 
     PRIORITY_CHOICES = [

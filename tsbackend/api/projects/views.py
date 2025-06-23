@@ -56,7 +56,7 @@ class ProjectListCreateView(generics.ListCreateAPIView):
         if user.role not in ['ADMIN', 'MEMBER']:
             raise PermissionDenied("You do not have permission to create a project.")
         project = serializer.save(updated_by=user)
-        role, _ = ProjectRole.objects.get_or_create(name='Team Leader', project=project)
+        role, _ = ProjectRole.objects.get_or_create(name='Project Leader', project=project)
         ProjectTeam.objects.create(project=project, user=user, role=role, is_creator=True)
         return project
 
@@ -120,11 +120,11 @@ class ProjectTeamListCreateView(generics.ListCreateAPIView):
         user_team = ProjectTeam.objects.filter(
             project=project,
             user=self.request.user,
-            role__name='Team Leader'
+            role__name='Project Leader'
         ).first()
 
         if not user_team or not user_team.is_creator:
-            raise PermissionDenied("Only team leaders can add members to the project")
+            raise PermissionDenied("Only project leaders can add members to the project")
 
         serializer.save(project=project)
 
@@ -146,12 +146,12 @@ class ProjectTeamDetailView(generics.RetrieveUpdateDestroyAPIView):
         user_team = ProjectTeam.objects.filter(
             project=project,
             user=request.user,
-            role__name='Team Leader'
+            role__name='Project Leader'
         ).first()
 
         if not user_team:
             self.permission_denied(
-                request, message="Only team leaders can modify project team members"
+                request, message="Only project leaders can modify project team members"
             )
 
 
@@ -195,11 +195,11 @@ class ProjectRoleListCreateView(generics.ListCreateAPIView):
         user_team = ProjectTeam.objects.filter(
             project=project,
             user=self.request.user,
-            role__name='Team Leader'
+            role__name='Project Leader'
         ).first()
 
         if not user_team:
-            raise PermissionDenied("Only team leaders can create roles")
+            raise PermissionDenied("Only project leaders can create roles")
 
         serializer.save()
 
@@ -221,17 +221,17 @@ class ProjectRoleDetailView(generics.RetrieveUpdateDestroyAPIView):
         user_team = ProjectTeam.objects.filter(
             project=project,
             user=request.user,
-            role__name='Team Leader'
+            role__name='Project Leader'
         ).first()
 
         if not user_team:
             self.permission_denied(
-                request, message="Only team leaders can manage roles"
+                request, message="Only project leaders can manage roles"
             )
 
     def perform_destroy(self, instance):
-        if instance.name == 'Team Leader':
-            raise PermissionDenied("The Team Leader role cannot be deleted")
+        if instance.name == 'Project Leader':
+            raise PermissionDenied("The Project Leader role cannot be deleted")
         super().perform_destroy(instance)
 
 

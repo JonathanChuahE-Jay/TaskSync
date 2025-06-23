@@ -23,6 +23,7 @@ class User(AbstractUser):
         validators=[RegexValidator(regex=r'^\+?1?\d{9,15}$',
                                    message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")]
     )
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     groups = models.ManyToManyField(
         'auth.Group',
         verbose_name='groups',
@@ -39,7 +40,6 @@ class User(AbstractUser):
         related_name='api_user_set',
         related_query_name='api_user',
     )
-
     class Meta:
         db_table = 'users'
 

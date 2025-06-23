@@ -9,10 +9,9 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'username', 'email', 'first_name', 'last_name',
-            'phone_number', 'role'
+            'phone_number', 'role', 'profile_picture'
         ]
         read_only_fields = ['id']
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         request = self.context.get('request')
