@@ -1,13 +1,13 @@
 import { ZodError } from 'zod'
-import type {ProjectCreationType} from '@/schema/projectsSchema.ts';
+import type { ProjectCreationType } from '@/schema/projectsSchema.ts'
 import type { ErrorResponse } from '@/types/errorResponse.ts'
 import { useDefaultAppForm } from '@/components/common/defaultForm/DefaultAppForm.tsx'
-import {
-	projectCreationSchema
-	
-} from '@/schema/projectsSchema.ts'
+import { projectCreationSchema } from '@/schema/projectsSchema.ts'
 import { formatZodError } from '@/utils/convertZodToJson.ts'
-import { useCreateProjectMutation } from '@/queries/ProjectQueries.ts'
+import {
+	useCreateProjectMutation,
+	useCreateProjectRolesMutation,
+} from '@/queries/ProjectQueries.ts'
 
 export const useProjectCreationFormHandler = ({
 	setIsLoading,
@@ -18,10 +18,10 @@ export const useProjectCreationFormHandler = ({
 	setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 	setApiErrors: React.Dispatch<React.SetStateAction<ErrorResponse>>
 	onSuccess: (() => void) | undefined
-	onClose: () => void
+	onClose: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
 	const { mutateAsync } = useCreateProjectMutation()
-
+	const { mutateAsync: rolesMutateAsync } = useCreateProjectRolesMutation()
 	const projectCreationForm = useDefaultAppForm({
 		defaultValues: {
 			title: '',
@@ -33,11 +33,13 @@ export const useProjectCreationFormHandler = ({
 			colors: '#000000',
 			attachments: [] as Array<File>,
 			tags: [] as Array<string>,
+			roles: [] as Array<string>,
 		},
 		onSubmit: async ({ value }: { value: ProjectCreationType }) => {
 			try {
 				setIsLoading(true)
 				setApiErrors({})
+
 				const data = projectCreationSchema.parse(value)
 
 				const formData = new FormData()
@@ -61,9 +63,14 @@ export const useProjectCreationFormHandler = ({
 						formData.append('attachments', file)
 					}
 				}
-				await mutateAsync({ data: formData })
+				const project = await mutateAsync({ data: formData })
+				const roles = data.roles.map((role) => ({ name: role }))
+
+				for (const role of roles) {
+					await rolesMutateAsync({ projectId: project.id, roles: [role] })
+				}
 				setIsLoading(false)
-				onClose()
+				onClose(false)
 				if (onSuccess) onSuccess()
 			} catch (error) {
 				setIsLoading(false)

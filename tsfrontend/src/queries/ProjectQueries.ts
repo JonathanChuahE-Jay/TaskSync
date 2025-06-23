@@ -21,3 +21,18 @@ export function useListProjectMutation() {
 		gcTime: 15 * 60 * 1000,
 	})
 }
+
+export function useCreateProjectRolesMutation() {
+	return useMutation({
+		mutationFn: ({
+			projectId,
+			roles,
+		}: {
+			projectId: string;
+			roles: Array<{ name: string }>;
+		}) => projectApi.createRoles({ projectId, roles }),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['projects'] });
+		},
+	});
+}

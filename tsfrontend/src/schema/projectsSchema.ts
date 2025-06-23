@@ -11,6 +11,7 @@ export const projectCreationSchema = z.object({
 	colors: z.any().optional(),
 	priority: z.string().optional(),
 	tags: z.array(z.string()).optional(),
+	roles: z.array(z.string()).min(1, 'Role is required'),
 })
 
 export type ProjectCreationType = z.infer<typeof projectCreationSchema>

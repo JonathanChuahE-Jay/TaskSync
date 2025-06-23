@@ -6,7 +6,7 @@ import {
 } from '@tabler/icons-react'
 import type { projectManagementTabsIDType } from '@/types/projectManagementTypes'
 import { useListProjectMutation } from '@/queries/ProjectQueries.ts'
-import ProjectManagementGridView from '@/components/project-management/project-contents/ProjectManagementGridView.tsx'
+import ProjectManagementGridView from '@/components/project-management/project-contents/grid-view/ProjectManagementGridView.tsx'
 
 const ProjectList = () => (
 	<div className="space-y-4">

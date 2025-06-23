@@ -9,6 +9,7 @@ import ProjectManagementHeader from '@/components/project-management/ProjectMana
 import ProjectManagementTool from '@/components/project-management/ProjectManagementTool'
 import ProjectManagementContent from '@/components/project-management/ProjectManagementContent'
 import ProjectManagementCreateModal from '@/components/project-management/modals/ProjectManagementCreateModal.tsx'
+import ProjectManagementSettings from '@/components/project-management/ProjectManagementSettings.tsx'
 
 export const Route = createFileRoute('/(members)/project-management')({
 	component: RouteComponent,
@@ -16,15 +17,11 @@ export const Route = createFileRoute('/(members)/project-management')({
 
 function RouteComponent() {
 	const [searchContent, setSearchContent] = useState('')
-	const [activeTab, setActiveTab] =
-		useState<projectManagementTabsIDType>('list')
-	const [sortOption, setSortOption] =
-		useState<ProjectManagementSortOptionType>('Recent updated')
-	const [createProjectModal, setCreateProjectModal] = useState(false)
+	const [activeTab, setActiveTab] = useState<projectManagementTabsIDType>('list')
+	const [sortOption, setSortOption] = useState<ProjectManagementSortOptionType>('Recent updated')
 	return (
 		<section className="max-w-7xl mx-auto p-4">
 			<ProjectManagementHeader
-				setCreateProjectModal={setCreateProjectModal}
 				setSearchContent={setSearchContent}
 				searchContent={searchContent}
 			/>
@@ -39,10 +36,8 @@ function RouteComponent() {
 					<ProjectManagementContent activeTab={activeTab} />
 				</AnimatePresence>
 			</div>
-			<ProjectManagementCreateModal
-				isOpen={createProjectModal}
-				onClose={() => setCreateProjectModal(false)}
-			/>
+			<ProjectManagementCreateModal/>
+			<ProjectManagementSettings />
 		</section>
 	)
 }

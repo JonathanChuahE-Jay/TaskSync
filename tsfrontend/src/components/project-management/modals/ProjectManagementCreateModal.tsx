@@ -9,7 +9,6 @@ import {
 	IconCircleDashed,
 	IconCircleOff,
 	IconColorSwatch,
-	IconFlag,
 	IconFlame,
 	IconHandStop,
 	IconList,
@@ -17,29 +16,28 @@ import {
 	IconPaperclip,
 	IconProgress,
 } from '@tabler/icons-react'
+import { useAtom } from 'jotai'
 import type { ErrorResponse } from '@/types/errorResponse.ts'
 import Modal from '@/components/reusable/Modal.tsx'
 import ErrorMessage from '@/components/reusable/ErrorMessage.tsx'
 import { useClearFieldError } from '@/hooks/useClearFieldError.tsx'
 import { ProjectStatus } from '@/types/projectManagementTypes.ts'
 import { useProjectCreationFormHandler } from '@/components/project-management/modals/form/useProjectCreationFormHandler.tsx'
+import { isOpenCreateProjectModalAtom } from '@/jotai/projectManagementAtom.ts'
 
 interface ProjectManagementCreateModalProps {
-	isOpen: boolean
-	onClose: () => void
 	onSuccess?: () => void
 }
 
 const ProjectManagementCreateModal = ({
-	isOpen,
-	onClose,
 	onSuccess,
 }: ProjectManagementCreateModalProps) => {
+	const [isOpen, onClose] = useAtom(isOpenCreateProjectModalAtom)
 	const [isLoading, setIsLoading] = useState(false)
 	const [apiErrors, setApiErrors] = useState<ErrorResponse>({})
 	const clearFieldError = useClearFieldError(apiErrors, setApiErrors)
 
-	const {projectCreationForm} = useProjectCreationFormHandler({
+	const { projectCreationForm } = useProjectCreationFormHandler({
 		onClose,
 		onSuccess,
 		setIsLoading,
@@ -48,7 +46,11 @@ const ProjectManagementCreateModal = ({
 
 	const form = projectCreationForm
 	return (
-		<Modal isOpen={isOpen} onClose={onClose} title="Create a Project">
+		<Modal
+			isOpen={isOpen}
+			onClose={() => onClose(false)}
+			title="Create a Project"
+		>
 			<motion.div
 				initial={{ opacity: 0, y: 10 }}
 				animate={{ opacity: 1, y: 0 }}
@@ -169,55 +171,74 @@ const ProjectManagementCreateModal = ({
 								/>
 							)}
 						</form.AppField>
-
-						<form.AppField name="priority">
+						<form.AppField name="roles" mode="array">
 							{(field) => (
-								<field.SelectField
-									label="Priority"
-									options={[
-										{
-											prefix: (
-												<IconCircleOff className="size-5 text-gray-600" />
-											),
-											value: 'none',
-											label: 'None',
-										},
-										{
-											prefix: (
-												<IconCircleDashed className="size-5 text-blue-600" />
-											),
-											value: 'low',
-											label: 'Low',
-										},
-										{
-											prefix: (
-												<IconAlertCircle className="size-5 text-yellow-600" />
-											),
-											value: 'medium',
-											label: 'Medium',
-										},
-										{
-											prefix: (
-												<IconAlertTriangle className="size-5 text-orange-600" />
-											),
-											value: 'high',
-											label: 'High',
-										},
-										{
-											prefix: (
-												<IconFlame className="size-5 text-red-600" />
-											),
-											value: 'critical',
-											label: 'Critical',
-										},
-									]}
-									prefix={<IconFlag className="size-5" />}
+								<field.RolesInputField
+									label="User Roles"
+									placeholder="Add role and press Enter"
+									InputFieldClassName="my-custom-input"
+									dropdownClassName="custom-dropdown"
+									tagClassName="custom-tag"
+									tagsContainerClassName="custom-tags-container"
+									removeButtonClassName="custom-remove-btn"
 									clearFieldError={clearFieldError}
 									apiErrors={apiErrors}
 								/>
 							)}
 						</form.AppField>
 					</div>
+					<form.AppField name="priority">
+						{(field) => (
+							<field.RadioField
+								label="Priority"
+								options={[
+									{
+										prefix: (
+											<IconCircleOff className="size-5 text-gray-600" />
+										),
+										value: 'none',
+										label: 'None',
+										description: 'No priority assigned',
+									},
+									{
+										prefix: (
+											<IconCircleDashed className="size-5 text-blue-600" />
+										),
+										value: 'low',
+										label: 'Low',
+										description: 'Can be addressed later',
+									},
+									{
+										prefix: (
+											<IconAlertCircle className="size-5 text-yellow-600" />
+										),
+										value: 'medium',
+										label: 'Medium',
+										description: 'Should be addressed soon',
+									},
+									{
+										prefix: (
+											<IconAlertTriangle className="size-5 text-orange-600" />
+										),
+										value: 'high',
+										label: 'High',
+										description: 'Important issue to fix',
+									},
+									{
+										prefix: (
+											<IconFlame className="size-5 text-red-600" />
+										),
+										value: 'critical',
+										label: 'Critical',
+										description: 'Requires immediate attention',
+									},
+								]}
+								orientation="vertical"
+								clearFieldError={clearFieldError}
+								apiErrors={apiErrors}
+							/>
+						)}
+					</form.AppField>
 					<form.AppField name="tags">
 						{(field) => (
 							<field.TagInputField

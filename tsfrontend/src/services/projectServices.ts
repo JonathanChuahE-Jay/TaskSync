@@ -5,19 +5,36 @@ import { kyInstance } from '@/lib/ky.ts'
 export const projectApi = {
 	createProject: async ({ data }: { data: FormData }) => {
 		try {
-			return await kyInstance.post('projects/', {
+			const response = await kyInstance.post('projects/', {
 				body: data,
 			})
+			return response.json()
 		} catch (err) {
 			return await handleKyError(err)
 		}
 	},
 
-	listProjects: async (): Promise<ProjectListResponse> => {
+	listProjects: async (): Promise<Array<ProjectListResponse>> => {
 		try {
-			return await kyInstance.get('projects/').json<ProjectListResponse>()
+			return await kyInstance
+				.get('projects/')
+				.json<Array<ProjectListResponse>>()
 		} catch (err) {
 			return await handleKyError(err)
+		}
+	},
+
+	createRoles: async ({
+		projectId,
+		roles,
+	}: {
+		projectId: string
+		roles: Array<{ name: string }>
+	}) => {
+		for (const role of roles) {
+			await kyInstance.post(`projects/${projectId}/roles/`, {
+				json: role,
+			})
 		}
 	},
 }

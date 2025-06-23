@@ -4,6 +4,9 @@ import InputField from '@/components/common/defaultForm/InputField.tsx'
 import SelectField from '@/components/common/defaultForm/SelectField.tsx'
 import TextareaField from '@/components/common/defaultForm/TextareaField.tsx'
 import TagInputField from '@/components/common/defaultForm/TagInputField.tsx'
+import RadioField from '@/components/common/defaultForm/RadioField.tsx'
+import RolesInputField from '@/components/common/defaultForm/RolesInputField.tsx'
+
 
 export const {
 	fieldContext: defaultFieldContext,
@@ -21,6 +24,8 @@ export const { useAppForm: useDefaultAppForm, withForm: defaultWithForm } =
 			SelectField,
 			TextareaField,
 			TagInputField,
+			RadioField,
+			RolesInputField
 		},
 		formComponents: {
 			SubmitButton,

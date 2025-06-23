@@ -1,31 +1,26 @@
-import React from 'react'
-
-type ProgressType = 'circle' | 'line'
-
-interface ProgressBarProps {
+const ProgressBar: React.FC<{
 	progress: number
-	type?: ProgressType
-	size?: number // for circle
+	dueDate?: string | null
+	type?: 'circle' | 'line'
 	width?: number
 	fullWidth?: boolean
-	height?: number // for line
-	strokeWidth?: number // for circle
+	height?: number
+	strokeWidth?: number
 	color?: string
-}
-
-const ProgressBar: React.FC<ProgressBarProps> = ({
+}> = ({
 	progress,
-	type = 'circle',
-	size = 100,
+	dueDate,
+	type = 'line',
 	width,
-	fullWidth = true,
-	height = 12,
+	// fullWidth = true,
+	// height = 10,
 	strokeWidth = 10,
 	color = '#3b82f6',
 }) => {
 	const clampedProgress = Math.min(100, Math.max(0, progress))
 
 	if (type === 'circle') {
+		const size = width || 100
 		const radius = (size - strokeWidth) / 2
 		const circumference = 2 * Math.PI * radius
 		const offset = circumference - (clampedProgress / 100) * circumference
@@ -69,37 +64,20 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
 		)
 	}
 
-	const barWidth = fullWidth ? '100%' : `${width}px`
-	const progressWidth = fullWidth
-		? `${clampedProgress}%`
-		: `${(clampedProgress / 100) * (width ?? 100)}px`
+	// const barWidth = fullWidth ? '100%' : `${width}px`
+	const progressWidth = `${clampedProgress}%`
 
 	return (
 		<div className="flex flex-col w-full">
-			<svg width={barWidth} height={height}>
-				<rect
-					x="0"
-					y="0"
-					width="100%"
-					height={height}
-					rx={height / 2}
-					ry={height / 2}
-					fill="#e5e7eb"
+			<div className="w-full bg-gray-200 rounded-full h-2.5">
+				<div
+					className="h-2.5 rounded-full"
+					style={{ width: progressWidth, backgroundColor: color }}
 				/>
-				<rect
-					x="0"
-					y="0"
-					width={progressWidth}
-					height={height}
-					rx={height / 2}
-					ry={height / 2}
-					fill={color}
-				/>
-			</svg>
-
-			<div>
-				<p className="text-xs text-gray-500 mt-1">{`${clampedProgress}% complete`}</p>
-				<p></p>
+			</div>
+			<div className="flex justify-between text-xs text-gray-500 mt-1">
+				<span>{clampedProgress}% complete</span>
+				<span>{dueDate ? dueDate : 'No due date'}</span>
 			</div>
 		</div>
 	)

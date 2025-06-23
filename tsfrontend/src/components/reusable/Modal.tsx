@@ -46,7 +46,7 @@ const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
 			{isOpen && (
 				<motion.div
 					key="backdrop"
-					className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center backdrop-blur-sm"
+					className="fixed inset-0 bg-black/40 z-30 flex items-center justify-center backdrop-blur-sm"
 					variants={backdropVariants}
 					initial="hidden"
 					animate="visible"
@@ -58,8 +58,7 @@ const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
 					<motion.div
 						key="modal"
 						className={cn(
-							'bg-white rounded-xl shadow-2xl max-w-3xl w-full mx-4 px-6 pb-6 pt-4 relative',
-							!title && 'p-6 pt-8',
+							'bg-white rounded-xl shadow-2xl max-w-4xl max-h-[70dvh] md:max-h-[95dvh] w-full mx-4 relative flex flex-col overflow-hidden',
 						)}
 						variants={modalVariants}
 						initial="hidden"
@@ -67,33 +66,43 @@ const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
 						exit="exit"
 						onClick={(e) => e.stopPropagation()}
 					>
-						{title ? (
-							<div className="flex items-center justify-between mb-4">
-								<h2 className="text-lg font-semibold text-gray-800">
-									{title}
-								</h2>
+						<div
+							className={cn(
+								'sticky top-0 z-10 bg-white px-6 py-4 border-b border-gray-100',
+								!title && 'flex justify-end py-2',
+							)}
+						>
+							{title ? (
+								<div className="flex items-center justify-between">
+									<h2 className="text-lg font-semibold text-gray-800">
+										{title}
+									</h2>
+									<motion.button
+										className="text-gray-400 hover:text-black hover:bg-gray-100 transition-colors w-8 h-8 flex items-center justify-center rounded-full"
+										onClick={onClose}
+										whileHover={{ scale: 1.1 }}
+										whileTap={{ scale: 0.9 }}
+										aria-label="Close modal"
+									>
+										<IconX className="size-6" />
+									</motion.button>
+								</div>
+							) : (
 								<motion.button
-									className="text-gray-400 hover:text-black hover:bg-gray-100 transition-colors w-8 h-8 flex items-center justify-center rounded-full"
+									className="text-gray-400 hover:text-black w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
 									onClick={onClose}
 									whileHover={{ scale: 1.1 }}
 									whileTap={{ scale: 0.9 }}
 									aria-label="Close modal"
 								>
-									<IconX className="size-6" />
+									<IconX />
 								</motion.button>
-							</div>
-						) : (
-							<motion.button
-								className="text-gray-400 hover:text-black w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors absolute top-4 right-6"
-								onClick={onClose}
-								whileHover={{ scale: 1.1 }}
-								whileTap={{ scale: 0.9 }}
-								aria-label="Close modal"
-							>
-								<IconX />
-							</motion.button>
-						)}
-						{children}
+							)}
+						</div>
+
+						<div className="flex-1 overflow-y-auto px-6 py-6">
+							{children}
+						</div>
 					</motion.div>
 				</motion.div>
 			)}

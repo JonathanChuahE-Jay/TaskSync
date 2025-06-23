@@ -28,6 +28,7 @@ export type projectManagementTabsIDType =
 	| 'grid'
 
 export enum ProjectStatus {
+	Active = 'active',
 	NOT_STARTED = 'not_started',
 	IN_PROGRESS = 'in_progress',
 	COMPLETED = 'completed',
@@ -37,6 +38,13 @@ export enum ProjectStatus {
 	ON_HOLD = 'on_hold',
 }
 
+export interface ProjectTeamMember {
+		id: number
+		user: User
+		role: ProjectRole
+		is_creator: boolean
+		project_title: string
+	}
 export type ProjectStatusValue = `${ProjectStatus}`
 
 export interface ProjectListResponse {
