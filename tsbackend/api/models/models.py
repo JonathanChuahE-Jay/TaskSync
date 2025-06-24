@@ -83,3 +83,37 @@ class OtpVerification(models.Model):
         db_table = 'otp_verifications'
         verbose_name = 'OTP Verification'
         verbose_name_plural = 'OTP Verifications'
+
+
+class FriendRequest(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    from_user = models.ForeignKey('User', related_name='sent_friend_requests', on_delete=models.CASCADE)
+    to_user = models.ForeignKey('User', related_name='received_friend_requests', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    STATUS_CHOICES = (
+        ('PENDING', 'Pending'),
+        ('ACCEPTED', 'Accepted'),
+        ('REJECTED', 'Rejected'),
+    )
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='PENDING')
+
+    class Meta:
+        db_table = 'friend_requests'
+        unique_together = ('from_user', 'to_user')
+
+    def __str__(self):
+        return f"{self.from_user.username} -> {self.to_user.username} ({self.status})"
+
+
+class Friendship(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey('User', related_name='friendships', on_delete=models.CASCADE)
+    friend = models.ForeignKey('User', related_name='friends_of', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'friendships'
+        unique_together = ('user', 'friend')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.friend.username}"
