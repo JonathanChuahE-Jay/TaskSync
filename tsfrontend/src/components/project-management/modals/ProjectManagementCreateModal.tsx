@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
 	IconAlertCircle,
@@ -37,7 +37,7 @@ const ProjectManagementCreateModal = ({
 	const [apiErrors, setApiErrors] = useState<ErrorResponse>({})
 	const clearFieldError = useClearFieldError(apiErrors, setApiErrors)
 
-	const { projectCreationForm } = useProjectCreationFormHandler({
+	const { projectCreationForm, friends } = useProjectCreationFormHandler({
 		onClose,
 		onSuccess,
 		setIsLoading,
@@ -236,6 +236,23 @@ const ProjectManagementCreateModal = ({
 								orientation="vertical"
 								clearFieldError={clearFieldError}
 								apiErrors={apiErrors}
+							/>
+						)}
+					</form.AppField>
+					<form.AppField name="teamMember" mode="array">
+						{(field) => (
+							<field.UserSelectField
+								label="Team Members"
+								placeholder="Search for a user"
+								InputFieldClassName="my-custom-input"
+								dropdownClassName="custom-dropdown"
+								tagClassName="custom-tag"
+								tagsContainerClassName="custom-tags-container"
+								removeButtonClassName="custom-remove-btn"
+								clearFieldError={clearFieldError}
+								apiErrors={apiErrors}
+								users={friends}
+								roles={form.getFieldValue('roles') || []}
 							/>
 						)}
 					</form.AppField>

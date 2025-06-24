@@ -31,10 +31,34 @@ export const projectApi = {
 		projectId: string
 		roles: Array<{ name: string }>
 	}) => {
+		const createdRoles = []
 		for (const role of roles) {
-			await kyInstance.post(`projects/${projectId}/roles/`, {
-				json: role,
-			})
+			const response = await kyInstance.post(
+				`projects/${projectId}/roles/`,
+				{
+					json: role,
+				},
+			)
+			const createdRole = await response.json()
+			createdRoles.push(createdRole)
 		}
+		return createdRoles
+	},
+
+	createTeams: async ({
+		projectId,
+		userId,
+		roleId,
+	}: {
+		projectId: string
+		userId: string
+		roleId: string | number
+	}) => {
+		await kyInstance.post(`projects/${projectId}/teams/`, {
+			json: {
+				user_id: userId,
+				role_id: roleId,
+			},
+		})
 	},
 }

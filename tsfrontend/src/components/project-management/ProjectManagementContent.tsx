@@ -5,7 +5,7 @@ import {
 	IconClipboardList,
 } from '@tabler/icons-react'
 import type { projectManagementTabsIDType } from '@/types/projectManagementTypes'
-import { useListProjectMutation } from '@/queries/ProjectQueries.ts'
+import { useListProjectQuery } from '@/queries/ProjectQueries.ts'
 import ProjectManagementGridView from '@/components/project-management/project-contents/grid-view/ProjectManagementGridView.tsx'
 
 const ProjectList = () => (
@@ -209,7 +209,7 @@ const ProjectManagementContent = ({
 }: {
 	activeTab: projectManagementTabsIDType
 }) => {
-	const { data } = useListProjectMutation()
+	const { data } = useListProjectQuery()
 
 	console.log(data)
 	const contentVariants = {

@@ -12,7 +12,7 @@ export function useCreateProjectMutation() {
 	})
 }
 
-export function useListProjectMutation() {
+export function useListProjectQuery() {
 	return useQuery({
 		queryKey: ['projects'],
 		queryFn: projectApi.listProjects,
@@ -28,11 +28,28 @@ export function useCreateProjectRolesMutation() {
 			projectId,
 			roles,
 		}: {
-			projectId: string;
-			roles: Array<{ name: string }>;
+			projectId: string
+			roles: Array<{ name: string }>
 		}) => projectApi.createRoles({ projectId, roles }),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['projects'] });
+			queryClient.invalidateQueries({ queryKey: ['projects'] })
 		},
-	});
+	})
+}
+
+export function useCreateProjectTeamMutation() {
+	return useMutation({
+		mutationFn: ({
+			projectId,
+			userId,
+			roleId,
+		}: {
+			projectId: string
+			userId: string
+			roleId: string | number
+		}) => projectApi.createTeams({ projectId, userId, roleId }),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['projects'] })
+		},
+	})
 }
