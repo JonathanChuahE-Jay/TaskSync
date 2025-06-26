@@ -1,4 +1,4 @@
-import type { ProjectListResponse } from '@/types/projectManagementTypes.ts'
+import type { ProjectListResponseType } from '@/types/projectManagementTypes.ts'
 import { handleKyError } from '@/utils/handleKyErrors.ts'
 import { kyInstance } from '@/lib/ky.ts'
 
@@ -14,11 +14,11 @@ export const projectApi = {
 		}
 	},
 
-	listProjects: async (): Promise<Array<ProjectListResponse>> => {
+	listProjects: async (): Promise<Array<ProjectListResponseType>> => {
 		try {
 			return await kyInstance
 				.get('projects/')
-				.json<Array<ProjectListResponse>>()
+				.json<Array<ProjectListResponseType>>()
 		} catch (err) {
 			return await handleKyError(err)
 		}

@@ -1,17 +1,12 @@
-import React from 'react'
 import { motion } from 'framer-motion'
 import { IconAlertCircle } from '@tabler/icons-react'
 import { useDefaultFieldContext } from './DefaultAppForm'
+import type { ProjectManagementPriorityOptionsType } from '@/types/projectManagementTypes.ts'
 import { cn } from '@/utils/utils'
 
 interface RadioFieldProps {
   label?: string
-  options: Array<{
-    value: string
-    label: string
-    prefix?: React.ReactNode
-    description?: string
-  }>
+  options: Array<ProjectManagementPriorityOptionsType>
   orientation?: 'vertical' | 'horizontal'
   clearFieldError?: (fieldName: string) => void
   apiErrors?: Record<string, string | undefined>

@@ -1,6 +1,6 @@
 import type {
-	ProjectListResponse,
-	ProjectStatus,
+	ProjectListResponseType,
+	ProjectStatusType,
 } from '@/types/projectManagementTypes.ts'
 import StatusBadge from '@/components/reusable/StatusBadge.tsx'
 import ProgressBar from '@/components/reusable/ProgressBar.tsx'
@@ -8,9 +8,9 @@ import ProjectManagementGridViewProjectMmembers
 	from '@/components/project-management/project-contents/grid-view/ProjectManagementGridViewProjectMmembers.tsx'
 
 const ProjectManagementGridViewCard: React.FC<{
-	project: ProjectListResponse
+	project: ProjectListResponseType
 }> = ({ project }) => {
-	const colors: Record<ProjectStatus, string> = {
+	const colors: Record<ProjectStatusType, string> = {
 		active: 'bg-green-500',
 		at_risk: 'bg-yellow-500',
 		completed: 'bg-blue-500',

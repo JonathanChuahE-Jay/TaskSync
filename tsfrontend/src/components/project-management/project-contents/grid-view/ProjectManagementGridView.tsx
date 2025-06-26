@@ -1,12 +1,12 @@
 import { useMemo, useState } from 'react'
-import type { ProjectListResponse } from '@/types/projectManagementTypes.ts'
+import type { ProjectListResponseType } from '@/types/projectManagementTypes.ts'
 import ProjectManagementGridViewCard from '@/components/project-management/project-contents/grid-view/ProjectManagementGridViewCard.tsx'
 import Pagination from '@/components/reusable/Pagination.tsx'
 
 const ProjectManagementGridView = ({
 	data,
 }: {
-	data: Array<ProjectListResponse>
+	data: Array<ProjectListResponseType>
 }) => {
 	const [currentPage, setCurrentPage] = useState(1)
 	const [projectsPerPage, setProjectsPerPage] = useState(9)

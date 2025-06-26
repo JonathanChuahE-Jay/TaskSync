@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
 	IconAlertCircle,
@@ -6,10 +6,7 @@ import {
 	IconCalendar,
 	IconCalendarStats,
 	IconChecks,
-	IconCircleDashed,
-	IconCircleOff,
 	IconColorSwatch,
-	IconFlame,
 	IconHandStop,
 	IconList,
 	IconNotesOff,
@@ -21,9 +18,10 @@ import type { ErrorResponse } from '@/types/errorResponse.ts'
 import Modal from '@/components/reusable/Modal.tsx'
 import ErrorMessage from '@/components/reusable/ErrorMessage.tsx'
 import { useClearFieldError } from '@/hooks/useClearFieldError.tsx'
-import { ProjectStatus } from '@/types/projectManagementTypes.ts'
+import { ProjectStatusType } from '@/types/projectManagementTypes.ts'
 import { useProjectCreationFormHandler } from '@/components/project-management/modals/form/useProjectCreationFormHandler.tsx'
 import { isOpenCreateProjectModalAtom } from '@/jotai/projectManagementAtom.ts'
+import { projectManagementPriorityOptions } from '@/data/projectManagementData.tsx'
 
 interface ProjectManagementCreateModalProps {
 	onSuccess?: () => void
@@ -119,49 +117,49 @@ const ProjectManagementCreateModal = ({
 											prefix: (
 												<IconNotesOff className="size-5 text-gray-500" />
 											),
-											value: ProjectStatus.NOT_STARTED,
+											value: ProjectStatusType.NOT_STARTED,
 											label: 'Not Started',
 										},
 										{
 											prefix: (
 												<IconProgress className="size-5 text-blue-600" />
 											),
-											value: ProjectStatus.IN_PROGRESS,
+											value: ProjectStatusType.IN_PROGRESS,
 											label: 'In Progress',
 										},
 										{
 											prefix: (
 												<IconChecks className="size-5 text-green-600" />
 											),
-											value: ProjectStatus.COMPLETED,
+											value: ProjectStatusType.COMPLETED,
 											label: 'Completed',
 										},
 										{
 											prefix: (
 												<IconHandStop className="size-5 text-yellow-600" />
 											),
-											value: ProjectStatus.ON_HOLD,
+											value: ProjectStatusType.ON_HOLD,
 											label: 'On Hold',
 										},
 										{
 											prefix: (
 												<IconCalendarStats className="size-5 text-indigo-600" />
 											),
-											value: ProjectStatus.PLANNING,
+											value: ProjectStatusType.PLANNING,
 											label: 'Planning',
 										},
 										{
 											prefix: (
 												<IconAlertTriangle className="size-5 text-orange-600" />
 											),
-											value: ProjectStatus.AT_RISK,
+											value: ProjectStatusType.AT_RISK,
 											label: 'At Risk',
 										},
 										{
 											prefix: (
 												<IconAlertCircle className="size-5 text-red-600" />
 											),
-											value: ProjectStatus.CRITICAL,
+											value: ProjectStatusType.CRITICAL,
 											label: 'Critical',
 										},
 									]}
@@ -191,71 +189,35 @@ const ProjectManagementCreateModal = ({
 						{(field) => (
 							<field.RadioField
 								label="Priority"
-								options={[
-									{
-										prefix: (
-											<IconCircleOff className="size-5 text-gray-600" />
-										),
-										value: 'none',
-										label: 'None',
-										description: 'No priority assigned',
-									},
-									{
-										prefix: (
-											<IconCircleDashed className="size-5 text-blue-600" />
-										),
-										value: 'low',
-										label: 'Low',
-										description: 'Can be addressed later',
-									},
-									{
-										prefix: (
-											<IconAlertCircle className="size-5 text-yellow-600" />
-										),
-										value: 'medium',
-										label: 'Medium',
-										description: 'Should be addressed soon',
-									},
-									{
-										prefix: (
-											<IconAlertTriangle className="size-5 text-orange-600" />
-										),
-										value: 'high',
-										label: 'High',
-										description: 'Important issue to fix',
-									},
-									{
-										prefix: (
-											<IconFlame className="size-5 text-red-600" />
-										),
-										value: 'critical',
-										label: 'Critical',
-										description: 'Requires immediate attention',
-									},
-								]}
+								options={projectManagementPriorityOptions}
 								orientation="vertical"
 								clearFieldError={clearFieldError}
 								apiErrors={apiErrors}
 							/>
 						)}
 					</form.AppField>
-					<form.AppField name="teamMember" mode="array">
-						{(field) => (
-							<field.UserSelectField
-								label="Team Members"
-								placeholder="Search for a user"
-								InputFieldClassName="my-custom-input"
-								dropdownClassName="custom-dropdown"
-								tagClassName="custom-tag"
-								tagsContainerClassName="custom-tags-container"
-								removeButtonClassName="custom-remove-btn"
-								clearFieldError={clearFieldError}
-								apiErrors={apiErrors}
-								users={friends}
-								roles={form.getFieldValue('roles') || []}
-							/>
+					<form.Subscribe
+						selector={(field) => field.values.roles}
+						children={(child) => (
+							<form.AppField name="teamMember" mode="array">
+								{(field) => (
+									<field.UserSelectField
+										label="Team Members"
+										placeholder="Search for a user"
+										InputFieldClassName="my-custom-input"
+										dropdownClassName="custom-dropdown"
+										tagClassName="custom-tag"
+										tagsContainerClassName="custom-tags-container"
+										removeButtonClassName="custom-remove-btn"
+										clearFieldError={clearFieldError}
+										apiErrors={apiErrors}
+										users={friends}
+										roles={child}
+									/>
+								)}
+							</form.AppField>
 						)}
-					</form.AppField>
+					/>
 					<form.AppField name="tags">
 						{(field) => (
 							<field.TagInputField

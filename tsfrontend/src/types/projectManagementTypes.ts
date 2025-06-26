@@ -7,7 +7,7 @@ export interface ProjectManagementTab {
 	icon: React.ReactNode
 }
 
-export interface ProjectManagementToolProps {
+export interface ProjectManagementToolPropsType {
 	sortOption: ProjectManagementSortOptionType
 	setSortOption: Dispatch<SetStateAction<ProjectManagementSortOptionType>>
 	activeTab: projectManagementTabsIDType
@@ -27,7 +27,7 @@ export type projectManagementTabsIDType =
 	| 'tasks'
 	| 'grid'
 
-export enum ProjectStatus {
+export enum ProjectStatusType {
 	Active = 'active',
 	NOT_STARTED = 'not_started',
 	IN_PROGRESS = 'in_progress',
@@ -38,26 +38,25 @@ export enum ProjectStatus {
 	ON_HOLD = 'on_hold',
 }
 
-export interface ProjectTeamMember {
+export interface ProjectTeamMemberType {
 		id: number
-		user: User
-		role: ProjectRole
+		user: UserType
+		role: ProjectRoleType
 		is_creator: boolean
 		project_title: string
 	}
-export type ProjectStatusValue = `${ProjectStatus}`
 
-export interface ProjectListResponse {
+export interface ProjectListResponseType {
 	id: string
-	updated_by: User
-	project_teams: Array<ProjectTeam>
-	project_roles: Array<ProjectRole>
+	updated_by: UserType
+	project_teams: Array<ProjectTeamType>
+	project_roles: Array<ProjectRoleType>
 	progress_percentage: number
 	title: string
 	description: string
 	start_date: string
 	due_date: string | null
-	status: ProjectStatus
+	status: ProjectStatusType
 	attachments: any
 	created_at: string
 	updated_at: string
@@ -66,7 +65,7 @@ export interface ProjectListResponse {
 	priority: number
 }
 
-export interface User {
+export interface UserType {
 	id: string
 	username: string
 	email: string
@@ -76,16 +75,23 @@ export interface User {
 	role: Role
 }
 
-export interface ProjectTeam {
+export interface ProjectTeamType {
 	id: number
-	user: User
-	role: ProjectRole
+	user: UserType
+	role: ProjectRoleType
 	is_creator: boolean
 	project_title: string
 }
 
-export interface ProjectRole {
+export interface ProjectRoleType {
 	id: number
 	name: string
 	project: string
+}
+
+export type ProjectManagementPriorityOptionsType = {
+	prefix: React.ReactNode
+	value: string
+	label: string
+	description: string
 }
