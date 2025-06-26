@@ -1,6 +1,7 @@
 import { ProjectStatusType } from '@/types/projectManagementTypes.ts'
+import { cn } from '@/utils/utils.ts'
 
-const StatusBadge: React.FC<{ status: ProjectStatusType }> = ({ status }) => {
+const StatusBadge: React.FC<{ status: ProjectStatusType, className?:string }> = ({ status , className}) => {
 	const statusConfig: Record<
 		ProjectStatusType,
 		{ bg: string; text: string; label: string }
@@ -45,7 +46,7 @@ const StatusBadge: React.FC<{ status: ProjectStatusType }> = ({ status }) => {
 
 	return (
 		<span
-			className={`${config.bg} ${config.text} text-xs font-semibold px-2.5 py-0.5 rounded-full`}
+			className={cn(` text-xs font-semibold px-2.5 py-0.5 rounded-full`,config.bg, config.text,className)}
 		>
 			{config.label}
 		</span>

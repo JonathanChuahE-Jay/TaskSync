@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Link, useLocation } from '@tanstack/react-router';
 import { navGroups } from '@/data/navItemsData';
 import { useClickOutside } from '@/hooks/useClickOutside';

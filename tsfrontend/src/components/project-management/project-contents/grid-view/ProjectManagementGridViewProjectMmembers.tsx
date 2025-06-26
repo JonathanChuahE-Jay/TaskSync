@@ -1,6 +1,6 @@
 import type { ProjectTeamMemberType } from '@/types/projectManagementTypes.ts'
 
-const ProjectManagementGridViewProjectMmembers: React.FC<{
+const ProjectManagementGridViewProjectMembers: React.FC<{
 		members: Array<ProjectTeamMemberType>
 		maxDisplay?: number
 	}> = ({ members, maxDisplay = 4 }) => {
@@ -26,4 +26,4 @@ const ProjectManagementGridViewProjectMmembers: React.FC<{
 			</div>
 		)
 	}
-export default ProjectManagementGridViewProjectMmembers
+export default ProjectManagementGridViewProjectMembers

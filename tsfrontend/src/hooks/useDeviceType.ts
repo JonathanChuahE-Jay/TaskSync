@@ -9,7 +9,6 @@ export function useDeviceType() {
     })
 
     useEffect(() => {
-        const smallPhoneThreshold = 384
         const phoneThreshold = 768
         const ipadMiniWidth = 768
         const tabletThreshold = 1024
@@ -29,13 +28,6 @@ export function useDeviceType() {
                     isTablet: false,
                     isPc: false,
                     isIpadMini: true,
-                })
-            } else if (width <= smallPhoneThreshold) {
-                setDeviceType({
-                    isPhone: true,
-                    isTablet: false,
-                    isPc: false,
-                    isIpadMini: false,
                 })
             } else if (width <= phoneThreshold) {
                 setDeviceType({

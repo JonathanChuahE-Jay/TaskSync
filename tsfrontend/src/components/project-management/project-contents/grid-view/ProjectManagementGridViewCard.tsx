@@ -4,12 +4,19 @@ import type {
 } from '@/types/projectManagementTypes.ts'
 import StatusBadge from '@/components/reusable/StatusBadge.tsx'
 import ProgressBar from '@/components/reusable/ProgressBar.tsx'
-import ProjectManagementGridViewProjectMmembers
-	from '@/components/project-management/project-contents/grid-view/ProjectManagementGridViewProjectMmembers.tsx'
+import ProjectManagementGridViewProjectMembers from '@/components/project-management/project-contents/grid-view/ProjectManagementGridViewProjectMmembers.tsx'
 
-const ProjectManagementGridViewCard: React.FC<{
+interface ProjectManagementGridViewCardProps {
 	project: ProjectListResponseType
-}> = ({ project }) => {
+	onDragStart: (e: React.DragEvent, project: ProjectListResponseType) => void
+	onDragEnd: () => void
+	isDragging: boolean
+	position: number
+}
+
+const ProjectManagementGridViewCard: React.FC<
+	ProjectManagementGridViewCardProps
+> = ({ project, onDragStart, onDragEnd, isDragging, position }) => {
 	const colors: Record<ProjectStatusType, string> = {
 		active: 'bg-green-500',
 		at_risk: 'bg-yellow-500',
@@ -22,17 +29,26 @@ const ProjectManagementGridViewCard: React.FC<{
 	}
 
 	return (
-		<div className="bg-white rounded-xl shadow overflow-hidden hover:shadow-lg transition-shadow">
+		<div
+			className={`bg-white rounded-xl shadow overflow-hidden hover:shadow-lg transition-all cursor-move h-full flex flex-col ${
+				isDragging ? 'opacity-50' : ''
+			}`}
+			draggable
+			onDragStart={(e) => onDragStart(e, project)}
+			onDragEnd={onDragEnd}
+		>
 			<div className={`h-3 ${colors[project.status]}`}></div>
-
-			<div className="p-5">
-				<div className="flex justify-between items-start">
-					<h3 className="font-bold text-lg text-gray-800">
+			<div className="p-5 flex-grow flex flex-col">
+				<div className="flex justify-between items-start mb-1">
+					<h3 className="font-bold text-lg w-2/3 text-gray-800">
 						{project.title}
 					</h3>
 					<StatusBadge status={project.status} />
 				</div>
-				<p className="text-gray-600 text-sm mt-2 line-clamp-3">
+				{/*<div className="text-xs text-gray-400 mb-2">*/}
+				{/*	Position: {position}*/}
+				{/*</div>*/}
+				<p className="text-gray-600 text-sm mt-2 line-clamp-3 flex-grow">
 					{project.description}
 				</p>
 				<div className="mt-4">
@@ -47,7 +63,9 @@ const ProjectManagementGridViewCard: React.FC<{
 					/>
 				</div>
 				<div className="mt-4 flex justify-between items-center">
-					<ProjectManagementGridViewProjectMmembers members={project.project_teams} />
+					<ProjectManagementGridViewProjectMembers
+						members={project.project_teams}
+					/>
 					<div className="text-sm text-gray-500">
 						<i className="fas fa-tasks mr-1"></i>{' '}
 						{Math.round(project.progress_percentage / 5)}/20

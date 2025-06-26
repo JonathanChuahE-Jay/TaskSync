@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { cn } from '@/utils/utils.ts'
 
 interface PaginationProps {
 	currentPage: number
@@ -76,22 +77,22 @@ const Pagination: React.FC<PaginationProps> = ({
 		e: React.KeyboardEvent<HTMLInputElement>,
 	) => {
 		if (e.key === 'Enter') {
-			const page = parseInt(pageInput)
-			if (!isNaN(page) && page >= 1 && page <= totalPages) {
+			let page = parseInt(pageInput)
+			if (!isNaN(page)) {
+				page = Math.min(Math.max(1, page), totalPages)
 				onPageChange(page)
-			} else {
-				setPageInput(currentPage.toString())
 			}
+			setPageInput(currentPage.toString())
 		}
 	}
 
 	const handlePageInputBlur = () => {
-		const page = parseInt(pageInput)
-		if (!isNaN(page) && page >= 1 && page <= totalPages) {
+		let page = parseInt(pageInput)
+		if (!isNaN(page)) {
+			page = Math.min(Math.max(1, page), totalPages)
 			onPageChange(page)
-		} else {
-			setPageInput(currentPage.toString())
 		}
+		setPageInput(currentPage.toString())
 	}
 
 	const startItem = Math.min((currentPage - 1) * itemsPerPage + 1, totalItems)
@@ -99,7 +100,10 @@ const Pagination: React.FC<PaginationProps> = ({
 
 	return (
 		<div
-			className={`${className} flex flex-wrap items-center justify-between`}
+			className={cn(
+				`flex mt-auto flex-wrap items-center justify-between`,
+				className,
+			)}
 		>
 			<div className="flex items-center space-x-4 mb-3 md:mb-0">
 				<div className="text-sm text-gray-600">

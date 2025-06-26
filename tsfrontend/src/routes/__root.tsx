@@ -20,7 +20,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 	},
 	component: () => {
 		const { theme } = useUserConfigStore()
-		const { isPhone } = useDeviceType()
+		const { isTablet } = useDeviceType()
 		const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 		const [sidebarExpanded, setSidebarExpanded] = useState(false)
 
@@ -32,19 +32,23 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				)}
 			>
 				{isAuthenticated ? (
-					<div className="flex h-screen overflow-hidden">
-						{isPhone ? (
+					<div className="flex h-screen ">
+						{isTablet ? (
 							<FloatDock />
-						): (
-							<Sidebar
-								isExpanded={sidebarExpanded}
-								onExpandedChange={setSidebarExpanded}
-							/>
+						) : (
+								<Sidebar
+									isExpanded={sidebarExpanded}
+									onExpandedChange={setSidebarExpanded}
+								/>
 						)}
 						<div
 							className={cn(
 								'flex-1 flex flex-col transition-all duration-300',
-								(sidebarExpanded && !isPhone) ? 'ml-64' : isPhone ? 'mb-16' : 'ml-16',
+								sidebarExpanded && !isTablet
+									? 'ml-64'
+									: isTablet
+										? 'mb-16'
+										: 'ml-16',
 							)}
 						>
 							<TopNav />
