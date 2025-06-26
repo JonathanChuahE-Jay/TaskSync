@@ -60,6 +60,7 @@ class ProjectAttachmentSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
     updated_by = UserSerializer(read_only=True)
+    position = serializers.IntegerField(required=False)
     updated_by_id = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.all(), source='updated_by',
         write_only=True, required=False
