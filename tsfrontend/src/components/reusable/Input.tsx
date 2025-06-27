@@ -665,7 +665,9 @@ const Input: React.FC<InputProps> = ({
 			{error && (
 				<p className="mt-1 text-sm text-rose-500 flex items-center">
 					<IconAlertCircle className="size-4 mr-1" stroke={1.5} />
-					{error}
+					{typeof error === 'string'
+						? error
+						: JSON.stringify(error, null, 2)}
 				</p>
 			)}
 		</div>

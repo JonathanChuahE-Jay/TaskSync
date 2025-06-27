@@ -172,7 +172,6 @@ const UserSelectField = React.forwardRef<
 		const handleSelectUser = (user: User, e: React.MouseEvent) => {
 			e.preventDefault()
 
-			// Default to first role if available
 			const defaultRole =
 				normalizedRoles.length > 0 ? normalizedRoles[0] : ''
 
@@ -188,7 +187,6 @@ const UserSelectField = React.forwardRef<
 			setSearchValue('')
 			clearFieldError(field.name)
 
-			// Switch to the selected tab after adding a user
 			setActiveTab('selected')
 		}
 
@@ -276,6 +274,7 @@ const UserSelectField = React.forwardRef<
 			}
 		}, [showRoleDropdown])
 
+		console.log(filteredUsers)
 		return (
 			<div ref={containerRef} className="relative w-full">
 				<Input

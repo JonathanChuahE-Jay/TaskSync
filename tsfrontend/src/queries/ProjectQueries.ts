@@ -1,11 +1,18 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
+import type {
+	ProjectListResponseType,
+	ProjectRolesCreationResponseType,
+	ProjectRolesCreationType,
+} from '@/types/projectManagementTypes.ts'
 import { projectApi } from '@/services/projectServices.ts'
 import { queryClient } from '@/lib/tanstack.ts'
 
 export function useCreateProjectMutation() {
-	return useMutation({
+	return useMutation<ProjectListResponseType, Error, { data: FormData }>({
 		mutationFn: ({ data }: { data: FormData }) =>
-			projectApi.createProject({ data }),
+			projectApi.createProject({
+				data,
+			}) as Promise<ProjectListResponseType>,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['projects'] })
 		},
@@ -23,14 +30,13 @@ export function useListProjectQuery() {
 }
 
 export function useCreateProjectRolesMutation() {
-	return useMutation({
-		mutationFn: ({
-			projectId,
-			roles,
-		}: {
-			projectId: string
-			roles: Array<{ name: string }>
-		}) => projectApi.createRoles({ projectId, roles }),
+	return useMutation<
+		Array<ProjectRolesCreationResponseType>,
+		Error,
+		ProjectRolesCreationType
+	>({
+		mutationFn: ({ projectId, roles }) =>
+			projectApi.createRoles({ projectId, roles }),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['projects'] })
 		},

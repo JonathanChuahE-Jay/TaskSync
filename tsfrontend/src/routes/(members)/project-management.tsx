@@ -3,7 +3,7 @@ import { AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import type {
 	ProjectManagementSortOptionType,
-	projectManagementTabsIDType,
+	ProjectManagementTabsIDType,
 } from '@/types/projectManagementTypes'
 import ProjectManagementHeader from '@/components/project-management/ProjectManagementHeader.tsx'
 import ProjectManagementTool from '@/components/project-management/ProjectManagementTool'
@@ -17,7 +17,7 @@ export const Route = createFileRoute('/(members)/project-management')({
 
 function RouteComponent() {
 	const [searchContent, setSearchContent] = useState('')
-	const [activeTab, setActiveTab] = useState<projectManagementTabsIDType>('list')
+	const [activeTab, setActiveTab] = useState<ProjectManagementTabsIDType>('grid')
 	const [sortOption, setSortOption] = useState<ProjectManagementSortOptionType>('Recent updated')
 	return (
 		<section className="max-w-7xl mx-auto p-4">

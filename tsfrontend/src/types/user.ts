@@ -1,4 +1,4 @@
-export interface UserData {
+export interface UserDataTyoe {
 	id: number
 	username: string
 	email: string

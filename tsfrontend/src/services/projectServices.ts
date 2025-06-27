@@ -1,4 +1,7 @@
-import type { ProjectListResponseType } from '@/types/projectManagementTypes.ts'
+import type {
+	ProjectListResponseType,
+	ProjectRolesCreationResponseType,
+} from '@/types/projectManagementTypes.ts'
 import { handleKyError } from '@/utils/handleKyErrors.ts'
 import { kyInstance } from '@/lib/ky.ts'
 
@@ -30,8 +33,8 @@ export const projectApi = {
 	}: {
 		projectId: string
 		roles: Array<{ name: string }>
-	}) => {
-		const createdRoles = []
+	}): Promise<Array<ProjectRolesCreationResponseType>> => {
+		const createdRoles: Array<ProjectRolesCreationResponseType> = []
 		for (const role of roles) {
 			const response = await kyInstance.post(
 				`projects/${projectId}/roles/`,
@@ -39,7 +42,7 @@ export const projectApi = {
 					json: role,
 				},
 			)
-			const createdRole = await response.json()
+			const createdRole:ProjectRolesCreationResponseType = await response.json()
 			createdRoles.push(createdRole)
 		}
 		return createdRoles

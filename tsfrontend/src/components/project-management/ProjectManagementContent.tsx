@@ -4,7 +4,7 @@ import {
 	IconChartBar,
 	IconClipboardList,
 } from '@tabler/icons-react'
-import type { projectManagementTabsIDType } from '@/types/projectManagementTypes'
+import type { ProjectManagementTabsIDType } from '@/types/projectManagementTypes'
 import { useListProjectQuery } from '@/queries/ProjectQueries.ts'
 import ProjectManagementGridView from '@/components/project-management/project-contents/grid-view/ProjectManagementGridView.tsx'
 
@@ -207,11 +207,10 @@ const TasksView = () => (
 const ProjectManagementContent = ({
 	activeTab,
 }: {
-	activeTab: projectManagementTabsIDType
+	activeTab: ProjectManagementTabsIDType
 }) => {
 	const { data } = useListProjectQuery()
 
-	console.log(data)
 	const contentVariants = {
 		initial: { opacity: 0, y: 10 },
 		animate: { opacity: 1, y: 0 },

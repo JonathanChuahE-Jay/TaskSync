@@ -1,6 +1,8 @@
 import { ZodError } from 'zod'
+import type React from 'react'
 import type { ProjectCreationType } from '@/schema/projectsSchema.ts'
 import type { ErrorResponse } from '@/types/errorResponse.ts'
+import type { ProjectFormTeamMember } from '@/types/projectManagementTypes.ts'
 import { useDefaultAppForm } from '@/components/common/defaultForm/DefaultAppForm.tsx'
 import { projectCreationSchema } from '@/schema/projectsSchema.ts'
 import { formatZodError } from '@/utils/convertZodToJson.ts'
@@ -10,7 +12,6 @@ import {
 	useCreateProjectTeamMutation,
 } from '@/queries/ProjectQueries.ts'
 import { useListFriendsQuery } from '@/queries/FriendQueries.ts'
-import { kyInstance } from '@/lib/ky.ts'
 
 export const useProjectCreationFormHandler = ({
 	setIsLoading,
@@ -40,21 +41,14 @@ export const useProjectCreationFormHandler = ({
 			attachments: [] as Array<File>,
 			tags: [] as Array<string>,
 			roles: [] as Array<string>,
-			teamMember: [] as Array<{
-				friendId: string
-				userId: string
-				name: string
-				role: string
-			}>,
+			teamMember: [] as Array<ProjectFormTeamMember>,
 		},
 		onSubmit: async ({ value }: { value: ProjectCreationType }) => {
 			try {
-				console.log(value)
 				setIsLoading(true)
 				setApiErrors({})
 				const data = projectCreationSchema.parse(value)
 
-				// Prepare form data
 				const formData = new FormData()
 				formData.append('title', data.title)
 				if (data.description)
@@ -75,11 +69,9 @@ export const useProjectCreationFormHandler = ({
 					}
 				}
 
-				// Step 1: Create the project
 				const project = await mutateAsync({ data: formData })
 
-				// Step 2: Create roles and collect role data
-				const roleMap = new Map<string, number | string>() // To store role name -> role id mapping
+				const roleMap = new Map<string, number>()
 
 				for (const roleName of data.roles) {
 					const roleResponse = await rolesMutateAsync({
@@ -87,36 +79,14 @@ export const useProjectCreationFormHandler = ({
 						roles: [{ name: roleName }],
 					})
 
-					console.log('role', roleResponse)
-
-					// Handle the array response since the data shows it returns an array
 					if (Array.isArray(roleResponse) && roleResponse.length > 0) {
-						const role = roleResponse[0] // Get the first item from the array
-						if (role && role.id) {
+						const role = roleResponse[0]
+						if (role.id) {
 							roleMap.set(roleName, role.id)
 						}
 					}
 				}
 
-				// If we couldn't get the role IDs, fetch all roles for the project
-				if (roleMap.size < data.roles.length) {
-					const rolesResponse = await kyInstance
-						.get(`projects/${project.id}/roles/`)
-						.json()
-					for (const role of rolesResponse) {
-						const matchingRoleName = data.roles.find(
-							(name) => name === role.name,
-						)
-						if (matchingRoleName && !roleMap.has(matchingRoleName)) {
-							roleMap.set(matchingRoleName, role.id)
-						}
-					}
-				}
-
-				console.log('member', value.teamMember)
-				console.log('roleMap', roleMap)
-
-				// Step 3: Create team members using the role IDs
 				if (value.teamMember && value.teamMember.length > 0) {
 					for (const member of value.teamMember) {
 						const roleId = roleMap.get(member.role)
