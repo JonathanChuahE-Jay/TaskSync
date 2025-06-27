@@ -74,6 +74,7 @@ SIMPLE_JWT = {
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5888",
     "http://localhost:3000",
 ]
 

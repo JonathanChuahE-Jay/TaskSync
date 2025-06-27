@@ -1,3 +1,5 @@
+from logging import critical
+
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
@@ -13,6 +15,7 @@ class Project(models.Model):
         ('cancelled', 'Cancelled'),
         ('at_risk', 'At Risk'),
         ('planning', 'Planning'),
+        ('critical', 'Critical'),
     ]
 
     PRIORITY_CHOICES = [

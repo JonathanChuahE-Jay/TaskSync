@@ -19,6 +19,14 @@ class ProjectListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
+    def get_queryset(self):
+        user = self.request.user
+        if user.role == 'ADMIN':
+            return Project.objects.all().order_by('-created_at')
+        else:
+            user_projects = ProjectTeam.objects.filter(user=user).values_list('project_id', flat=True)
+            return Project.objects.filter(id__in=user_projects).order_by('-created_at')
+
     @transaction.atomic
     def create(self, request, *args, **kwargs):
         if hasattr(request, 'content_type') and 'multipart/form-data' in str(request.content_type):

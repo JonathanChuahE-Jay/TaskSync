@@ -78,7 +78,8 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     attachment_files = ProjectAttachmentSerializer(many=True, read_only=True)
 
-    def validate_tags(self, value):
+    @staticmethod
+    def validate_tags(value):
         if value is None or value == "" or value == []:
             return []
 
