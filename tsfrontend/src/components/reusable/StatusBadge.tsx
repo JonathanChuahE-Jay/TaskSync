@@ -6,6 +6,11 @@ const StatusBadge: React.FC<{ status: ProjectStatusType, className?:string }> = 
 		ProjectStatusType,
 		{ bg: string; text: string; label: string }
 	> = {
+		[ProjectStatusType.Active]: {
+			bg: 'bg-green-100',
+			text: 'text-green-700',
+			label: 'Active',
+		},
 		[ProjectStatusType.NOT_STARTED]: {
 			bg: 'bg-indigo-100',
 			text: 'text-indigo-700',

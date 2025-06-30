@@ -50,7 +50,7 @@ export interface ProjectListResponseType {
 	description: string
 	start_date: string
 	due_date: string | null
-	status: ProjectStatusType | string
+	status: ProjectStatusType
 	progress_percentage: number
 	attachment_files: Array<ProjectAttachmentFile> 
 	created_at: string
@@ -59,7 +59,7 @@ export interface ProjectListResponseType {
 	status_date: string | null
 	color: string | null
 	priority: string
-	project_teams: Array<ProjectTeamType>
+	project_teams: Array<ProjectTeamMemberType>
 	project_roles: Array<ProjectRoleType>
 	tags: Array<string>
 }
@@ -84,14 +84,6 @@ export interface ProjectRolesCreationResponseType {
 }
 
 /* -------------------- Team -------------------- */
-
-export interface ProjectTeamType {
-	id: number
-	user: UserDataTyoe
-	role: string
-	is_creator: boolean
-	project_title: string
-}
 
 export interface ProjectTeamMemberType {
 	id: number

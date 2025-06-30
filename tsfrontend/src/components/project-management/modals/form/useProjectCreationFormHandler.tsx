@@ -12,6 +12,7 @@ import {
 	useCreateProjectTeamMutation,
 } from '@/queries/ProjectQueries.ts'
 import { useListFriendsQuery } from '@/queries/FriendQueries.ts'
+import { useQuery } from '@tanstack/react-query'
 
 export const useProjectCreationFormHandler = ({
 	setIsLoading,
@@ -27,8 +28,8 @@ export const useProjectCreationFormHandler = ({
 	const { mutateAsync } = useCreateProjectMutation()
 	const { mutateAsync: rolesMutateAsync } = useCreateProjectRolesMutation()
 	const { mutateAsync: teamMutateAsync } = useCreateProjectTeamMutation()
-	const { data: friends } = useListFriendsQuery()
-
+	const { data: friendsList } = useQuery(useListFriendsQuery())
+	const friends = friendsList?.results;
 	const projectCreationForm = useDefaultAppForm({
 		defaultValues: {
 			title: '',

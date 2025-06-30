@@ -26,12 +26,12 @@ const ProjectManagementGridViewCard: React.FC<{
 
 			<div className="p-5">
 				<div className="flex justify-between items-start">
-					<h3 className="font-bold text-lg w-2/3 text-gray-800 line-clamp-1">
+					<h3 className="font-bold text-lg w-2/3 line-clamp-1">
 						{project.title}
 					</h3>
-					<StatusBadge  status={project.status} />
+					<StatusBadge status={project.status} />
 				</div>
-				<p className="text-gray-600 text-sm mt-2 line-clamp-3">
+				<p className="text-gray-600 dark:text-gray-300 text-sm mt-2 line-clamp-3">
 					{project.description}
 				</p>
 				<div className="mt-4">
@@ -47,7 +47,7 @@ const ProjectManagementGridViewCard: React.FC<{
 				</div>
 				<div className="mt-4 flex justify-between items-center">
 					<ProjectManagementGridViewProjectMembers members={project.project_teams} />
-					<div className="text-sm text-gray-500">
+					<div className="text-sm text-gray-500 dark:text-gray-400">
 						<i className="fas fa-tasks mr-1"></i>{' '}
 						{Math.round(project.progress_percentage / 5)}/20
 					</div>

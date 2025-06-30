@@ -75,7 +75,7 @@ const ProgressBar: React.FC<{
 					style={{ width: progressWidth, backgroundColor: color }}
 				/>
 			</div>
-			<div className="flex justify-between text-xs text-gray-500 mt-1">
+			<div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
 				<span>{clampedProgress}% complete</span>
 				<span>{dueDate ? dueDate : 'No due date'}</span>
 			</div>

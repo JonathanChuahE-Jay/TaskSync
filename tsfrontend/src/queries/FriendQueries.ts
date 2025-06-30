@@ -1,8 +1,8 @@
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions} from '@tanstack/react-query'
 import { friendApi } from '@/services/friendServices.ts'
 
 export function useListFriendsQuery() {
-	return useQuery({
+	return queryOptions({
 		queryKey: ['friends'],
 		queryFn: friendApi.listFriends,
 	})

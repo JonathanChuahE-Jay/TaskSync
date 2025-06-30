@@ -19,12 +19,15 @@ body {
 .dark {
     background-color: #0a0d36;
     color: white;
+
 }
 
 .dark .bg-white {
-  background-color: #080a2e;
-  color: white;
-  @apply duration-700 transition-colors
+    background-color: #080a2e;
+    color: white;
+    box-shadow: 0 0 20px 5px rgba(128, 90, 213, 0.3);
+    @apply duration-700 transition-colors
+
 }
 
 .text-slate {
@@ -183,17 +186,17 @@ body {
     --color-sidebar-ring: var(--sidebar-ring);
 }
 @theme {
-  --color-blush-50: oklch(95.32% 0.019 286.1);
-  --color-blush-100: oklch(89.61% 0.041 282.53);
-  --color-blush-200: oklch(78.93% 0.086 282.04);
-  --color-blush-300: oklch(68.5% 0.134 279.86);
-  --color-blush-400: oklch(58.12% 0.183 276.97);
-  --color-blush-500: oklch(48.85% 0.227 272.09);
-  --color-blush-600: oklch(41.92% 0.232 268.92);
-  --color-blush-700: oklch(36.1% 0.195 269.28);
-  --color-blush-800: oklch(29.9% 0.157 269.97);
-  --color-blush-900: oklch(24.29% 0.119 270.98);
-  --color-blush-950: oklch(20.52% 0.094 272.03);
+    --color-blush-50: oklch(95.32% 0.019 286.1);
+    --color-blush-100: oklch(89.61% 0.041 282.53);
+    --color-blush-200: oklch(78.93% 0.086 282.04);
+    --color-blush-300: oklch(68.5% 0.134 279.86);
+    --color-blush-400: oklch(58.12% 0.183 276.97);
+    --color-blush-500: oklch(48.85% 0.227 272.09);
+    --color-blush-600: oklch(41.92% 0.232 268.92);
+    --color-blush-700: oklch(36.1% 0.195 269.28);
+    --color-blush-800: oklch(29.9% 0.157 269.97);
+    --color-blush-900: oklch(24.29% 0.119 270.98);
+    --color-blush-950: oklch(20.52% 0.094 272.03);
 }
 
 
