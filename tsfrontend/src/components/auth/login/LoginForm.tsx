@@ -125,7 +125,7 @@ const LoginForm = () => {
 					<form.AppForm>
 						<form.SubmitButton
 							label="Login"
-							loadingLabel="Signing In"
+							loadingLabel="Logging In"
 							dynamicText={true}
 							sideBySide={true}
 							variant="bars"

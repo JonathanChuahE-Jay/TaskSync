@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { cn } from '@/utils/utils.ts'
 
 type LoaderProps = {
 	size?: number
 	color?: string
 	variant?: 'pulse' | 'spin' | 'dots' | 'bars' | 'wave' | 'bounce' | 'spiral'
 	text?: string
+	sideBySide?: boolean
 	className?: string
 	dynamicText?: boolean
 }
 const Loader: React.FC<LoaderProps> = ({
-	size = 100,
-	color = 'orange',
-	variant = 'bounce',
-	text,
-	className = '',
-	dynamicText = false,
-}) => {
+														size = 100,
+														color = 'orange',
+														variant = 'bounce',
+														text,
+														sideBySide,
+														className = '',
+														dynamicText = false,
+													}) => {
 	const [dots, setDots] = useState('')
 	useEffect(() => {
 		if (!dynamicText || !text) return
@@ -44,20 +47,33 @@ const Loader: React.FC<LoaderProps> = ({
 		}
 	}
 	return (
-		<div className={`flex flex-col items-center justify-center ${className}`}>
-			{getLoader()}
-			{text && (
-				<span className="mt-3 text-sm text-gold font-medium">
-					{dynamicText ? `${text}${dots}` : text}
-				</span>
+		<div className={cn(`flex flex-col items-center justify-center`, sideBySide && 'flex-row gap-4', className)}>
+			{sideBySide ? (
+				<>
+					{text && (
+						<span className={cn('text-sm text-gold font-medium')}>
+							{dynamicText ? `${text}${dots}` : text}
+						 </span>
+					)}
+					{getLoader()}
+				</>
+			) : (
+				<>
+					{text && (
+						<span className={cn('mb-3 text-sm text-gold font-medium')}>
+							{dynamicText ? `${text}${dots}` : text}
+						 </span>
+					)}
+					{getLoader()}
+				</>
 			)}
 		</div>
 	)
 }
 const SpinLoader: React.FC<{ size: number; color: string }> = ({
-	size,
-	color,
-}) => {
+																						size,
+																						color,
+																					}) => {
 	return (
 		<motion.div
 			style={{
@@ -74,9 +90,9 @@ const SpinLoader: React.FC<{ size: number; color: string }> = ({
 	)
 }
 const PulseLoader: React.FC<{ size: number; color: string }> = ({
-	size,
-	color,
-}) => {
+																						 size,
+																						 color,
+																					 }) => {
 	return (
 		<motion.div
 			style={{
@@ -98,9 +114,9 @@ const PulseLoader: React.FC<{ size: number; color: string }> = ({
 	)
 }
 const DotsLoader: React.FC<{ size: number; color: string }> = ({
-	size,
-	color,
-}) => {
+																						size,
+																						color,
+																					}) => {
 	const dotSize = size / 4
 	const containerSize = size
 	const dotVariants = {
@@ -141,9 +157,9 @@ const DotsLoader: React.FC<{ size: number; color: string }> = ({
 	)
 }
 const BarsLoader: React.FC<{ size: number; color: string }> = ({
-	size,
-	color,
-}) => {
+																						size,
+																						color,
+																					}) => {
 	const barWidth = size / 6
 	const containerWidth = size
 	const containerHeight = size * 0.7
@@ -187,9 +203,9 @@ const BarsLoader: React.FC<{ size: number; color: string }> = ({
 	)
 }
 const WaveLoader: React.FC<{ size: number; color: string }> = ({
-	size,
-	color,
-}) => {
+																						size,
+																						color,
+																					}) => {
 	const circleSize = size / 8
 	return (
 		<div
@@ -228,9 +244,9 @@ const WaveLoader: React.FC<{ size: number; color: string }> = ({
 
 // New Fancy Bounce Loader
 const BounceLoader: React.FC<{ size: number; color: string }> = ({
-	size,
-	color,
-}) => {
+																						  size,
+																						  color,
+																					  }) => {
 	const ballSize = size / 3
 
 	return (
@@ -297,9 +313,9 @@ const BounceLoader: React.FC<{ size: number; color: string }> = ({
 
 // New Fancy Spiral Loader
 const SpiralLoader: React.FC<{ size: number; color: string }> = ({
-	size,
-	color,
-}) => {
+																						  size,
+																						  color,
+																					  }) => {
 	const numDots = 12
 	const dotSize = size / 12
 	const radius = size / 2.5

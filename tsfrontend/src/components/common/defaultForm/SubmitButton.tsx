@@ -5,17 +5,27 @@ import Loader from '@/components/reusable/Loaders.tsx'
 export function SubmitButton({
 	label,
 	loadingLabel,
+	submittingText,
 	dynamicText,
 	sideBySide,
 	variant,
-	isLoading
+	isLoading,
 }: {
 	isLoading?: boolean
 	label: string
 	loadingLabel: string
+	submittingText?: string
 	dynamicText?: boolean
 	sideBySide?: boolean
-	variant?: "pulse" | "spin" | "dots" | "bars" | "wave" | "bounce" | "spiral" | undefined
+	variant?:
+		| 'pulse'
+		| 'spin'
+		| 'dots'
+		| 'bars'
+		| 'wave'
+		| 'bounce'
+		| 'spiral'
+		| undefined
 }) {
 	const form = useDefaultFormContext()
 	return (
@@ -25,16 +35,16 @@ export function SubmitButton({
 					whileHover={{ scale: 1.02 }}
 					whileTap={{ scale: 0.98 }}
 					onClick={form.handleSubmit}
-					className="w-full py-3 px-4 mt-4 bg-gradient-to-r 
-						 from-blue-600 to-indigo-600
-						 hover:from-blue-700 hover:to-indigo-700
-						 dark:from-sky-600 dark:to-indigo-700
-						 dark:hover:from-sky-700 dark:hover:to-indigo-800
-						 text-white font-medium rounded-xl
-						 shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30
-						 dark:shadow-blue-900/30 dark:hover:shadow-blue-900/40
-						 disabled:opacity-70 disabled:cursor-not-allowed
-						 transition duration-200 flex justify-center items-center"
+					className="w-full py-3 px-4 mt-4 bg-gradient-to-r
+              from-blue-600 to-indigo-600
+              hover:from-blue-700 hover:to-indigo-700
+              dark:from-sky-600 dark:to-indigo-700
+              dark:hover:from-sky-700 dark:hover:to-indigo-800
+              text-white font-medium rounded-xl
+              shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30
+              dark:shadow-blue-900/30 dark:hover:shadow-blue-900/40
+              disabled:opacity-70 disabled:cursor-not-allowed
+              transition duration-200 flex justify-center items-center"
 					disabled={isSubmitting}
 					type="button"
 				>
@@ -42,8 +52,9 @@ export function SubmitButton({
 						<Loader
 							dynamicText={dynamicText}
 							sideBySide={sideBySide}
-							label={loadingLabel}
+							size={30}
 							variant={variant}
+							text={submittingText || loadingLabel}
 						/>
 					) : (
 						label

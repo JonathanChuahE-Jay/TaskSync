@@ -20,9 +20,10 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 	},
 	component: () => {
 		const { theme } = useUserConfigStore()
-		const { isTablet } = useDeviceType()
+		const { isTablet, isPhone } = useDeviceType()
 		const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 		const [sidebarExpanded, setSidebarExpanded] = useState(false)
+
 
 		return (
 			<div
@@ -33,7 +34,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 			>
 				{isAuthenticated ? (
 					<div className="flex h-screen ">
-						{isTablet ? (
+						{(isTablet || isPhone) ? (
 							<FloatDock />
 						) : (
 								<Sidebar
@@ -44,9 +45,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 						<div
 							className={cn(
 								'flex-1 flex flex-col transition-all duration-300',
-								sidebarExpanded && !isTablet
+								sidebarExpanded && !isTablet && !isPhone
 									? 'ml-64'
-									: isTablet
+									: (isTablet || isPhone)
 										? 'mb-16'
 										: 'ml-16',
 							)}
