@@ -7,6 +7,7 @@ import {
 import type { ProjectManagementTabsIDType } from '@/types/projectManagementTypes'
 import { useListProjectQuery } from '@/queries/ProjectQueries.ts'
 import ProjectManagementGridView from '@/components/project-management/project-contents/grid-view/ProjectManagementGridView.tsx'
+import { useQuery } from '@tanstack/react-query'
 
 const ProjectList = () => (
 	<div className="space-y-4">
@@ -209,15 +210,15 @@ const ProjectManagementContent = ({
 }: {
 	activeTab: ProjectManagementTabsIDType
 }) => {
-	const { data } = useListProjectQuery()
-
+	const { data } = useQuery(useListProjectQuery())
+	if(!data) return null
+	const results = data.results;
 	const contentVariants = {
 		initial: { opacity: 0, y: 10 },
 		animate: { opacity: 1, y: 0 },
 		exit: { opacity: 0, y: -10 },
 	}
 
-	if(!data) return null
 	return (
 		<motion.div
 			key={activeTab}
@@ -228,7 +229,7 @@ const ProjectManagementContent = ({
 			transition={{ duration: 0.2 }}
 			className="w-full"
 		>
-			{activeTab === 'grid' && <ProjectManagementGridView data={data} />}
+			{activeTab === 'grid' && <ProjectManagementGridView data={results} />}
 			{activeTab === 'list' && <ProjectList />}
 			{activeTab === 'calendar' && <CalendarView />}
 			{activeTab === 'chart' && <ChartView />}

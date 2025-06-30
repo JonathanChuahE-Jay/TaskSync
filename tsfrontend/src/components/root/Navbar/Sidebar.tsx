@@ -17,7 +17,7 @@ const Sidebar = ({ isExpanded, onExpandedChange }: SidebarProps) => {
 	return (
 		<motion.aside
 			className={cn(
-				'transition-all duration-300 bg-sidebar text-sidebar-foreground shadow-lg h-full flex flex-col fixed top-0 left-0 z-30 scrollbar-hide',
+				'transition-all duration-700 bg-sidebar text-sidebar-foreground shadow-lg h-full flex flex-col fixed top-0 left-0 z-30 scrollbar-hide',
 				isExpanded ? 'w-64' : 'w-16',
 			)}
 			initial={false}

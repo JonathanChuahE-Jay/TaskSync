@@ -41,7 +41,7 @@ const TopNav = () => {
 	const menuItems = createMenuItems({ onLogout })
 
 	return (
-		<header className="h-16 flex items-center justify-between px-6 bg-background/95 backdrop-blur-sm  sticky top-0 z-20">
+		<header className="h-16 flex items-center justify-between transition-all duration-700 px-6 bg-background/95 backdrop-blur-sm  sticky top-0 z-20">
 			<div className="text-lg font-semibold text-foreground">
 				User Dashboard
 			</div>

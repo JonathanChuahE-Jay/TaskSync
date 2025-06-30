@@ -4,6 +4,7 @@ import type {
 } from '@/types/projectManagementTypes.ts'
 import { handleKyError } from '@/utils/handleKyErrors.ts'
 import { kyInstance } from '@/lib/ky.ts'
+import type { Pagination } from '@/types/common.ts'
 
 export const projectApi = {
 	createProject: async ({ data }: { data: FormData }) => {
@@ -17,11 +18,11 @@ export const projectApi = {
 		}
 	},
 
-	listProjects: async (): Promise<Array<ProjectListResponseType>> => {
+	listProjects: async (): Promise<Pagination<ProjectListResponseType>> => {
 		try {
 			return await kyInstance
 				.get('projects/')
-				.json<Array<ProjectListResponseType>>()
+				.json<Pagination<ProjectListResponseType>>()
 		} catch (err) {
 			return await handleKyError(err)
 		}

@@ -36,7 +36,6 @@ const ProjectManagementGridView = ({
 		setCurrentPage(newPage)
 	}
 
-	console.log(data)
 	return (
 		<div className="max-w-7xl mx-auto py-6 px-4 shadow-md p-4 mt-6 bg-white rounded-lg min-h-[950px] flex flex-col">
 			<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">

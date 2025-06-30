@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { queryOptions, useMutation} from '@tanstack/react-query'
 import type {
 	ProjectListResponseType,
 	ProjectRolesCreationResponseType,
@@ -20,7 +20,7 @@ export function useCreateProjectMutation() {
 }
 
 export function useListProjectQuery() {
-	return useQuery({
+	return queryOptions({
 		queryKey: ['projects'],
 		queryFn: projectApi.listProjects,
 		retry: 1,
