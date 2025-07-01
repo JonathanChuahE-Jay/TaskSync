@@ -53,7 +53,7 @@ export const Step = ({
 				)}
 			</motion.div>
 			<span
-				className={`mt-2 text-sm break-words max-w-[80px] ${
+				className={`mt-2 text-[10px] sm:text-sm break-words max-w-[80px] ${
 					isActive ? 'text-blue-600 font-medium' : 'text-gray-600'
 				}`}
 			>
